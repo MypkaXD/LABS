@@ -30,7 +30,7 @@ namespace GMCG_LAB1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.chart1.Series[0].Points.Clear();
+            this.вфыв.Series[0].Points.Clear();
 
             double A = System.Convert.ToDouble(this.textBox1.Text);
             double B = System.Convert.ToDouble(this.textBox2.Text);
@@ -52,7 +52,7 @@ namespace GMCG_LAB1
             double x_start = x0 - ((A - B) * Math.Cos(t_start) + D * Math.Cos(phi_start));
             double y_start = y0 - ((A - B) * Math.Sin(t_start) - D * Math.Sin(phi_start));
 
-            this.chart1.Series[0].Points.AddXY(x_start, y_start);
+            this.вфыв.Series[0].Points.AddXY(x_start, y_start);
 
             double t = t_start;
             double phi = phi_start;
@@ -60,7 +60,7 @@ namespace GMCG_LAB1
             double x = x0 - ((A - B) * Math.Cos(t_start+step) + D * Math.Cos(((double)A / (double)B) * (t_start+step)));
             double y = y0 - ((A - B) * Math.Sin(t_start+step) - D * Math.Sin(((double)A / (double)B) * (t_start+step)));
 
-            this.chart1.Series[0].Points.AddXY(x, y);
+            this.вфыв.Series[0].Points.AddXY(x, y);
 
             while (x != x_start && y != y_start)
             {
@@ -71,9 +71,11 @@ namespace GMCG_LAB1
                 x = x0 - ((A - B) * Math.Cos(t) + D * Math.Cos(phi));
                 y = y0 - ((A - B) * Math.Sin(t) - D * Math.Sin(phi));
 
-                this.chart1.Series[0].Points.AddXY(x, y);
+                this.вфыв.Series[0].Points.AddXY(x, y);
 
             }
+
+            MessageBox.Show("Вычисления завершены");
         }
 
         private void label1_Click(object sender, EventArgs e)

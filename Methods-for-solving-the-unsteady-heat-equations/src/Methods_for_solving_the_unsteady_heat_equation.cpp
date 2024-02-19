@@ -28,7 +28,7 @@ int main() {
 
 	sm.set_N(uhe.get_n());
 
-	for (size_t j = 0; j < uhe.get_m(); ++j) {
+	for (size_t j = 1; j < uhe.get_m(); ++j) {
 		sm.init();
 
 		sm.set_phi(uhe.get_data(), j);
