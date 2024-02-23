@@ -107,7 +107,10 @@ public:
 		}
 
 		for (size_t i = 0; i < n; ++i) {
-			data[0][i] = sin(M_PI * i * h);
+			if (i != n - 1)
+				data[0][i] = sin(M_PI * i * h);
+			else
+				data[0][i] = 0;
 		}
 	}
 
@@ -129,7 +132,6 @@ public:
 		for (size_t i = 0; i < n; ++i) {
 			data[j][i] = layer[i];
 		}
-
 	}
 
 };

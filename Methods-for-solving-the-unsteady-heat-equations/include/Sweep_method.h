@@ -68,9 +68,12 @@ public:
 
 		phi[0] = data[j][0];
 		phi[N] = data[j][N-1];
+
+		m1 = phi[0];
+		m2 = phi[N];
 	
 		for (size_t i = 1; i < N - 1; ++i) {
-			phi[i] = data[0][i];
+			phi[i] = data[j-1][i];
 		}
 	}
 
@@ -117,7 +120,22 @@ public:
 	}
 
 	std::vector<double>& get_V() { // получить ССЫЛКУ на вектор решений
+
+		//for (size_t count = 0; count < v.size(); ++count) {
+		//	std::cout << v[count] << "\t";
+		//}
+		//
+		//std::cout << "+++++++++++++++++++" << std::endl;
+
 		return v;
+	}
+
+	void print() {
+
+		for (size_t count = 0; count < N + 1; ++count) {
+			std::cout << A[count] << "\t" << C[count] << "\t" << B[count] << "\t=\t" << phi[count] << std::endl;
+		}
+
 	}
 
 };

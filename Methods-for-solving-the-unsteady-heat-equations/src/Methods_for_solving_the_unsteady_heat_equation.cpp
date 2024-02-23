@@ -14,8 +14,8 @@ int main() {
 	uhe.set_tau(0.005);
 	uhe.set_T(0, 0.2);
 
-	uhe.set_n(double(1) / 0.1);
-	uhe.set_m(0.2 / 0.005);
+	uhe.set_n((double(1) / 0.1) + 1);
+	uhe.set_m((0.2 / 0.005) + 1);
 
 	std::cout << "n: " << uhe.get_n() << "\tm: " << uhe.get_m() << std::endl;
 
