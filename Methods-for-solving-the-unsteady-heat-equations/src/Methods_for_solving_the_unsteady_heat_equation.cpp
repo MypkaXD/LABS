@@ -21,26 +21,62 @@ int main() {
 
 	uhe.resize_data();
 
-	uhe.set_start_data();
+	uhe.set_start_data_for_first();
 	uhe.print_data();
 
-	SweepMethod sm;
+	SweepMethod sm1;
 
-	sm.set_N(uhe.get_n());
+	sm1.set_N(uhe.get_n());
 
 	for (size_t j = 1; j < uhe.get_m(); ++j) {
-		sm.init();
+		sm1.init();
 
-		sm.set_phi(uhe.get_data(), j);
-		sm.set_ABC(uhe.get_h(), uhe.get_tau());
+		sm1.set_phi(uhe.get_data(), j);
+		sm1.set_ABC(uhe.get_h(), uhe.get_tau());
 
-		sm.straight_stroke();
-		sm.reverse_stroke();
+		sm1.straight_stroke();
+		sm1.reverse_stroke();
 
-		uhe.set_layer(j, sm.get_V());
+		uhe.set_layer(j, sm1.get_V());
 	}
 
 	uhe.print_data();
 
-	//
+	std::cout << "====================" << std::endl;
+
+	UHE hw2;
+	
+	hw2.set_h(0.05);
+	hw2.set_L(0, 1);
+
+	hw2.set_tau(0.002);
+	hw2.set_T(0, 0.04);
+
+	hw2.set_n((double(1) / 0.05) + 1);
+	hw2.set_m((0.04 / 0.002) + 1);
+
+	hw2.resize_data();
+
+	hw2.set_start_data_for_second();
+	hw2.print_data();
+
+	SweepMethod sm2;
+
+	sm2.set_N(hw2.get_n());
+
+	for (size_t j = 1; j < hw2.get_m(); ++j) {
+
+		sm2.init();
+
+		sm2.set_phi_for_second(hw2.get_data(), j, 1/2, hw2.get_h(), hw2.get_tau());
+		sm2.set_ABC_for_senond(hw2.get_h(), hw2.get_tau(), 1/2);
+
+		sm2.straight_stroke();
+		sm2.reverse_stroke();
+
+		hw2.set_layer(j, sm2.get_V());
+	}
+
+	hw2.print_data();
+	
 }
