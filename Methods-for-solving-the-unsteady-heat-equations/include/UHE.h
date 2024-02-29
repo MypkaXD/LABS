@@ -107,10 +107,7 @@ public:
 		}
 
 		for (size_t i = 0; i < n; ++i) {
-			if (i != n - 1)
-				data[0][i] = sin(M_PI * i * h);
-			else
-				data[0][i] = 0;
+			data[0][i] = sin(M_PI * i * h);
 		}
 	}
 
