@@ -26,9 +26,10 @@ int main() {
 
 	SweepMethod sm1;
 
-	sm1.set_N(uhe.get_n());
+	sm1.set_N(uhe.get_n()-1);
 
 	for (size_t j = 1; j < uhe.get_m(); ++j) {
+		
 		sm1.init();
 
 		sm1.set_phi(uhe.get_data(), j);
@@ -36,6 +37,18 @@ int main() {
 
 		sm1.straight_stroke();
 		sm1.reverse_stroke();
+		
+		//sm1.print();
+		//
+		//std::cout << std::endl;
+		//
+		//uhe.print_data();
+		//
+		//std::cout << std::endl;
+		//
+		//sm1.print_v();
+		//
+		//std::cout << "=======" << std::endl;
 
 		uhe.set_layer(j, sm1.get_V());
 	}
@@ -62,7 +75,7 @@ int main() {
 
 	SweepMethod sm2;
 
-	sm2.set_N(hw2.get_n());
+	sm2.set_N(hw2.get_n()-1);
 
 	for (size_t j = 1; j < hw2.get_m(); ++j) {
 

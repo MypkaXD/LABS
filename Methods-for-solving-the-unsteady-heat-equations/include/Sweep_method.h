@@ -26,8 +26,6 @@ private:
 
 	std::vector<double> phi; // фи, хрень справа
 
-	std::vector<std::pair<double, double>> analytical_solution; // анал решений
-
 public:
 
 	void set_N(const int& N) { // установка числа разбиений
@@ -66,27 +64,27 @@ public:
 
 	void set_phi(const std::vector<std::vector<double>>& data, const int& j) {
 
-		phi[0] = data[j][0];
-		phi[N] = data[j][N-1];
+		phi[0] = data[j-1][0];
+		phi[N] = data[j-1][N];
 
 		m1 = phi[0];
 		m2 = phi[N];
 	
-		for (size_t i = 1; i < N - 1; ++i) {
+		for (size_t i = 1; i < N; ++i) {
 			phi[i] = data[j-1][i];
 		}
 	}
 
 	void set_phi_for_second(const std::vector<std::vector<double>>& data, const int& j, const double& lamda, const double& h, const double& tau) {
 
-		phi[0] = data[j][0];
-		phi[N] = data[j][N - 1];
+		phi[0] = data[j-1][0];
+		phi[N] = data[j-1][N];
 
 		m1 = phi[0];
 		m2 = phi[N];
 
-		for (size_t i = 1; i < N - 1; ++i) {
-			phi[i] = data[j - 1][i - 1] * (1 - lamda) * (1 / (h * h)) + (1 / tau + (-2 * (1 - lamda)) / (h * h)) * data[j - 1][i] + (1 - lamda) * (1 / (h * h)) * data[j - 1][i + 1];
+		for (size_t i = 1; i < N; ++i) {
+			phi[i] = data[j - 1][i - 1] * (1 - lamda) * (tau / (h * h)) + (1 - 2 * (1 - lamda) * tau / (h * h)) * data[j - 1][i] + (1 - lamda) * (tau / (h * h)) * data[j - 1][i + 1];
 		}
 	}
 
@@ -94,11 +92,11 @@ public:
 
 		A[0] = 0; // перва€ строка трехдиагональной матрицы
 		B[0] = 0; // перва€ строка трехдиагональной матрицы
-		C[0] = 0; // перва€ строка трехдиагональной матрицы
+		C[0] = 1; // перва€ строка трехдиагональной матрицы
 
 		A[N] = 0; // последн€€ строка трехдиагональной матрицы
 		B[N] = 0; // последн€€ строка трехдиагональной матрицы
-		C[N] = 0; // последн€€ строка трехдиагональной матрицы
+		C[N] = 1; // последн€€ строка трехдиагональной матрицы
 
 		for (size_t count = 1; count < N; ++count) {
 			A[count] = tau / (h * h);
@@ -119,9 +117,9 @@ public:
 		C[N] = 0; // последн€€ строка трехдиагональной матрицы
 
 		for (size_t count = 1; count < N; ++count) {
-			A[count] = lamda/(h*h);
+			A[count] = lamda * tau / (h * h);
 			B[count] = A[count];
-			C[count] = (1/tau+2*lamda/(h*h));
+			C[count] = (1+2*lamda*tau/(h*h));
 		}
 
 	}
@@ -159,6 +157,16 @@ public:
 		//std::cout << "+++++++++++++++++++" << std::endl;
 
 		return v;
+	}
+
+	void print_v() {
+		
+		for (size_t count = 0; count < v.size(); ++count) {
+			std::cout << v[count] << "\t";
+		}
+
+		std::cout << std::endl;
+
 	}
 
 	void print() {

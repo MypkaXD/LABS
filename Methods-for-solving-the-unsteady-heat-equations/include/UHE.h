@@ -101,26 +101,27 @@ public:
 
 	void set_start_data_for_first() {
 
+		for (size_t i = 0; i < n; ++i) {
+			data[0][i] = sin(M_PI * i * h);
+		}
+
 		for (size_t j = 0; j < m; ++j) {
 			data[j][0] = 0;
 			data[j][n - 1] = 0;
-		}
-
-		for (size_t i = 0; i < n; ++i) {
-			data[0][i] = sin(M_PI * i * h);
 		}
 	}
 
 	void set_start_data_for_second() {
 
+		for (size_t i = 0; i < n; ++i) {
+			data[0][i] = 1-i*h-1/M_PI*(sin(2*M_PI*i*h));
+		}
+		
 		for (size_t j = 0; j < m; ++j) {
 			data[j][0] = 1;
 			data[j][n - 1] = 0;
 		}
 
-		for (size_t i = 0; i < n; ++i) {
-			data[0][i] = 1-i*h-1/M_PI*(sin(2*M_PI*i*h));
-		}
 	}
 
 	void print_data() {
