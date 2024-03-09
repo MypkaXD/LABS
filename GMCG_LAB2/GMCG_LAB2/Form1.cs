@@ -14,11 +14,24 @@ namespace GMCG_LAB2
 {
     public partial class Form1 : Form
     {
+        private class Coords2D
+        {
+            public double x { get; set; }
+            public double y { get; set; }
 
-        List<Point> MyPolygon = new List<Point>();
+            public Coords2D(double x, double y)
+            {
+                this.x = x;
+                this.y = y;
+            }
+        }
+
+        List<Coords2D> MyPolygon = new List<Coords2D>();
+
+        double x0, y0;
 
         Pen pen1;
-        int x0, x, y0, y, n = 0;
+        int x, y, n = 0;
         Bitmap canvas;
         Color user_color;
         Graphics user_Graphics;
@@ -26,7 +39,6 @@ namespace GMCG_LAB2
         Font axFont = new Font("Tahoma", 10);
         SolidBrush drawBrush = new SolidBrush(Color.Black);
         SolidBrush axBrush = new SolidBrush(Color.Gray);
-        // формат строки
         StringFormat drawFormat = new StringFormat();
 
         public Form1()
@@ -45,8 +57,8 @@ namespace GMCG_LAB2
             y0 = (int)(pictureBox_2d.Height / 2);
 
             user_Graphics.FillRectangle(Brushes.White, 0, 0, pictureBox_2d.Width, pictureBox_2d.Height);
-            user_Graphics.DrawLine(Pens.Gray, x0, 2, x0, pictureBox_2d.Height - 2);
-            user_Graphics.DrawLine(Pens.Gray, 2, y0, pictureBox_2d.Width - 2, y0); 
+            user_Graphics.DrawLine(Pens.Gray, (float)x0, 2, (float)x0, pictureBox_2d.Height - 2);
+            user_Graphics.DrawLine(Pens.Gray, 2, (float)y0, pictureBox_2d.Width - 2, (float)y0); 
             user_Graphics.DrawString("x", axFont, axBrush, (float)(pictureBox_2d.Width - 10), (float)(y0 + 3), drawFormat);
             user_Graphics.DrawString("y", axFont, axBrush, (float)(x0 - 10), (float)(3.0), drawFormat);
             
@@ -65,16 +77,16 @@ namespace GMCG_LAB2
 
         private void button1_Click(object sender, EventArgs e)
         {
-            int temp_x = 0;
-            int temp_y = 0;
+            double temp_x = 0;
+            double temp_y = 0;
 
             if (MyPolygon == null)
                 return;
 
-            if (Int32.TryParse(this.textBox1.Text, out temp_x) && 
-                Int32.TryParse(this.textBox2.Text, out temp_y))
+            if (Double.TryParse(this.textBox1.Text, out temp_x) &&
+                Double.TryParse(this.textBox2.Text, out temp_y))
             {
-                MyPolygon.Add(new Point(x0 + temp_x, y0 - temp_y));
+                MyPolygon.Add(new Coords2D(x0 + temp_x, y0 - temp_y));
             }
             else
             {
@@ -111,9 +123,9 @@ namespace GMCG_LAB2
 
             for (int count = 0; count < MyPolygon.Count; ++count)
             {
-                Point temp = MyPolygon[count];
-                temp.X = (int)((((double)temp.X - x0) * resize2D[0][0] + ((double)temp.Y - y0) * resize2D[1][0]) + x0);
-                temp.Y = (int)((((double)temp.X - x0) * resize2D[0][1] + ((double)temp.Y - y0) * resize2D[1][1]) + y0);
+                Coords2D temp = MyPolygon[count];
+                temp.x = ((((double)temp.x - x0) * resize2D[0][0] + ((double)temp.y - y0) * resize2D[1][0]) + x0);
+                temp.y = ((((double)temp.x - x0) * resize2D[0][1] + ((double)temp.y - y0) * resize2D[1][1]) + y0);
                 MyPolygon[count] = temp;
             }
         }
@@ -134,13 +146,13 @@ namespace GMCG_LAB2
 
             for (int count = 0; count < MyPolygon.Count; ++count)
             {
-                Point temp = MyPolygon[count];
+                Coords2D temp = MyPolygon[count];
 
-                int deltaX = temp.X - x0;
-                int deltaY = temp.Y - y0;
+                double deltaX = temp.x - x0;
+                double deltaY = temp.y - y0;
 
-                temp.X = (int)((deltaX * rotation2D[0][0] + deltaY * rotation2D[1][0]) + x0);
-                temp.Y = (int)((deltaX * rotation2D[0][1] + deltaY * rotation2D[1][1]) + y0);
+                temp.x = ((deltaX * rotation2D[0][0] + deltaY * rotation2D[1][0]) + x0);
+                temp.y = ((deltaX * rotation2D[0][1] + deltaY * rotation2D[1][1]) + y0);
 
                 MyPolygon[count] = temp;
             }
@@ -152,14 +164,14 @@ namespace GMCG_LAB2
 
             if (MyPolygon.Count < 3)
                 foreach (var point in MyPolygon)
-                    user_Graphics.FillEllipse(Brushes.Blue, point.X - 2, point.Y - 2, 4, 4);
+                    user_Graphics.FillEllipse(Brushes.Blue, (float)point.x - 2, (float)point.y - 2, 4, 4);
             else
-                user_Graphics.DrawPolygon(pen1, MyPolygon.ToArray());
+                user_Graphics.DrawPolygon(pen1, MyPolygon.Select(p => new PointF((float)p.x, (float)p.y)).ToArray());
 
             pictureBox_2d.Image = canvas;
 
             foreach (var point in MyPolygon)
-                user_Graphics.DrawString(string.Format("p{0:d}", MyPolygon.IndexOf(point)), drawFont, drawBrush, (float)(point.X + 3), (float)(point.Y + 3), drawFormat);
+                user_Graphics.DrawString(string.Format("p{0:d}", MyPolygon.IndexOf(point)), drawFont, drawBrush, (float)(point.x + 3), (float)(point.y + 3), drawFormat);
 
             printPoints();
 
@@ -179,13 +191,13 @@ namespace GMCG_LAB2
 
             for (int count = 0; count < MyPolygon.Count; ++count)
             {
-                Point temp = MyPolygon[count];
+                Coords2D temp = MyPolygon[count];
 
-                int deltaX = temp.X - x0;
-                int deltaY = temp.Y - y0;
+                double deltaX = temp.x - x0;
+                double deltaY = temp.y - y0;
 
-                temp.X = (int)((deltaX * mirrorOX[0][0] + deltaY * mirrorOX[1][0]) + x0);
-                temp.Y = (int)((deltaX * mirrorOX[0][1] + deltaY * mirrorOX[1][1]) + y0);
+                temp.x = (int)((deltaX * mirrorOX[0][0] + deltaY * mirrorOX[1][0]) + x0);
+                temp.y = (int)((deltaX * mirrorOX[0][1] + deltaY * mirrorOX[1][1]) + y0);
 
                 MyPolygon[count] = temp;
             }
@@ -205,13 +217,13 @@ namespace GMCG_LAB2
 
             for (int count = 0; count < MyPolygon.Count; ++count)
             {
-                Point temp = MyPolygon[count];
+                Coords2D temp = MyPolygon[count];
 
-                int deltaX = temp.X - x0;
-                int deltaY = temp.Y - y0;
+                double deltaX = temp.x - x0;
+                double deltaY = temp.y - y0;
 
-                temp.X = (int)((deltaX * mirrorOY[0][0] + deltaY * mirrorOY[1][0]) + x0);
-                temp.Y = (int)((deltaX * mirrorOY[0][1] + deltaY * mirrorOY[1][1]) + y0);
+                temp.x = (int)((deltaX * mirrorOY[0][0] + deltaY * mirrorOY[1][0]) + x0);
+                temp.y = (int)((deltaX * mirrorOY[0][1] + deltaY * mirrorOY[1][1]) + y0);
 
                 MyPolygon[count] = temp;
             }
@@ -231,13 +243,13 @@ namespace GMCG_LAB2
 
             for (int count = 0; count < MyPolygon.Count; ++count)
             {
-                Point temp = MyPolygon[count];
+                Coords2D temp = MyPolygon[count];
 
-                int deltaX = temp.X - x0;
-                int deltaY = temp.Y - y0;
+                double deltaX = temp.x - x0;
+                double deltaY = temp.y - y0;
 
-                temp.X = (int)((deltaX * mirrorOXY[0][0] + deltaY * mirrorOXY[1][0]) + x0);
-                temp.Y = (int)((deltaX * mirrorOXY[0][1] + deltaY * mirrorOXY[1][1]) + y0);
+                temp.x = (int)((deltaX * mirrorOXY[0][0] + deltaY * mirrorOXY[1][0]) + x0);
+                temp.y = (int)((deltaX * mirrorOXY[0][1] + deltaY * mirrorOXY[1][1]) + y0);
 
                 MyPolygon[count] = temp;
             }
@@ -257,10 +269,10 @@ namespace GMCG_LAB2
 
             for (int count = 0; count < MyPolygon.Count; ++count)
             {
-                Point temp = MyPolygon[count];
+                Coords2D temp = MyPolygon[count];
 
-                temp.X += (int)move[0];
-                temp.Y -= (int)move[1];
+                temp.x += (int)move[0];
+                temp.y -= (int)move[1];
 
                 MyPolygon[count] = temp;
             }
@@ -268,8 +280,8 @@ namespace GMCG_LAB2
 
         private void printPoints()
         {
-            user_Graphics.DrawLine(Pens.Gray, x0, 2, x0, pictureBox_2d.Height - 2);
-            user_Graphics.DrawLine(Pens.Gray, 2, y0, pictureBox_2d.Width - 2, y0);
+            user_Graphics.DrawLine(Pens.Gray, (float)x0, 2, (float)x0, pictureBox_2d.Height - 2);
+            user_Graphics.DrawLine(Pens.Gray, 2, (float)y0, pictureBox_2d.Width - 2, (float)y0);
             user_Graphics.DrawString("x", axFont, axBrush, (float)(pictureBox_2d.Width - 10), (float)(y0 + 3), drawFormat);
             user_Graphics.DrawString("y", axFont, axBrush, (float)(x0 - 10), (float)(3.0), drawFormat);
 
@@ -277,7 +289,7 @@ namespace GMCG_LAB2
 
             for (int count = 0; count < MyPolygon.Count; count++)
             {
-                this.label1.Text += "(" + System.Convert.ToString(MyPolygon[count].X - x0) + "; " + System.Convert.ToString(-MyPolygon[count].Y + y0) + ")\n";
+                this.label1.Text += "(" + System.Convert.ToString(MyPolygon[count].x - x0) + "; " + System.Convert.ToString(-MyPolygon[count].y + y0) + ")\n";
             }
         }
 
