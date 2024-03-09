@@ -74,7 +74,7 @@ namespace GMCG_LAB2
             if (Int32.TryParse(this.textBox1.Text, out temp_x) && 
                 Int32.TryParse(this.textBox2.Text, out temp_y))
             {
-                MyPolygon.Add(new Point(x0 + temp_x, y0 + temp_y));
+                MyPolygon.Add(new Point(x0 + temp_x, y0 - temp_y));
             }
             else
             {
@@ -161,11 +161,106 @@ namespace GMCG_LAB2
             foreach (var point in MyPolygon)
                 user_Graphics.DrawString(string.Format("p{0:d}", MyPolygon.IndexOf(point)), drawFont, drawBrush, (float)(point.X + 3), (float)(point.Y + 3), drawFormat);
 
+            printPoints();
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            double[][] mirrorOX = new double[2][];
+
+            for (int count = 0; count < 2; ++count)
+                mirrorOX[count] = new double[2];
+
+            mirrorOX[0][0] = 1;
+            mirrorOX[0][1] = 0;
+            mirrorOX[1][0] = 0;
+            mirrorOX[1][1] = -1;
+
+            for (int count = 0; count < MyPolygon.Count; ++count)
+            {
+                Point temp = MyPolygon[count];
+
+                int deltaX = temp.X - x0;
+                int deltaY = temp.Y - y0;
+
+                temp.X = (int)((deltaX * mirrorOX[0][0] + deltaY * mirrorOX[1][0]) + x0);
+                temp.Y = (int)((deltaX * mirrorOX[0][1] + deltaY * mirrorOX[1][1]) + y0);
+
+                MyPolygon[count] = temp;
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            double[][] mirrorOY = new double[2][];
+
+            for (int count = 0; count < 2; ++count)
+                mirrorOY[count] = new double[2];
+
+            mirrorOY[0][0] = -1;
+            mirrorOY[0][1] = 0;
+            mirrorOY[1][0] = 0;
+            mirrorOY[1][1] = 1;
+
+            for (int count = 0; count < MyPolygon.Count; ++count)
+            {
+                Point temp = MyPolygon[count];
+
+                int deltaX = temp.X - x0;
+                int deltaY = temp.Y - y0;
+
+                temp.X = (int)((deltaX * mirrorOY[0][0] + deltaY * mirrorOY[1][0]) + x0);
+                temp.Y = (int)((deltaX * mirrorOY[0][1] + deltaY * mirrorOY[1][1]) + y0);
+
+                MyPolygon[count] = temp;
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            double[][] mirrorOXY = new double[2][];
+
+            for (int count = 0; count < 2; ++count)
+                mirrorOXY[count] = new double[2];
+
+            mirrorOXY[0][0] = -1;
+            mirrorOXY[0][1] = 0;
+            mirrorOXY[1][0] = 0;
+            mirrorOXY[1][1] = -1;
+
+            for (int count = 0; count < MyPolygon.Count; ++count)
+            {
+                Point temp = MyPolygon[count];
+
+                int deltaX = temp.X - x0;
+                int deltaY = temp.Y - y0;
+
+                temp.X = (int)((deltaX * mirrorOXY[0][0] + deltaY * mirrorOXY[1][0]) + x0);
+                temp.Y = (int)((deltaX * mirrorOXY[0][1] + deltaY * mirrorOXY[1][1]) + y0);
+
+                MyPolygon[count] = temp;
+            }
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void printPoints()
         {
+            user_Graphics.DrawLine(Pens.Gray, x0, 2, x0, pictureBox_2d.Height - 2);
+            user_Graphics.DrawLine(Pens.Gray, 2, y0, pictureBox_2d.Width - 2, y0);
+            user_Graphics.DrawString("x", axFont, axBrush, (float)(pictureBox_2d.Width - 10), (float)(y0 + 3), drawFormat);
+            user_Graphics.DrawString("y", axFont, axBrush, (float)(x0 - 10), (float)(3.0), drawFormat);
 
+            this.label1.Text = "Координаты точек:\n";
+
+            for (int count = 0; count < MyPolygon.Count; count++)
+            {
+                this.label1.Text += "(" + System.Convert.ToString(MyPolygon[count].X - x0) + "; " + System.Convert.ToString(-MyPolygon[count].Y + y0) + ")\n";
+            }
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
