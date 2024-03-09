@@ -112,7 +112,7 @@ namespace GMCG_LAB2
             for (int count = 0; count < MyPolygon.Count; ++count)
             {
                 Point temp = MyPolygon[count];
-                temp.X = (int)((((double)temp.X - x0) * resize2D[0][0] + ((double)temp.Y - y0)* resize2D[1][0]) + x0);
+                temp.X = (int)((((double)temp.X - x0) * resize2D[0][0] + ((double)temp.Y - y0) * resize2D[1][0]) + x0);
                 temp.Y = (int)((((double)temp.X - x0) * resize2D[0][1] + ((double)temp.Y - y0) * resize2D[1][1]) + y0);
                 MyPolygon[count] = temp;
             }
@@ -121,12 +121,12 @@ namespace GMCG_LAB2
         private void button3_Click(object sender, EventArgs e)
         {
             double[][] rotation2D = new double[2][];
-            
+
             for (int count = 0; count < 2; ++count)
                 rotation2D[count] = new double[2];
 
-            double phi = System.Convert.ToDouble(this.textBox4.Text);
-            
+            double phi = System.Convert.ToDouble(this.textBox4.Text) * Math.PI / 180.0;
+
             rotation2D[0][0] = Math.Cos(phi);
             rotation2D[0][1] = Math.Sin(phi);
             rotation2D[1][0] = -Math.Sin(phi);
@@ -135,8 +135,13 @@ namespace GMCG_LAB2
             for (int count = 0; count < MyPolygon.Count; ++count)
             {
                 Point temp = MyPolygon[count];
-                temp.X = (int)(x0 + (double)temp.X * rotation2D[0][0] + (double)temp.Y * rotation2D[1][0]);
-                temp.Y = (int)(y0 + (double)temp.X * rotation2D[0][1] + (double)temp.Y * rotation2D[1][1]);
+
+                int deltaX = temp.X - x0;
+                int deltaY = temp.Y - y0;
+
+                temp.X = (int)((deltaX * rotation2D[0][0] + deltaY * rotation2D[1][0]) + x0);
+                temp.Y = (int)((deltaX * rotation2D[0][1] + deltaY * rotation2D[1][1]) + y0);
+
                 MyPolygon[count] = temp;
             }
         }
