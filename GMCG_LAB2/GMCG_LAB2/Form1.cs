@@ -16,6 +16,7 @@ namespace GMCG_LAB2
     {
 
         List<Point> MyPolygon = new List<Point>();
+
         Pen pen1;
         int x0, x, y0, y, n = 0;
         Bitmap canvas;
@@ -28,37 +29,28 @@ namespace GMCG_LAB2
         // формат строки
         StringFormat drawFormat = new StringFormat();
 
-        private class Coords
-        {
-            public int x { get; set; }
-            public int y { get; set; }
-        }
-
-        int j = 0;
-
-        private List<Coords> coords = new List<Coords>();
-
         public Form1()
         {
             InitializeComponent();
+
             user_color = Color.Blue;
+
             pen1 = new Pen(user_color, 2);
-            canvas = new Bitmap(pictureBox_2d.Width,
-            pictureBox_2d.Height);
+            
+            canvas = new Bitmap(pictureBox_2d.Width, pictureBox_2d.Height);
+            
             user_Graphics = Graphics.FromImage(canvas);
+
             x0 = (int)(pictureBox_2d.Width / 2);
             y0 = (int)(pictureBox_2d.Height / 2);
-            user_Graphics.FillRectangle(Brushes.White, 0, 0,
-            pictureBox_2d.Width, pictureBox_2d.Height);
-            user_Graphics.DrawLine(Pens.Gray, x0, 2, x0,
-            pictureBox_2d.Height - 2);
-            user_Graphics.DrawLine(Pens.Gray, 2, y0,
-            pictureBox_2d.Width - 2, y0);
-            pictureBox_2d.Image = canvas;
 
+            user_Graphics.FillRectangle(Brushes.White, 0, 0, pictureBox_2d.Width, pictureBox_2d.Height);
+            user_Graphics.DrawLine(Pens.Gray, x0, 2, x0, pictureBox_2d.Height - 2);
+            user_Graphics.DrawLine(Pens.Gray, 2, y0, pictureBox_2d.Width - 2, y0); 
             user_Graphics.DrawString("x", axFont, axBrush, (float)(pictureBox_2d.Width - 10), (float)(y0 + 3), drawFormat);
             user_Graphics.DrawString("y", axFont, axBrush, (float)(x0 - 10), (float)(3.0), drawFormat);
-
+            
+            pictureBox_2d.Image = canvas;
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -76,44 +68,99 @@ namespace GMCG_LAB2
             int temp_x = 0;
             int temp_y = 0;
 
+            if (MyPolygon == null)
+                return;
+
             if (Int32.TryParse(this.textBox1.Text, out temp_x) && 
                 Int32.TryParse(this.textBox2.Text, out temp_y))
             {
-                ++j;
-                Coords coord = new Coords();
-                coord.x = temp_x;
-                coord.y = temp_y;
-                coords.Add(coord);
+                MyPolygon.Add(new Point(x0 + temp_x, y0 + temp_y));
             }
             else
             {
                 MessageBox.Show("Ввод данных произведен неверно!", "Ошибка ввода", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            this.label1.Text = "Координаты точек:\n";
+            printPoints();     
+        }
 
-            foreach (var coord in coords)
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            double[][] resize2D = new double[2][];
+
+            for (int count = 0; count < 2; ++count)
+                resize2D[count] = new double[2];
+
+            double alpha = System.Convert.ToDouble(this.textBox3.Text);
+            double betta = System.Convert.ToDouble(this.textBox5.Text);
+
+            resize2D[0][0] = alpha;
+            resize2D[0][1] = 0;
+            resize2D[1][0] = 0;
+            resize2D[1][1] = betta;
+
+            for (int count = 0; count < MyPolygon.Count; ++count)
             {
-                this.label1.Text += "(" + System.Convert.ToString(coord.x) + "; " + System.Convert.ToString(coord.y) + ")\n";
+                Point temp = MyPolygon[count];
+                temp.X = (int)((((double)temp.X - x0) * resize2D[0][0] + ((double)temp.Y - y0)* resize2D[1][0]) + x0);
+                temp.Y = (int)((((double)temp.X - x0) * resize2D[0][1] + ((double)temp.Y - y0) * resize2D[1][1]) + y0);
+                MyPolygon[count] = temp;
             }
+        }
 
-            if (MyPolygon == null) 
-                return;
-            MyPolygon.Add(new Point(temp_x, temp_y));
-            user_Graphics.FillRectangle(Brushes.White, 0, 0, pictureBox_2d.Width, pictureBox_2d.Height);
-            if (MyPolygon.Count < 3)
+        private void button3_Click(object sender, EventArgs e)
+        {
+            double[][] rotation2D = new double[2][];
+            
+            for (int count = 0; count < 2; ++count)
+                rotation2D[count] = new double[2];
+
+            double phi = System.Convert.ToDouble(this.textBox4.Text);
+            
+            rotation2D[0][0] = Math.Cos(phi);
+            rotation2D[0][1] = Math.Sin(phi);
+            rotation2D[1][0] = -Math.Sin(phi);
+            rotation2D[1][1] = Math.Cos(phi);
+
+            for (int count = 0; count < MyPolygon.Count; ++count)
             {
+                Point temp = MyPolygon[count];
+                temp.X = (int)(x0 + (double)temp.X * rotation2D[0][0] + (double)temp.Y * rotation2D[1][0]);
+                temp.Y = (int)(y0 + (double)temp.X * rotation2D[0][1] + (double)temp.Y * rotation2D[1][1]);
+                MyPolygon[count] = temp;
+            }
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            user_Graphics.FillRectangle(Brushes.White, 0, 0, pictureBox_2d.Width, pictureBox_2d.Height);
+
+            if (MyPolygon.Count < 3)
                 foreach (var point in MyPolygon)
                     user_Graphics.FillEllipse(Brushes.Blue, point.X - 2, point.Y - 2, 4, 4);
-            }
             else
                 user_Graphics.DrawPolygon(pen1, MyPolygon.ToArray());
+
             pictureBox_2d.Image = canvas;
 
             foreach (var point in MyPolygon)
-                user_Graphics.DrawString(string.Format("p{0:d}",
-                MyPolygon.IndexOf(point)), drawFont, drawBrush,
-                (float)(point.X + 3), (float)(point.Y + 3), drawFormat);
+                user_Graphics.DrawString(string.Format("p{0:d}", MyPolygon.IndexOf(point)), drawFont, drawBrush, (float)(point.X + 3), (float)(point.Y + 3), drawFormat);
+
+        }
+
+        private void printPoints()
+        {
+
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
