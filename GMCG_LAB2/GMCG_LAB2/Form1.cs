@@ -248,6 +248,24 @@ namespace GMCG_LAB2
 
         }
 
+        private void button7_Click(object sender, EventArgs e)
+        {
+            double[] move = new double[2];
+
+            move[0] = System.Convert.ToDouble(this.textBox6.Text);
+            move[1] = System.Convert.ToDouble(this.textBox7.Text);
+
+            for (int count = 0; count < MyPolygon.Count; ++count)
+            {
+                Point temp = MyPolygon[count];
+
+                temp.X += (int)move[0];
+                temp.Y -= (int)move[1];
+
+                MyPolygon[count] = temp;
+            }
+        }
+
         private void printPoints()
         {
             user_Graphics.DrawLine(Pens.Gray, x0, 2, x0, pictureBox_2d.Height - 2);
