@@ -62,6 +62,19 @@
             this.button_Draw_Points_3D = new System.Windows.Forms.Button();
             this.button_Rotation3D = new System.Windows.Forms.Button();
             this.textBox_for_Rotation3D = new System.Windows.Forms.TextBox();
+            this.button_Tension_Compression_3D = new System.Windows.Forms.Button();
+            this.textBox_alpha_for_3d = new System.Windows.Forms.TextBox();
+            this.textBox_betta_for_3d = new System.Windows.Forms.TextBox();
+            this.button_Mirror_OX_3D = new System.Windows.Forms.Button();
+            this.button_Mirror_OY_3D = new System.Windows.Forms.Button();
+            this.button_Mirror_OXY_3D = new System.Windows.Forms.Button();
+            this.button_Move_3D = new System.Windows.Forms.Button();
+            this.textBox_lambda_for_3d = new System.Windows.Forms.TextBox();
+            this.textBox_mu_for_3d = new System.Windows.Forms.TextBox();
+            this.button_rotate_of_point = new System.Windows.Forms.Button();
+            this.textBox_coordX_for_rotating_of_point_3d = new System.Windows.Forms.TextBox();
+            this.textBox_coordY_for_rotating_of_point_3d = new System.Windows.Forms.TextBox();
+            this.textBox_angle_of_rotating_of_point_3d = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_2d)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -342,6 +355,19 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.textBox_angle_of_rotating_of_point_3d);
+            this.tabPage2.Controls.Add(this.textBox_coordY_for_rotating_of_point_3d);
+            this.tabPage2.Controls.Add(this.textBox_coordX_for_rotating_of_point_3d);
+            this.tabPage2.Controls.Add(this.button_rotate_of_point);
+            this.tabPage2.Controls.Add(this.textBox_mu_for_3d);
+            this.tabPage2.Controls.Add(this.textBox_lambda_for_3d);
+            this.tabPage2.Controls.Add(this.button_Move_3D);
+            this.tabPage2.Controls.Add(this.button_Mirror_OXY_3D);
+            this.tabPage2.Controls.Add(this.button_Mirror_OY_3D);
+            this.tabPage2.Controls.Add(this.button_Mirror_OX_3D);
+            this.tabPage2.Controls.Add(this.textBox_betta_for_3d);
+            this.tabPage2.Controls.Add(this.textBox_alpha_for_3d);
+            this.tabPage2.Controls.Add(this.button_Tension_Compression_3D);
             this.tabPage2.Controls.Add(this.textBox_for_Rotation3D);
             this.tabPage2.Controls.Add(this.button_Rotation3D);
             this.tabPage2.Controls.Add(this.button_Draw_Points_3D);
@@ -356,6 +382,7 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
             // 
             // pictureBox_3d
             // 
@@ -416,6 +443,119 @@
             this.textBox_for_Rotation3D.Size = new System.Drawing.Size(100, 20);
             this.textBox_for_Rotation3D.TabIndex = 6;
             // 
+            // button_Tension_Compression_3D
+            // 
+            this.button_Tension_Compression_3D.Location = new System.Drawing.Point(128, 179);
+            this.button_Tension_Compression_3D.Name = "button_Tension_Compression_3D";
+            this.button_Tension_Compression_3D.Size = new System.Drawing.Size(75, 23);
+            this.button_Tension_Compression_3D.TabIndex = 7;
+            this.button_Tension_Compression_3D.Text = "Растяжение/Сжатие";
+            this.button_Tension_Compression_3D.UseVisualStyleBackColor = true;
+            this.button_Tension_Compression_3D.Click += new System.EventHandler(this.button_Tension_Compression_3D_Click);
+            // 
+            // textBox_alpha_for_3d
+            // 
+            this.textBox_alpha_for_3d.Location = new System.Drawing.Point(23, 181);
+            this.textBox_alpha_for_3d.Name = "textBox_alpha_for_3d";
+            this.textBox_alpha_for_3d.Size = new System.Drawing.Size(100, 20);
+            this.textBox_alpha_for_3d.TabIndex = 8;
+            this.textBox_alpha_for_3d.Text = "1";
+            // 
+            // textBox_betta_for_3d
+            // 
+            this.textBox_betta_for_3d.Location = new System.Drawing.Point(209, 182);
+            this.textBox_betta_for_3d.Name = "textBox_betta_for_3d";
+            this.textBox_betta_for_3d.Size = new System.Drawing.Size(100, 20);
+            this.textBox_betta_for_3d.TabIndex = 9;
+            this.textBox_betta_for_3d.Text = "1";
+            // 
+            // button_Mirror_OX_3D
+            // 
+            this.button_Mirror_OX_3D.Location = new System.Drawing.Point(23, 208);
+            this.button_Mirror_OX_3D.Name = "button_Mirror_OX_3D";
+            this.button_Mirror_OX_3D.Size = new System.Drawing.Size(75, 23);
+            this.button_Mirror_OX_3D.TabIndex = 10;
+            this.button_Mirror_OX_3D.Text = "button8";
+            this.button_Mirror_OX_3D.UseVisualStyleBackColor = true;
+            this.button_Mirror_OX_3D.Click += new System.EventHandler(this.button_Mirror_OX_3D_Click);
+            // 
+            // button_Mirror_OY_3D
+            // 
+            this.button_Mirror_OY_3D.Location = new System.Drawing.Point(23, 237);
+            this.button_Mirror_OY_3D.Name = "button_Mirror_OY_3D";
+            this.button_Mirror_OY_3D.Size = new System.Drawing.Size(75, 23);
+            this.button_Mirror_OY_3D.TabIndex = 11;
+            this.button_Mirror_OY_3D.Text = "button8";
+            this.button_Mirror_OY_3D.UseVisualStyleBackColor = true;
+            this.button_Mirror_OY_3D.Click += new System.EventHandler(this.button_Mirror_OY_3D_Click);
+            // 
+            // button_Mirror_OXY_3D
+            // 
+            this.button_Mirror_OXY_3D.Location = new System.Drawing.Point(23, 266);
+            this.button_Mirror_OXY_3D.Name = "button_Mirror_OXY_3D";
+            this.button_Mirror_OXY_3D.Size = new System.Drawing.Size(75, 23);
+            this.button_Mirror_OXY_3D.TabIndex = 12;
+            this.button_Mirror_OXY_3D.Text = "button8";
+            this.button_Mirror_OXY_3D.UseVisualStyleBackColor = true;
+            this.button_Mirror_OXY_3D.Click += new System.EventHandler(this.button_Mirror_OXY_3D_Click);
+            // 
+            // button_Move_3D
+            // 
+            this.button_Move_3D.Location = new System.Drawing.Point(128, 332);
+            this.button_Move_3D.Name = "button_Move_3D";
+            this.button_Move_3D.Size = new System.Drawing.Size(75, 23);
+            this.button_Move_3D.TabIndex = 13;
+            this.button_Move_3D.Text = "Перенос (Сдвиг)";
+            this.button_Move_3D.UseVisualStyleBackColor = true;
+            this.button_Move_3D.Click += new System.EventHandler(this.button_Move_3D_Click);
+            // 
+            // textBox_lambda_for_3d
+            // 
+            this.textBox_lambda_for_3d.Location = new System.Drawing.Point(23, 332);
+            this.textBox_lambda_for_3d.Name = "textBox_lambda_for_3d";
+            this.textBox_lambda_for_3d.Size = new System.Drawing.Size(100, 20);
+            this.textBox_lambda_for_3d.TabIndex = 14;
+            this.textBox_lambda_for_3d.Text = "0";
+            // 
+            // textBox_mu_for_3d
+            // 
+            this.textBox_mu_for_3d.Location = new System.Drawing.Point(209, 334);
+            this.textBox_mu_for_3d.Name = "textBox_mu_for_3d";
+            this.textBox_mu_for_3d.Size = new System.Drawing.Size(100, 20);
+            this.textBox_mu_for_3d.TabIndex = 15;
+            this.textBox_mu_for_3d.Text = "0";
+            // 
+            // button_rotate_of_point
+            // 
+            this.button_rotate_of_point.Location = new System.Drawing.Point(128, 423);
+            this.button_rotate_of_point.Name = "button_rotate_of_point";
+            this.button_rotate_of_point.Size = new System.Drawing.Size(75, 23);
+            this.button_rotate_of_point.TabIndex = 16;
+            this.button_rotate_of_point.Text = "button8";
+            this.button_rotate_of_point.UseVisualStyleBackColor = true;
+            this.button_rotate_of_point.Click += new System.EventHandler(this.button_rotate_of_point_Click);
+            // 
+            // textBox_coordX_for_rotating_of_point_3d
+            // 
+            this.textBox_coordX_for_rotating_of_point_3d.Location = new System.Drawing.Point(23, 423);
+            this.textBox_coordX_for_rotating_of_point_3d.Name = "textBox_coordX_for_rotating_of_point_3d";
+            this.textBox_coordX_for_rotating_of_point_3d.Size = new System.Drawing.Size(100, 20);
+            this.textBox_coordX_for_rotating_of_point_3d.TabIndex = 17;
+            // 
+            // textBox_coordY_for_rotating_of_point_3d
+            // 
+            this.textBox_coordY_for_rotating_of_point_3d.Location = new System.Drawing.Point(23, 449);
+            this.textBox_coordY_for_rotating_of_point_3d.Name = "textBox_coordY_for_rotating_of_point_3d";
+            this.textBox_coordY_for_rotating_of_point_3d.Size = new System.Drawing.Size(100, 20);
+            this.textBox_coordY_for_rotating_of_point_3d.TabIndex = 18;
+            // 
+            // textBox_angle_of_rotating_of_point_3d
+            // 
+            this.textBox_angle_of_rotating_of_point_3d.Location = new System.Drawing.Point(209, 425);
+            this.textBox_angle_of_rotating_of_point_3d.Name = "textBox_angle_of_rotating_of_point_3d";
+            this.textBox_angle_of_rotating_of_point_3d.Size = new System.Drawing.Size(100, 20);
+            this.textBox_angle_of_rotating_of_point_3d.TabIndex = 19;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -472,6 +612,19 @@
         private System.Windows.Forms.Button button_Draw_Points_3D;
         private System.Windows.Forms.TextBox textBox_for_Rotation3D;
         private System.Windows.Forms.Button button_Rotation3D;
+        private System.Windows.Forms.Button button_Tension_Compression_3D;
+        private System.Windows.Forms.TextBox textBox_betta_for_3d;
+        private System.Windows.Forms.TextBox textBox_alpha_for_3d;
+        private System.Windows.Forms.Button button_Mirror_OX_3D;
+        private System.Windows.Forms.Button button_Mirror_OY_3D;
+        private System.Windows.Forms.Button button_Mirror_OXY_3D;
+        private System.Windows.Forms.TextBox textBox_mu_for_3d;
+        private System.Windows.Forms.TextBox textBox_lambda_for_3d;
+        private System.Windows.Forms.Button button_Move_3D;
+        private System.Windows.Forms.TextBox textBox_angle_of_rotating_of_point_3d;
+        private System.Windows.Forms.TextBox textBox_coordY_for_rotating_of_point_3d;
+        private System.Windows.Forms.TextBox textBox_coordX_for_rotating_of_point_3d;
+        private System.Windows.Forms.Button button_rotate_of_point;
     }
 }
 

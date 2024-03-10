@@ -414,6 +414,229 @@ namespace GMCG_LAB2
             }
         }
 
+        private void button_Tension_Compression_3D_Click(object sender, EventArgs e)
+        {
+            double[][] resize3D = new double[3][];
+
+            for (int count = 0; count < 3; ++count)
+                resize3D[count] = new double[3];
+
+            double alpha = System.Convert.ToDouble(this.textBox_alpha_for_3d.Text);
+            double betta = System.Convert.ToDouble(this.textBox_betta_for_3d.Text);
+
+            resize3D[0][0] = alpha;
+            resize3D[0][1] = 0;
+            resize3D[0][2] = 0;
+
+            resize3D[1][0] = 0;
+            resize3D[1][1] = betta;
+            resize3D[1][2] = 0;
+
+            resize3D[2][0] = 0;
+            resize3D[2][1] = 0;
+            resize3D[2][2] = 1;
+
+            for (int count = 0; count < coords3Ds.Count; ++count)
+            {
+                Coords3D temp = coords3Ds[count];
+
+                double deltaX = temp.x - x0_for_second;
+                double deltaY = temp.y - y0_for_second;
+                double deltaZ = 1;
+
+                temp.x = ((deltaX * resize3D[0][0] + deltaY * resize3D[1][0] + deltaZ * resize3D[2][0]) + x0_for_second);
+                temp.y = ((deltaX * resize3D[0][1] + deltaY * resize3D[1][1] + deltaZ * resize3D[2][1]) + y0_for_second);
+                temp.z = ((deltaX * resize3D[0][2] + deltaY * resize3D[1][2] + deltaZ * resize3D[2][2]));
+
+                coords3Ds[count] = temp;
+            }
+        }
+
+        private void button_Mirror_OX_3D_Click(object sender, EventArgs e)
+        {
+            double[][] mirror3DOX = new double[3][];
+
+            for (int count = 0; count < 3; ++count)
+                mirror3DOX[count] = new double[3];
+
+            mirror3DOX[0][0] = 1;
+            mirror3DOX[0][1] = 0;
+            mirror3DOX[0][2] = 0;
+
+            mirror3DOX[1][0] = 0;
+            mirror3DOX[1][1] = -1;
+            mirror3DOX[1][2] = 0;
+
+            mirror3DOX[2][0] = 0;
+            mirror3DOX[2][1] = 0;
+            mirror3DOX[2][2] = 1;
+
+            for (int count = 0; count < coords3Ds.Count; ++count)
+            {
+                Coords3D temp = coords3Ds[count];
+
+                double deltaX = temp.x - x0_for_second;
+                double deltaY = temp.y - y0_for_second;
+                double deltaZ = 1;
+
+                temp.x = ((deltaX * mirror3DOX[0][0] + deltaY * mirror3DOX[1][0] + deltaZ * mirror3DOX[2][0]) + x0_for_second);
+                temp.y = ((deltaX * mirror3DOX[0][1] + deltaY * mirror3DOX[1][1] + deltaZ * mirror3DOX[2][1]) + y0_for_second);
+                temp.z = ((deltaX * mirror3DOX[0][2] + deltaY * mirror3DOX[1][2] + deltaZ * mirror3DOX[2][2]));
+
+                coords3Ds[count] = temp;
+            }
+        }
+
+        private void button_Mirror_OY_3D_Click(object sender, EventArgs e)
+        {
+            double[][] mirror3DOY = new double[3][];
+
+            for (int count = 0; count < 3; ++count)
+                mirror3DOY[count] = new double[3];
+
+            mirror3DOY[0][0] = -1;
+            mirror3DOY[0][1] = 0;
+            mirror3DOY[0][2] = 0;
+
+            mirror3DOY[1][0] = 0;
+            mirror3DOY[1][1] = 1;
+            mirror3DOY[1][2] = 0;
+
+            mirror3DOY[2][0] = 0;
+            mirror3DOY[2][1] = 0;
+            mirror3DOY[2][2] = 1;
+
+            for (int count = 0; count < coords3Ds.Count; ++count)
+            {
+                Coords3D temp = coords3Ds[count];
+
+                double deltaX = temp.x - x0_for_second;
+                double deltaY = temp.y - y0_for_second;
+                double deltaZ = 1;
+
+                temp.x = ((deltaX * mirror3DOY[0][0] + deltaY * mirror3DOY[1][0] + deltaZ * mirror3DOY[2][0]) + x0_for_second);
+                temp.y = ((deltaX * mirror3DOY[0][1] + deltaY * mirror3DOY[1][1] + deltaZ * mirror3DOY[2][1]) + y0_for_second);
+                temp.z = ((deltaX * mirror3DOY[0][2] + deltaY * mirror3DOY[1][2] + deltaZ * mirror3DOY[2][2]));
+
+                coords3Ds[count] = temp;
+            }
+        }
+
+        private void button_Mirror_OXY_3D_Click(object sender, EventArgs e)
+        {
+            double[][] mirror3DOXY = new double[3][];
+
+            for (int count = 0; count < 3; ++count)
+                mirror3DOXY[count] = new double[3];
+
+            mirror3DOXY[0][0] = -1;
+            mirror3DOXY[0][1] = 0;
+            mirror3DOXY[0][2] = 0;
+
+            mirror3DOXY[1][0] = 0;
+            mirror3DOXY[1][1] = -1;
+            mirror3DOXY[1][2] = 0;
+
+            mirror3DOXY[2][0] = 0;
+            mirror3DOXY[2][1] = 0;
+            mirror3DOXY[2][2] = 1;
+
+            for (int count = 0; count < coords3Ds.Count; ++count)
+            {
+                Coords3D temp = coords3Ds[count];
+
+                double deltaX = temp.x - x0_for_second;
+                double deltaY = temp.y - y0_for_second;
+                double deltaZ = 1;
+
+                temp.x = ((deltaX * mirror3DOXY[0][0] + deltaY * mirror3DOXY[1][0] + deltaZ * mirror3DOXY[2][0]) + x0_for_second);
+                temp.y = ((deltaX * mirror3DOXY[0][1] + deltaY * mirror3DOXY[1][1] + deltaZ * mirror3DOXY[2][1]) + y0_for_second);
+                temp.z = ((deltaX * mirror3DOXY[0][2] + deltaY * mirror3DOXY[1][2] + deltaZ * mirror3DOXY[2][2]));
+
+                coords3Ds[count] = temp;
+            }
+        }
+
+        private void button_Move_3D_Click(object sender, EventArgs e)
+        {
+            double[][] move3D = new double[3][];
+
+            for (int count = 0; count < 3; ++count)
+                move3D[count] = new double[3];
+
+            move3D[0][0] = 1;
+            move3D[0][1] = 0;
+            move3D[0][2] = 0;
+
+            move3D[1][0] = 0;
+            move3D[1][1] = 1;
+            move3D[1][2] = 0;
+
+            move3D[2][0] = System.Convert.ToDouble(this.textBox_lambda_for_3d.Text);
+            move3D[2][1] = -System.Convert.ToDouble(this.textBox_mu_for_3d.Text);
+            move3D[2][2] = 1;
+
+            for (int count = 0; count < coords3Ds.Count; ++count)
+            {
+                Coords3D temp = coords3Ds[count];
+
+                double deltaX = temp.x - x0_for_second;
+                double deltaY = temp.y - y0_for_second;
+                double deltaZ = 1;
+
+                temp.x = ((deltaX * move3D[0][0] + deltaY * move3D[1][0] + deltaZ * move3D[2][0]) + x0_for_second);
+                temp.y = ((deltaX * move3D[0][1] + deltaY * move3D[1][1] + deltaZ * move3D[2][1]) + y0_for_second);
+                temp.z = ((deltaX * move3D[0][2] + deltaY * move3D[1][2] + deltaZ * move3D[2][2]));
+
+                coords3Ds[count] = temp;
+            }
+        }
+
+        private void tabPage2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_rotate_of_point_Click(object sender, EventArgs e)
+        {
+            double[][] rotate_of_point_3D = new double[3][];
+
+            for (int count = 0; count < 3; ++count)
+                rotate_of_point_3D[count] = new double[3];
+
+            double phi = System.Convert.ToDouble(this.textBox_angle_of_rotating_of_point_3d.Text) * Math.PI / 180.0;
+
+            double a = System.Convert.ToDouble(this.textBox_coordX_for_rotating_of_point_3d.Text);
+            double b = System.Convert.ToDouble(this.textBox_coordY_for_rotating_of_point_3d.Text);
+
+            rotate_of_point_3D[0][0] = Math.Cos(phi);
+            rotate_of_point_3D[0][1] = Math.Sin(phi);
+            rotate_of_point_3D[0][2] = 0;
+
+            rotate_of_point_3D[1][0] = -Math.Sin(phi);
+            rotate_of_point_3D[1][1] = Math.Cos(phi);
+            rotate_of_point_3D[1][2] = 0;
+
+            rotate_of_point_3D[2][0] = -a * Math.Cos(phi) + b * Math.Sin(phi) + a;
+            rotate_of_point_3D[2][1] = -a * Math.Sin(phi) + b * Math.Cos(phi) + b;
+            rotate_of_point_3D[2][2] = 1;
+
+            for (int count = 0; count < coords3Ds.Count; ++count)
+            {
+                Coords3D temp = coords3Ds[count];
+
+                double deltaX = temp.x - x0_for_second;
+                double deltaY = temp.y - y0_for_second;
+                double deltaZ = 1;
+
+                temp.x = ((deltaX * rotate_of_point_3D[0][0] + deltaY * rotate_of_point_3D[1][0] + deltaZ * rotate_of_point_3D[2][0]) + x0_for_second);
+                temp.y = ((deltaX * rotate_of_point_3D[0][1] + deltaY * rotate_of_point_3D[1][1] + deltaZ * rotate_of_point_3D[2][1]) + y0_for_second);
+                temp.z = ((deltaX * rotate_of_point_3D[0][2] + deltaY * rotate_of_point_3D[1][2] + deltaZ * rotate_of_point_3D[2][2]));
+
+                coords3Ds[count] = temp;
+            }
+        }
+
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
