@@ -26,19 +26,43 @@ namespace GMCG_LAB2
             }
         }
 
-        List<Coords2D> MyPolygon = new List<Coords2D>();
+        private class Coords3D
+        {
+            public double x { get; set; }
+            public double y { get; set; }
+            public double z { get; set; }
+
+            public Coords3D(double x, double y)
+            {
+                this.x = x;
+                this.y = y;
+                this.z = 1;
+            }
+        }
+
+        List<Coords2D> coords2Ds = new List<Coords2D>();
+
+        List<Coords3D> coords3Ds = new List<Coords3D>();
 
         double x0, y0;
+        
+        double x0_for_second, y0_for_second;
 
-        Pen pen1;
-        int x, y, n = 0;
-        Bitmap canvas;
-        Color user_color;
-        Graphics user_Graphics;
         Font drawFont = new Font("Arial", 10);
         Font axFont = new Font("Tahoma", 10);
+        Color user_color;
         SolidBrush drawBrush = new SolidBrush(Color.Black);
         SolidBrush axBrush = new SolidBrush(Color.Gray);
+
+        Pen penForFirstTab;
+        Pen penForSecondTab;
+
+        Bitmap canvasForFirstTab;
+        Bitmap canvasForSecondTab;
+
+        Graphics user_GraphicsForFirstTab;
+        Graphics user_GraphicsForSecondTab;
+
         StringFormat drawFormat = new StringFormat();
 
         public Form1()
@@ -47,22 +71,41 @@ namespace GMCG_LAB2
 
             user_color = Color.Blue;
 
-            pen1 = new Pen(user_color, 2);
-            
-            canvas = new Bitmap(pictureBox_2d.Width, pictureBox_2d.Height);
-            
-            user_Graphics = Graphics.FromImage(canvas);
+            penForFirstTab = new Pen(user_color, 2);
+
+            canvasForFirstTab = new Bitmap(pictureBox_2d.Width, pictureBox_2d.Height);
+
+            user_GraphicsForFirstTab = Graphics.FromImage(canvasForFirstTab);
 
             x0 = (int)(pictureBox_2d.Width / 2);
             y0 = (int)(pictureBox_2d.Height / 2);
 
-            user_Graphics.FillRectangle(Brushes.White, 0, 0, pictureBox_2d.Width, pictureBox_2d.Height);
-            user_Graphics.DrawLine(Pens.Gray, (float)x0, 2, (float)x0, pictureBox_2d.Height - 2);
-            user_Graphics.DrawLine(Pens.Gray, 2, (float)y0, pictureBox_2d.Width - 2, (float)y0); 
-            user_Graphics.DrawString("x", axFont, axBrush, (float)(pictureBox_2d.Width - 10), (float)(y0 + 3), drawFormat);
-            user_Graphics.DrawString("y", axFont, axBrush, (float)(x0 - 10), (float)(3.0), drawFormat);
+            user_GraphicsForFirstTab.FillRectangle(Brushes.White, 0, 0, pictureBox_2d.Width, pictureBox_2d.Height);
+            user_GraphicsForFirstTab.DrawLine(Pens.Gray, (float)x0, 2, (float)x0, pictureBox_2d.Height - 2);
+            user_GraphicsForFirstTab.DrawLine(Pens.Gray, 2, (float)y0, pictureBox_2d.Width - 2, (float)y0); 
+            user_GraphicsForFirstTab.DrawString("x", axFont, axBrush, (float)(pictureBox_2d.Width - 10), (float)(y0 + 3), drawFormat);
+            user_GraphicsForFirstTab.DrawString("y", axFont, axBrush, (float)(x0 - 10), (float)(3.0), drawFormat);
             
-            pictureBox_2d.Image = canvas;
+            pictureBox_2d.Image = canvasForFirstTab;
+
+            ///////////
+
+            penForSecondTab = new Pen(user_color, 2);
+
+            canvasForSecondTab = new Bitmap(pictureBox_3d.Width, pictureBox_3d.Height);
+
+            user_GraphicsForSecondTab = Graphics.FromImage(canvasForSecondTab);
+
+            x0_for_second = (int)(pictureBox_3d.Width / 2);
+            y0_for_second = (int)(pictureBox_3d.Height / 2);
+
+            user_GraphicsForSecondTab.FillRectangle(Brushes.White, 0, 0, pictureBox_3d.Width, pictureBox_3d.Height);
+            user_GraphicsForSecondTab.DrawLine(Pens.Gray, (float)x0_for_second, 2, (float)x0_for_second, pictureBox_3d.Height - 2);
+            user_GraphicsForSecondTab.DrawLine(Pens.Gray, 2, (float)y0_for_second, pictureBox_3d.Width - 2, (float)y0_for_second);
+            user_GraphicsForSecondTab.DrawString("x", axFont, axBrush, (float)(pictureBox_3d.Width - 10), (float)(y0_for_second + 3), drawFormat);
+            user_GraphicsForSecondTab.DrawString("y", axFont, axBrush, (float)(x0_for_second - 10), (float)(3.0), drawFormat);
+
+            pictureBox_3d.Image = canvasForSecondTab;
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -80,13 +123,13 @@ namespace GMCG_LAB2
             double temp_x = 0;
             double temp_y = 0;
 
-            if (MyPolygon == null)
+            if (coords2Ds == null)
                 return;
 
             if (Double.TryParse(this.textBox1.Text, out temp_x) &&
                 Double.TryParse(this.textBox2.Text, out temp_y))
             {
-                MyPolygon.Add(new Coords2D(x0 + temp_x, y0 - temp_y));
+                coords2Ds.Add(new Coords2D(x0 + temp_x, y0 - temp_y));
             }
             else
             {
@@ -94,11 +137,6 @@ namespace GMCG_LAB2
             }
 
             printPoints();     
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -121,12 +159,12 @@ namespace GMCG_LAB2
             resize2D[1][0] = 0;
             resize2D[1][1] = betta;
 
-            for (int count = 0; count < MyPolygon.Count; ++count)
+            for (int count = 0; count < coords2Ds.Count; ++count)
             {
-                Coords2D temp = MyPolygon[count];
+                Coords2D temp = coords2Ds[count];
                 temp.x = ((((double)temp.x - x0) * resize2D[0][0] + ((double)temp.y - y0) * resize2D[1][0]) + x0);
                 temp.y = ((((double)temp.x - x0) * resize2D[0][1] + ((double)temp.y - y0) * resize2D[1][1]) + y0);
-                MyPolygon[count] = temp;
+                coords2Ds[count] = temp;
             }
         }
 
@@ -144,9 +182,9 @@ namespace GMCG_LAB2
             rotation2D[1][0] = -Math.Sin(phi);
             rotation2D[1][1] = Math.Cos(phi);
 
-            for (int count = 0; count < MyPolygon.Count; ++count)
+            for (int count = 0; count < coords2Ds.Count; ++count)
             {
-                Coords2D temp = MyPolygon[count];
+                Coords2D temp = coords2Ds   [count];
 
                 double deltaX = temp.x - x0;
                 double deltaY = temp.y - y0;
@@ -154,24 +192,24 @@ namespace GMCG_LAB2
                 temp.x = ((deltaX * rotation2D[0][0] + deltaY * rotation2D[1][0]) + x0);
                 temp.y = ((deltaX * rotation2D[0][1] + deltaY * rotation2D[1][1]) + y0);
 
-                MyPolygon[count] = temp;
+                coords2Ds[count] = temp;
             }
         }
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            user_Graphics.FillRectangle(Brushes.White, 0, 0, pictureBox_2d.Width, pictureBox_2d.Height);
+            user_GraphicsForFirstTab.FillRectangle(Brushes.White, 0, 0, pictureBox_2d.Width, pictureBox_2d.Height);
 
-            if (MyPolygon.Count < 3)
-                foreach (var point in MyPolygon)
-                    user_Graphics.FillEllipse(Brushes.Blue, (float)point.x - 2, (float)point.y - 2, 4, 4);
+            if (coords2Ds.Count < 3)
+                foreach (var point in coords2Ds)
+                    user_GraphicsForFirstTab.FillEllipse(Brushes.Blue, (float)point.x - 2, (float)point.y - 2, 4, 4);
             else
-                user_Graphics.DrawPolygon(pen1, MyPolygon.Select(p => new PointF((float)p.x, (float)p.y)).ToArray());
+                user_GraphicsForFirstTab.DrawPolygon(penForFirstTab, coords2Ds.Select(p => new PointF((float)p.x, (float)p.y)).ToArray());
 
-            pictureBox_2d.Image = canvas;
+            pictureBox_2d.Image = canvasForFirstTab;
 
-            foreach (var point in MyPolygon)
-                user_Graphics.DrawString(string.Format("p{0:d}", MyPolygon.IndexOf(point)), drawFont, drawBrush, (float)(point.x + 3), (float)(point.y + 3), drawFormat);
+            foreach (var point in coords2Ds)
+                user_GraphicsForFirstTab.DrawString(string.Format("p{0:d}", coords2Ds.IndexOf(point)), drawFont, drawBrush, (float)(point.x + 3), (float)(point.y + 3), drawFormat);
 
             printPoints();
 
@@ -189,9 +227,9 @@ namespace GMCG_LAB2
             mirrorOX[1][0] = 0;
             mirrorOX[1][1] = -1;
 
-            for (int count = 0; count < MyPolygon.Count; ++count)
+            for (int count = 0; count < coords2Ds.Count; ++count)
             {
-                Coords2D temp = MyPolygon[count];
+                Coords2D temp = coords2Ds[count];
 
                 double deltaX = temp.x - x0;
                 double deltaY = temp.y - y0;
@@ -199,7 +237,7 @@ namespace GMCG_LAB2
                 temp.x = (int)((deltaX * mirrorOX[0][0] + deltaY * mirrorOX[1][0]) + x0);
                 temp.y = (int)((deltaX * mirrorOX[0][1] + deltaY * mirrorOX[1][1]) + y0);
 
-                MyPolygon[count] = temp;
+                coords2Ds[count] = temp;
             }
         }
 
@@ -215,9 +253,9 @@ namespace GMCG_LAB2
             mirrorOY[1][0] = 0;
             mirrorOY[1][1] = 1;
 
-            for (int count = 0; count < MyPolygon.Count; ++count)
+            for (int count = 0; count < coords2Ds.Count; ++count)
             {
-                Coords2D temp = MyPolygon[count];
+                Coords2D temp = coords2Ds[count];
 
                 double deltaX = temp.x - x0;
                 double deltaY = temp.y - y0;
@@ -225,7 +263,7 @@ namespace GMCG_LAB2
                 temp.x = (int)((deltaX * mirrorOY[0][0] + deltaY * mirrorOY[1][0]) + x0);
                 temp.y = (int)((deltaX * mirrorOY[0][1] + deltaY * mirrorOY[1][1]) + y0);
 
-                MyPolygon[count] = temp;
+                coords2Ds[count] = temp;
             }
         }
 
@@ -241,9 +279,9 @@ namespace GMCG_LAB2
             mirrorOXY[1][0] = 0;
             mirrorOXY[1][1] = -1;
 
-            for (int count = 0; count < MyPolygon.Count; ++count)
+            for (int count = 0; count < coords2Ds.Count; ++count)
             {
-                Coords2D temp = MyPolygon[count];
+                Coords2D temp = coords2Ds[count];
 
                 double deltaX = temp.x - x0;
                 double deltaY = temp.y - y0;
@@ -251,7 +289,7 @@ namespace GMCG_LAB2
                 temp.x = (int)((deltaX * mirrorOXY[0][0] + deltaY * mirrorOXY[1][0]) + x0);
                 temp.y = (int)((deltaX * mirrorOXY[0][1] + deltaY * mirrorOXY[1][1]) + y0);
 
-                MyPolygon[count] = temp;
+                coords2Ds[count] = temp;
             }
         }
 
@@ -267,35 +305,113 @@ namespace GMCG_LAB2
             move[0] = System.Convert.ToDouble(this.textBox6.Text);
             move[1] = System.Convert.ToDouble(this.textBox7.Text);
 
-            for (int count = 0; count < MyPolygon.Count; ++count)
+            for (int count = 0; count < coords2Ds.Count; ++count)
             {
-                Coords2D temp = MyPolygon[count];
+                Coords2D temp = coords2Ds[count];
 
                 temp.x += (int)move[0];
                 temp.y -= (int)move[1];
 
-                MyPolygon[count] = temp;
+                coords2Ds[count] = temp;
             }
         }
 
         private void printPoints()
         {
-            user_Graphics.DrawLine(Pens.Gray, (float)x0, 2, (float)x0, pictureBox_2d.Height - 2);
-            user_Graphics.DrawLine(Pens.Gray, 2, (float)y0, pictureBox_2d.Width - 2, (float)y0);
-            user_Graphics.DrawString("x", axFont, axBrush, (float)(pictureBox_2d.Width - 10), (float)(y0 + 3), drawFormat);
-            user_Graphics.DrawString("y", axFont, axBrush, (float)(x0 - 10), (float)(3.0), drawFormat);
+            user_GraphicsForFirstTab.DrawLine(Pens.Gray, (float)x0, 2, (float)x0, pictureBox_2d.Height - 2);
+            user_GraphicsForFirstTab.DrawLine(Pens.Gray, 2, (float)y0, pictureBox_2d.Width - 2, (float)y0);
+            user_GraphicsForFirstTab.DrawString("x", axFont, axBrush, (float)(pictureBox_2d.Width - 10), (float)(y0 + 3), drawFormat);
+            user_GraphicsForFirstTab.DrawString("y", axFont, axBrush, (float)(x0 - 10), (float)(3.0), drawFormat);
 
             this.label1.Text = "Координаты точек:\n";
 
-            for (int count = 0; count < MyPolygon.Count; count++)
+            for (int count = 0; count < coords2Ds.Count; count++)
             {
-                this.label1.Text += "(" + System.Convert.ToString(MyPolygon[count].x - x0) + "; " + System.Convert.ToString(-MyPolygon[count].y + y0) + ")\n";
+                this.label1.Text += "(" + System.Convert.ToString(coords2Ds[count].x - x0) + "; " + System.Convert.ToString(-coords2Ds[count].y + y0) + ")\n";
             }
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void AddPoint3D_Click(object sender, EventArgs e)
+        {
+            double temp_x = 0;
+            double temp_y = 0;
+
+            if (coords3Ds == null)
+                return;
+
+            if (Double.TryParse(this.textBox_Coords_X_3D.Text, out temp_x) &&
+                Double.TryParse(this.textBox_Coords_Y_3D.Text, out temp_y))
+            {
+                coords3Ds.Add(new Coords3D(x0_for_second + temp_x, y0_for_second - temp_y));
+            }
+            else
+            {
+                MessageBox.Show("Ввод данных произведен неверно!", "Ошибка ввода", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void button_Draw_Points_3D_Click(object sender, EventArgs e)
+        {
+            user_GraphicsForSecondTab.FillRectangle(Brushes.White, 0, 0, pictureBox_2d.Width, pictureBox_2d.Height);
+
+            if (coords3Ds.Count < 3)
+                foreach (var point in coords3Ds)
+                    user_GraphicsForSecondTab.FillEllipse(Brushes.Blue, (float)point.x - 2, (float)point.y - 2, 4, 4);
+            else
+                user_GraphicsForSecondTab.DrawPolygon(penForSecondTab, coords3Ds.Select(p => new PointF((float)p.x, (float)p.y)).ToArray());
+
+            pictureBox_3d.Image = canvasForSecondTab;
+
+            foreach (var point in coords3Ds)
+                user_GraphicsForSecondTab.DrawString(string.Format("p{0:d}", coords3Ds.IndexOf(point)), drawFont, drawBrush, (float)(point.x + 3), (float)(point.y + 3), drawFormat);
+
+
+            user_GraphicsForSecondTab.DrawLine(Pens.Gray, (float)x0_for_second, 2, (float)x0_for_second, pictureBox_3d.Height - 2);
+            user_GraphicsForSecondTab.DrawLine(Pens.Gray, 2, (float)y0_for_second, pictureBox_3d.Width - 2, (float)y0_for_second);
+            user_GraphicsForSecondTab.DrawString("x", axFont, axBrush, (float)(pictureBox_3d.Width - 10), (float)(y0_for_second + 3), drawFormat);
+            user_GraphicsForSecondTab.DrawString("y", axFont, axBrush, (float)(x0_for_second - 10), (float)(3.0), drawFormat);
+        }
+
+        private void button_Rotation3D_Click(object sender, EventArgs e)
+        {
+            double[][] rotation3D = new double[3][];
+
+            for (int count = 0; count < 3; ++count)
+                rotation3D[count] = new double[3];
+
+            double phi = System.Convert.ToDouble(this.textBox_for_Rotation3D.Text) * Math.PI / 180.0;
+
+            rotation3D[0][0] = Math.Cos(phi);
+            rotation3D[0][1] = Math.Sin(phi);
+            rotation3D[0][2] = 0;
+
+            rotation3D[1][0] = -Math.Sin(phi);
+            rotation3D[1][1] = Math.Cos(phi);
+            rotation3D[1][2] = 0;
+
+            rotation3D[2][0] = 0;
+            rotation3D[2][1] = 0;
+            rotation3D[2][2] = 1;
+
+            for (int count = 0; count < coords3Ds.Count; ++count)
+            {
+                Coords3D temp = coords3Ds[count];
+
+                double deltaX = temp.x - x0_for_second;
+                double deltaY = temp.y - y0_for_second;
+                double deltaZ = 1;
+
+                temp.x = ((deltaX * rotation3D[0][0] + deltaY * rotation3D[1][0] + deltaZ * rotation3D[2][0]) + x0_for_second);
+                temp.y = ((deltaX * rotation3D[0][1] + deltaY * rotation3D[1][1] + deltaZ * rotation3D[2][1]) + y0_for_second);
+                temp.z = ((deltaX * rotation3D[0][2] + deltaY * rotation3D[1][2] + deltaZ * rotation3D[2][2]));
+
+                coords3Ds[count] = temp;
+            }
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
