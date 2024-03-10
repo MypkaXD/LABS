@@ -353,6 +353,13 @@ namespace GMCG_LAB2
             {
                 MessageBox.Show("Ввод данных произведен неверно!", "Ошибка ввода", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            this.label19.Text = "Координаты точек:\n";
+
+            for (int count = 0; count < coords3Ds.Count; count++)
+            {
+                this.label19.Text += "(" + System.Convert.ToString(coords3Ds[count].x - x0_for_second) + "; " + System.Convert.ToString(-coords3Ds[count].y + y0_for_second) + "; " + System.Convert.ToString(coords3Ds[count].z) + ")\n";
+            }
         }
 
         private void button_Draw_Points_3D_Click(object sender, EventArgs e)
@@ -375,6 +382,13 @@ namespace GMCG_LAB2
             user_GraphicsForSecondTab.DrawLine(Pens.Gray, 2, (float)y0_for_second, pictureBox_3d.Width - 2, (float)y0_for_second);
             user_GraphicsForSecondTab.DrawString("x", axFont, axBrush, (float)(pictureBox_3d.Width - 10), (float)(y0_for_second + 3), drawFormat);
             user_GraphicsForSecondTab.DrawString("y", axFont, axBrush, (float)(x0_for_second - 10), (float)(3.0), drawFormat);
+
+            this.label19.Text = "Координаты точек:\n";
+
+            for (int count = 0; count < coords3Ds.Count; count++)
+            {
+                this.label19.Text += "(" + System.Convert.ToString(coords3Ds[count].x - x0_for_second) + "; " + System.Convert.ToString(-coords3Ds[count].y + y0_for_second) + "; " + System.Convert.ToString(coords3Ds[count].z) + ")\n";
+            }
         }
 
         private void button_Rotation3D_Click(object sender, EventArgs e)

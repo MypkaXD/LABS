@@ -75,6 +75,17 @@
             this.textBox_coordX_for_rotating_of_point_3d = new System.Windows.Forms.TextBox();
             this.textBox_coordY_for_rotating_of_point_3d = new System.Windows.Forms.TextBox();
             this.textBox_angle_of_rotating_of_point_3d = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_2d)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -355,6 +366,17 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.label19);
+            this.tabPage2.Controls.Add(this.label18);
+            this.tabPage2.Controls.Add(this.label16);
+            this.tabPage2.Controls.Add(this.label17);
+            this.tabPage2.Controls.Add(this.label14);
+            this.tabPage2.Controls.Add(this.label15);
+            this.tabPage2.Controls.Add(this.label12);
+            this.tabPage2.Controls.Add(this.label13);
+            this.tabPage2.Controls.Add(this.label11);
+            this.tabPage2.Controls.Add(this.label10);
+            this.tabPage2.Controls.Add(this.label9);
             this.tabPage2.Controls.Add(this.textBox_angle_of_rotating_of_point_3d);
             this.tabPage2.Controls.Add(this.textBox_coordY_for_rotating_of_point_3d);
             this.tabPage2.Controls.Add(this.textBox_coordX_for_rotating_of_point_3d);
@@ -394,9 +416,9 @@
             // 
             // AddPoint3D
             // 
-            this.AddPoint3D.Location = new System.Drawing.Point(8, 6);
+            this.AddPoint3D.Location = new System.Drawing.Point(8, 7);
             this.AddPoint3D.Name = "AddPoint3D";
-            this.AddPoint3D.Size = new System.Drawing.Size(197, 23);
+            this.AddPoint3D.Size = new System.Drawing.Size(208, 23);
             this.AddPoint3D.TabIndex = 1;
             this.AddPoint3D.Text = "Добавить точку";
             this.AddPoint3D.UseVisualStyleBackColor = true;
@@ -404,14 +426,14 @@
             // 
             // textBox_Coords_X_3D
             // 
-            this.textBox_Coords_X_3D.Location = new System.Drawing.Point(105, 35);
+            this.textBox_Coords_X_3D.Location = new System.Drawing.Point(116, 36);
             this.textBox_Coords_X_3D.Name = "textBox_Coords_X_3D";
             this.textBox_Coords_X_3D.Size = new System.Drawing.Size(100, 20);
             this.textBox_Coords_X_3D.TabIndex = 2;
             // 
             // textBox_Coords_Y_3D
             // 
-            this.textBox_Coords_Y_3D.Location = new System.Drawing.Point(104, 62);
+            this.textBox_Coords_Y_3D.Location = new System.Drawing.Point(116, 62);
             this.textBox_Coords_Y_3D.Name = "textBox_Coords_Y_3D";
             this.textBox_Coords_Y_3D.Size = new System.Drawing.Size(100, 20);
             this.textBox_Coords_Y_3D.TabIndex = 3;
@@ -420,7 +442,7 @@
             // 
             this.button_Draw_Points_3D.Location = new System.Drawing.Point(8, 88);
             this.button_Draw_Points_3D.Name = "button_Draw_Points_3D";
-            this.button_Draw_Points_3D.Size = new System.Drawing.Size(197, 23);
+            this.button_Draw_Points_3D.Size = new System.Drawing.Size(208, 23);
             this.button_Draw_Points_3D.TabIndex = 4;
             this.button_Draw_Points_3D.Text = "Отрисовать";
             this.button_Draw_Points_3D.UseVisualStyleBackColor = true;
@@ -428,9 +450,9 @@
             // 
             // button_Rotation3D
             // 
-            this.button_Rotation3D.Location = new System.Drawing.Point(129, 149);
+            this.button_Rotation3D.Location = new System.Drawing.Point(8, 117);
             this.button_Rotation3D.Name = "button_Rotation3D";
-            this.button_Rotation3D.Size = new System.Drawing.Size(75, 23);
+            this.button_Rotation3D.Size = new System.Drawing.Size(208, 23);
             this.button_Rotation3D.TabIndex = 5;
             this.button_Rotation3D.Text = "Поворот";
             this.button_Rotation3D.UseVisualStyleBackColor = true;
@@ -438,16 +460,17 @@
             // 
             // textBox_for_Rotation3D
             // 
-            this.textBox_for_Rotation3D.Location = new System.Drawing.Point(23, 149);
+            this.textBox_for_Rotation3D.Location = new System.Drawing.Point(116, 146);
             this.textBox_for_Rotation3D.Name = "textBox_for_Rotation3D";
             this.textBox_for_Rotation3D.Size = new System.Drawing.Size(100, 20);
             this.textBox_for_Rotation3D.TabIndex = 6;
+            this.textBox_for_Rotation3D.Text = "0";
             // 
             // button_Tension_Compression_3D
             // 
-            this.button_Tension_Compression_3D.Location = new System.Drawing.Point(128, 179);
+            this.button_Tension_Compression_3D.Location = new System.Drawing.Point(8, 180);
             this.button_Tension_Compression_3D.Name = "button_Tension_Compression_3D";
-            this.button_Tension_Compression_3D.Size = new System.Drawing.Size(75, 23);
+            this.button_Tension_Compression_3D.Size = new System.Drawing.Size(208, 23);
             this.button_Tension_Compression_3D.TabIndex = 7;
             this.button_Tension_Compression_3D.Text = "Растяжение/Сжатие";
             this.button_Tension_Compression_3D.UseVisualStyleBackColor = true;
@@ -455,7 +478,7 @@
             // 
             // textBox_alpha_for_3d
             // 
-            this.textBox_alpha_for_3d.Location = new System.Drawing.Point(23, 181);
+            this.textBox_alpha_for_3d.Location = new System.Drawing.Point(116, 213);
             this.textBox_alpha_for_3d.Name = "textBox_alpha_for_3d";
             this.textBox_alpha_for_3d.Size = new System.Drawing.Size(100, 20);
             this.textBox_alpha_for_3d.TabIndex = 8;
@@ -463,7 +486,7 @@
             // 
             // textBox_betta_for_3d
             // 
-            this.textBox_betta_for_3d.Location = new System.Drawing.Point(209, 182);
+            this.textBox_betta_for_3d.Location = new System.Drawing.Point(116, 239);
             this.textBox_betta_for_3d.Name = "textBox_betta_for_3d";
             this.textBox_betta_for_3d.Size = new System.Drawing.Size(100, 20);
             this.textBox_betta_for_3d.TabIndex = 9;
@@ -471,47 +494,47 @@
             // 
             // button_Mirror_OX_3D
             // 
-            this.button_Mirror_OX_3D.Location = new System.Drawing.Point(23, 208);
+            this.button_Mirror_OX_3D.Location = new System.Drawing.Point(8, 265);
             this.button_Mirror_OX_3D.Name = "button_Mirror_OX_3D";
-            this.button_Mirror_OX_3D.Size = new System.Drawing.Size(75, 23);
+            this.button_Mirror_OX_3D.Size = new System.Drawing.Size(208, 23);
             this.button_Mirror_OX_3D.TabIndex = 10;
-            this.button_Mirror_OX_3D.Text = "button8";
+            this.button_Mirror_OX_3D.Text = "Отражение относительно оси Ox";
             this.button_Mirror_OX_3D.UseVisualStyleBackColor = true;
             this.button_Mirror_OX_3D.Click += new System.EventHandler(this.button_Mirror_OX_3D_Click);
             // 
             // button_Mirror_OY_3D
             // 
-            this.button_Mirror_OY_3D.Location = new System.Drawing.Point(23, 237);
+            this.button_Mirror_OY_3D.Location = new System.Drawing.Point(8, 294);
             this.button_Mirror_OY_3D.Name = "button_Mirror_OY_3D";
-            this.button_Mirror_OY_3D.Size = new System.Drawing.Size(75, 23);
+            this.button_Mirror_OY_3D.Size = new System.Drawing.Size(208, 23);
             this.button_Mirror_OY_3D.TabIndex = 11;
-            this.button_Mirror_OY_3D.Text = "button8";
+            this.button_Mirror_OY_3D.Text = "Отражение относительно оси Oy";
             this.button_Mirror_OY_3D.UseVisualStyleBackColor = true;
             this.button_Mirror_OY_3D.Click += new System.EventHandler(this.button_Mirror_OY_3D_Click);
             // 
             // button_Mirror_OXY_3D
             // 
-            this.button_Mirror_OXY_3D.Location = new System.Drawing.Point(23, 266);
+            this.button_Mirror_OXY_3D.Location = new System.Drawing.Point(8, 323);
             this.button_Mirror_OXY_3D.Name = "button_Mirror_OXY_3D";
-            this.button_Mirror_OXY_3D.Size = new System.Drawing.Size(75, 23);
+            this.button_Mirror_OXY_3D.Size = new System.Drawing.Size(208, 23);
             this.button_Mirror_OXY_3D.TabIndex = 12;
-            this.button_Mirror_OXY_3D.Text = "button8";
+            this.button_Mirror_OXY_3D.Text = "Отражение относительно оси Oxy";
             this.button_Mirror_OXY_3D.UseVisualStyleBackColor = true;
             this.button_Mirror_OXY_3D.Click += new System.EventHandler(this.button_Mirror_OXY_3D_Click);
             // 
             // button_Move_3D
             // 
-            this.button_Move_3D.Location = new System.Drawing.Point(128, 332);
+            this.button_Move_3D.Location = new System.Drawing.Point(8, 352);
             this.button_Move_3D.Name = "button_Move_3D";
-            this.button_Move_3D.Size = new System.Drawing.Size(75, 23);
+            this.button_Move_3D.Size = new System.Drawing.Size(208, 23);
             this.button_Move_3D.TabIndex = 13;
-            this.button_Move_3D.Text = "Перенос (Сдвиг)";
+            this.button_Move_3D.Text = "Перенос (сдвиг)";
             this.button_Move_3D.UseVisualStyleBackColor = true;
             this.button_Move_3D.Click += new System.EventHandler(this.button_Move_3D_Click);
             // 
             // textBox_lambda_for_3d
             // 
-            this.textBox_lambda_for_3d.Location = new System.Drawing.Point(23, 332);
+            this.textBox_lambda_for_3d.Location = new System.Drawing.Point(116, 381);
             this.textBox_lambda_for_3d.Name = "textBox_lambda_for_3d";
             this.textBox_lambda_for_3d.Size = new System.Drawing.Size(100, 20);
             this.textBox_lambda_for_3d.TabIndex = 14;
@@ -519,7 +542,7 @@
             // 
             // textBox_mu_for_3d
             // 
-            this.textBox_mu_for_3d.Location = new System.Drawing.Point(209, 334);
+            this.textBox_mu_for_3d.Location = new System.Drawing.Point(116, 407);
             this.textBox_mu_for_3d.Name = "textBox_mu_for_3d";
             this.textBox_mu_for_3d.Size = new System.Drawing.Size(100, 20);
             this.textBox_mu_for_3d.TabIndex = 15;
@@ -527,34 +550,144 @@
             // 
             // button_rotate_of_point
             // 
-            this.button_rotate_of_point.Location = new System.Drawing.Point(128, 423);
+            this.button_rotate_of_point.Location = new System.Drawing.Point(8, 433);
             this.button_rotate_of_point.Name = "button_rotate_of_point";
-            this.button_rotate_of_point.Size = new System.Drawing.Size(75, 23);
+            this.button_rotate_of_point.Size = new System.Drawing.Size(208, 23);
             this.button_rotate_of_point.TabIndex = 16;
-            this.button_rotate_of_point.Text = "button8";
+            this.button_rotate_of_point.Text = "Вращенение вокруг точки";
             this.button_rotate_of_point.UseVisualStyleBackColor = true;
             this.button_rotate_of_point.Click += new System.EventHandler(this.button_rotate_of_point_Click);
             // 
             // textBox_coordX_for_rotating_of_point_3d
             // 
-            this.textBox_coordX_for_rotating_of_point_3d.Location = new System.Drawing.Point(23, 423);
+            this.textBox_coordX_for_rotating_of_point_3d.Location = new System.Drawing.Point(116, 462);
             this.textBox_coordX_for_rotating_of_point_3d.Name = "textBox_coordX_for_rotating_of_point_3d";
             this.textBox_coordX_for_rotating_of_point_3d.Size = new System.Drawing.Size(100, 20);
             this.textBox_coordX_for_rotating_of_point_3d.TabIndex = 17;
             // 
             // textBox_coordY_for_rotating_of_point_3d
             // 
-            this.textBox_coordY_for_rotating_of_point_3d.Location = new System.Drawing.Point(23, 449);
+            this.textBox_coordY_for_rotating_of_point_3d.Location = new System.Drawing.Point(116, 488);
             this.textBox_coordY_for_rotating_of_point_3d.Name = "textBox_coordY_for_rotating_of_point_3d";
             this.textBox_coordY_for_rotating_of_point_3d.Size = new System.Drawing.Size(100, 20);
             this.textBox_coordY_for_rotating_of_point_3d.TabIndex = 18;
             // 
             // textBox_angle_of_rotating_of_point_3d
             // 
-            this.textBox_angle_of_rotating_of_point_3d.Location = new System.Drawing.Point(209, 425);
+            this.textBox_angle_of_rotating_of_point_3d.Location = new System.Drawing.Point(116, 514);
             this.textBox_angle_of_rotating_of_point_3d.Name = "textBox_angle_of_rotating_of_point_3d";
             this.textBox_angle_of_rotating_of_point_3d.Size = new System.Drawing.Size(100, 20);
             this.textBox_angle_of_rotating_of_point_3d.TabIndex = 19;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
+            this.label9.Location = new System.Drawing.Point(8, 38);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(87, 15);
+            this.label9.TabIndex = 20;
+            this.label9.Text = "Координата x";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
+            this.label10.Location = new System.Drawing.Point(8, 65);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(86, 15);
+            this.label10.TabIndex = 21;
+            this.label10.Text = "Координата y";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
+            this.label11.Location = new System.Drawing.Point(8, 151);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(46, 15);
+            this.label11.TabIndex = 22;
+            this.label11.Text = "Угол φ";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
+            this.label12.Location = new System.Drawing.Point(8, 239);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(102, 15);
+            this.label12.TabIndex = 24;
+            this.label12.Text = "Коэффициент β";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
+            this.label13.Location = new System.Drawing.Point(8, 213);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(102, 15);
+            this.label13.TabIndex = 23;
+            this.label13.Text = "Коэффициент α";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
+            this.label14.Location = new System.Drawing.Point(8, 384);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(101, 15);
+            this.label14.TabIndex = 26;
+            this.label14.Text = "Коэффициент λ";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
+            this.label15.Location = new System.Drawing.Point(8, 410);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(102, 15);
+            this.label15.TabIndex = 25;
+            this.label15.Text = "Коэффициент μ";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
+            this.label16.Location = new System.Drawing.Point(23, 492);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(86, 15);
+            this.label16.TabIndex = 28;
+            this.label16.Text = "Координата y";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
+            this.label17.Location = new System.Drawing.Point(23, 465);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(87, 15);
+            this.label17.TabIndex = 27;
+            this.label17.Text = "Координата x";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
+            this.label18.Location = new System.Drawing.Point(23, 517);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(46, 15);
+            this.label18.TabIndex = 29;
+            this.label18.Text = "Угол φ";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
+            this.label19.Location = new System.Drawing.Point(221, 3);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(254, 31);
+            this.label19.TabIndex = 30;
+            this.label19.Text = "Координаты точек:";
             // 
             // Form1
             // 
@@ -625,6 +758,17 @@
         private System.Windows.Forms.TextBox textBox_coordY_for_rotating_of_point_3d;
         private System.Windows.Forms.TextBox textBox_coordX_for_rotating_of_point_3d;
         private System.Windows.Forms.Button button_rotate_of_point;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label19;
     }
 }
 
