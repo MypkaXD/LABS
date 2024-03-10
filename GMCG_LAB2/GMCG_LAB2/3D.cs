@@ -15,12 +15,14 @@ namespace GMCG_LAB2
             public double x { get; set; }
             public double y { get; set; }
             public double z { get; set; }
+            public double s { get; set; }
 
             public Coord3D(double x, double y, double z)
             {
                 this.x = x;
                 this.y = y;
                 this.z = z;
+                this.s = 1;
             }
         }
 
@@ -122,5 +124,58 @@ namespace GMCG_LAB2
             user_GraphicsForOYZTab.DrawString("z", axFont, axBrush, (float)(y0_for_3D_OYZ - 10), (float)(3.0), drawFormat);
 
         }
+        private void ButtonResize3D_Click(object sender, EventArgs e)
+        {
+            double[][] resize3D = new double[4][];
+
+            for (int count = 0; count < 4; ++count)
+                resize3D[count] = new double[4];
+
+            double alpha = System.Convert.ToDouble(this.textBoxResizeX3D.Text);
+            double betta = System.Convert.ToDouble(this.textBoxResizeY3D.Text);
+            double gamma = System.Convert.ToDouble(this.textBoxResizeZ3D.Text);
+
+            resize3D[0][0] = alpha;
+            resize3D[0][1] = 0;
+            resize3D[0][2] = 0;
+            resize3D[0][3] = 0;
+
+            resize3D[1][0] = 0;
+            resize3D[1][1] = betta;
+            resize3D[1][2] = 0;
+            resize3D[1][3] = 0;
+
+            resize3D[2][0] = 0;
+            resize3D[2][1] = 0;
+            resize3D[2][2] = gamma;
+            resize3D[2][3] = 0;
+
+            resize3D[3][0] = 0;
+            resize3D[3][1] = 0;
+            resize3D[3][2] = 0;
+            resize3D[3][3] = 1;
+
+            for (int count = 0; count < coords3D.Count; ++count)
+            {
+                Coord3D temp = coords3D[count];
+
+                double deltaX = temp.x;
+                double deltaY = temp.y;
+                double deltaZ = temp.z;
+                double deltaS = temp.s;
+
+                temp.x = (deltaX * resize3D[0][0] + deltaY * resize3D[1][0] +
+                    deltaZ * resize3D[2][0] + deltaS * resize3D[3][0]);
+                temp.y = (deltaX * resize3D[0][1] + deltaY * resize3D[1][1] + 
+                    deltaZ * resize3D[2][1] + deltaS * resize3D[3][1]);
+                temp.z = (deltaX * resize3D[0][2] + deltaY * resize3D[1][2] + 
+                    deltaZ * resize3D[2][2] + deltaS * resize3D[3][2]);
+                temp.s = deltaX * resize3D[0][3] + deltaY * resize3D[1][3] +
+                    deltaZ * resize3D[2][3] + deltaS * resize3D[3][3];
+
+            coords3D[count] = temp;
+            }
+        }
     }
+
 }

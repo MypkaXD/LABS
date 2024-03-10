@@ -87,6 +87,7 @@
             this.AddPoint3D = new System.Windows.Forms.Button();
             this.pictureBox_3d = new System.Windows.Forms.PictureBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.button_for_draw_3D_points = new System.Windows.Forms.Button();
             this.label22 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
@@ -97,7 +98,13 @@
             this.pictureBoxOXY = new System.Windows.Forms.PictureBox();
             this.pictureBoxOXZ = new System.Windows.Forms.PictureBox();
             this.pictureBoxOYZ = new System.Windows.Forms.PictureBox();
-            this.button_for_draw_3D_points = new System.Windows.Forms.Button();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.textBoxResizeY3D = new System.Windows.Forms.TextBox();
+            this.textBoxResizeX3D = new System.Windows.Forms.TextBox();
+            this.ButtonResize3D = new System.Windows.Forms.Button();
+            this.label25 = new System.Windows.Forms.Label();
+            this.textBoxResizeZ3D = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_2d)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -703,6 +710,13 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.textBoxResizeZ3D);
+            this.tabPage3.Controls.Add(this.label25);
+            this.tabPage3.Controls.Add(this.ButtonResize3D);
+            this.tabPage3.Controls.Add(this.label23);
+            this.tabPage3.Controls.Add(this.label24);
+            this.tabPage3.Controls.Add(this.textBoxResizeY3D);
+            this.tabPage3.Controls.Add(this.textBoxResizeX3D);
             this.tabPage3.Controls.Add(this.button_for_draw_3D_points);
             this.tabPage3.Controls.Add(this.label22);
             this.tabPage3.Controls.Add(this.label20);
@@ -721,6 +735,16 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "tabPage3";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // button_for_draw_3D_points
+            // 
+            this.button_for_draw_3D_points.Location = new System.Drawing.Point(8, 307);
+            this.button_for_draw_3D_points.Name = "button_for_draw_3D_points";
+            this.button_for_draw_3D_points.Size = new System.Drawing.Size(234, 23);
+            this.button_for_draw_3D_points.TabIndex = 25;
+            this.button_for_draw_3D_points.Text = "Отрисовать";
+            this.button_for_draw_3D_points.UseVisualStyleBackColor = true;
+            this.button_for_draw_3D_points.Click += new System.EventHandler(this.button_for_draw_3D_points_Click);
             // 
             // label22
             // 
@@ -807,15 +831,70 @@
             this.pictureBoxOYZ.TabIndex = 2;
             this.pictureBoxOYZ.TabStop = false;
             // 
-            // button_for_draw_3D_points
+            // label23
             // 
-            this.button_for_draw_3D_points.Location = new System.Drawing.Point(8, 307);
-            this.button_for_draw_3D_points.Name = "button_for_draw_3D_points";
-            this.button_for_draw_3D_points.Size = new System.Drawing.Size(234, 23);
-            this.button_for_draw_3D_points.TabIndex = 25;
-            this.button_for_draw_3D_points.Text = "Отрисовать";
-            this.button_for_draw_3D_points.UseVisualStyleBackColor = true;
-            this.button_for_draw_3D_points.Click += new System.EventHandler(this.button_for_draw_3D_points_Click);
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
+            this.label23.Location = new System.Drawing.Point(33, 495);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(102, 15);
+            this.label23.TabIndex = 29;
+            this.label23.Text = "Коэффициент β";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
+            this.label24.Location = new System.Drawing.Point(33, 469);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(102, 15);
+            this.label24.TabIndex = 28;
+            this.label24.Text = "Коэффициент α";
+            // 
+            // textBoxResizeY3D
+            // 
+            this.textBoxResizeY3D.Location = new System.Drawing.Point(141, 495);
+            this.textBoxResizeY3D.Name = "textBoxResizeY3D";
+            this.textBoxResizeY3D.Size = new System.Drawing.Size(100, 20);
+            this.textBoxResizeY3D.TabIndex = 27;
+            this.textBoxResizeY3D.Text = "1";
+            // 
+            // textBoxResizeX3D
+            // 
+            this.textBoxResizeX3D.Location = new System.Drawing.Point(141, 469);
+            this.textBoxResizeX3D.Name = "textBoxResizeX3D";
+            this.textBoxResizeX3D.Size = new System.Drawing.Size(100, 20);
+            this.textBoxResizeX3D.TabIndex = 26;
+            this.textBoxResizeX3D.Text = "1";
+            // 
+            // ButtonResize3D
+            // 
+            this.ButtonResize3D.Location = new System.Drawing.Point(8, 440);
+            this.ButtonResize3D.Name = "ButtonResize3D";
+            this.ButtonResize3D.Size = new System.Drawing.Size(233, 23);
+            this.ButtonResize3D.TabIndex = 30;
+            this.ButtonResize3D.Text = "Растяжение/Сжатие";
+            this.ButtonResize3D.UseVisualStyleBackColor = true;
+            this.ButtonResize3D.Click += new System.EventHandler(this.ButtonResize3D_Click);
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
+            this.label25.Location = new System.Drawing.Point(33, 524);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(102, 15);
+            this.label25.TabIndex = 31;
+            this.label25.Text = "Коэффициент γ";
+            //this.label25.Click += new System.EventHandler(this.label25_Click);
+            // 
+            // textBoxResizeZ3D
+            // 
+            this.textBoxResizeZ3D.Location = new System.Drawing.Point(141, 519);
+            this.textBoxResizeZ3D.Name = "textBoxResizeZ3D";
+            this.textBoxResizeZ3D.Size = new System.Drawing.Size(100, 20);
+            this.textBoxResizeZ3D.TabIndex = 32;
+            this.textBoxResizeZ3D.Text = "1";
             // 
             // Form1
             // 
@@ -913,6 +992,13 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Button button_for_draw_3D_points;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.TextBox textBoxResizeY3D;
+        private System.Windows.Forms.TextBox textBoxResizeX3D;
+        private System.Windows.Forms.TextBox textBoxResizeZ3D;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Button ButtonResize3D;
     }
 }
 
