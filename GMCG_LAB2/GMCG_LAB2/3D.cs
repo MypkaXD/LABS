@@ -323,7 +323,158 @@ namespace GMCG_LAB2
                 coords3D[count] = temp;
             }
         }
+        private void button_rotation_3D_OX_Click(object sender, EventArgs e)
+        {
+            double[][] rotate3DOX = new double[4][];
 
+            for (int count = 0; count < 4; ++count)
+                rotate3DOX[count] = new double[4];
+
+            double phi = System.Convert.ToDouble(this.textBox_angle_for_rotation_3D.Text) * Math.PI / 180.0;
+
+            rotate3DOX[0][0] = 1;
+            rotate3DOX[0][1] = 0;
+            rotate3DOX[0][2] = 0;
+            rotate3DOX[0][3] = 0;
+
+            rotate3DOX[1][0] = 0;
+            rotate3DOX[1][1] = Math.Cos(phi);
+            rotate3DOX[1][2] = Math.Sin(phi);
+            rotate3DOX[1][3] = 0;
+
+            rotate3DOX[2][0] = 0;
+            rotate3DOX[2][1] = -Math.Sin(phi);
+            rotate3DOX[2][2] = Math.Cos(phi);
+            rotate3DOX[2][3] = 0;
+
+            rotate3DOX[3][0] = 0;
+            rotate3DOX[3][1] = 0;
+            rotate3DOX[3][2] = 0;
+            rotate3DOX[3][3] = 1;
+
+            for (int count = 0; count < coords3D.Count; ++count)
+            {
+                Coord3D temp = coords3D[count];
+
+                double deltaX = temp.x;
+                double deltaY = temp.y;
+                double deltaZ = temp.z;
+                double deltaS = temp.s;
+
+                temp.x = (deltaX * rotate3DOX[0][0] + deltaY * rotate3DOX[1][0] +
+                    deltaZ * rotate3DOX[2][0] + deltaS * rotate3DOX[3][0]);
+                temp.y = (deltaX * rotate3DOX[0][1] + deltaY * rotate3DOX[1][1] +
+                    deltaZ * rotate3DOX[2][1] + deltaS * rotate3DOX[3][1]);
+                temp.z = (deltaX * rotate3DOX[0][2] + deltaY * rotate3DOX[1][2] +
+                    deltaZ * rotate3DOX [2][2] + deltaS * rotate3DOX[3][2]);
+                temp.s = deltaX * rotate3DOX[0][3] + deltaY * rotate3DOX[1][3] +
+                    deltaZ * rotate3DOX[2][3] + deltaS * rotate3DOX[3][3];
+
+                coords3D[count] = temp;
+            }
+        }
+
+        private void button_rotation_3D_OY_Click(object sender, EventArgs e)
+        {
+            double[][] rotate3DOY = new double[4][];
+
+            for (int count = 0; count < 4; ++count)
+                rotate3DOY[count] = new double[4];
+
+            double phi = System.Convert.ToDouble(this.textBox_angle_for_rotation_3D.Text) * Math.PI / 180.0;
+
+            rotate3DOY[0][0] = Math.Cos(phi);
+            rotate3DOY[0][1] = 0;
+            rotate3DOY[0][2] = -Math.Sin(phi);
+            rotate3DOY[0][3] = 0;
+
+            rotate3DOY[1][0] = 0;
+            rotate3DOY[1][1] = 1;
+            rotate3DOY[1][2] = 0;
+            rotate3DOY[1][3] = 0;
+
+            rotate3DOY[2][0] = Math.Sin(phi);
+            rotate3DOY[2][1] = 0;
+            rotate3DOY[2][2] = Math.Cos(phi);
+            rotate3DOY[2][3] = 0;
+
+            rotate3DOY[3][0] = 0;
+            rotate3DOY[3][1] = 0;
+            rotate3DOY[3][2] = 0;
+            rotate3DOY[3][3] = 1;
+
+            for (int count = 0; count < coords3D.Count; ++count)
+            {
+                Coord3D temp = coords3D[count];
+
+                double deltaX = temp.x;
+                double deltaY = temp.y;
+                double deltaZ = temp.z;
+                double deltaS = temp.s;
+
+                temp.x = (deltaX * rotate3DOY[0][0] + deltaY * rotate3DOY[1][0] +
+                    deltaZ * rotate3DOY[2][0] + deltaS * rotate3DOY[3][0]);
+                temp.y = (deltaX * rotate3DOY[0][1] + deltaY * rotate3DOY[1][1] +
+                    deltaZ * rotate3DOY[2][1] + deltaS * rotate3DOY[3][1]);
+                temp.z = (deltaX * rotate3DOY[0][2] + deltaY * rotate3DOY[1][2] +
+                    deltaZ * rotate3DOY[2][2] + deltaS * rotate3DOY[3][2]);
+                temp.s = deltaX * rotate3DOY[0][3] + deltaY * rotate3DOY[1][3] +
+                    deltaZ * rotate3DOY[2][3] + deltaS * rotate3DOY[3][3];
+
+                coords3D[count] = temp;
+            }
+        }
+
+        private void button_rotation_3D_OZ_Click(object sender, EventArgs e)
+        {
+            double[][] rotate3DOZ = new double[4][];
+
+            for (int count = 0; count < 4; ++count)
+                rotate3DOZ[count] = new double[4];
+
+            double phi = System.Convert.ToDouble(this.textBox_angle_for_rotation_3D.Text) * Math.PI / 180.0;
+
+            rotate3DOZ[0][0] = Math.Cos(phi);
+            rotate3DOZ[0][1] = Math.Sin(phi);
+            rotate3DOZ[0][2] = 0;
+            rotate3DOZ[0][3] = 0;
+
+            rotate3DOZ[1][0] = -Math.Sin(phi);
+            rotate3DOZ[1][1] = Math.Cos(phi);
+            rotate3DOZ[1][2] = 0;
+            rotate3DOZ[1][3] = 0;
+
+            rotate3DOZ[2][0] = 0;
+            rotate3DOZ[2][1] = 0;
+            rotate3DOZ[2][2] = 1;
+            rotate3DOZ[2][3] = 0;
+
+            rotate3DOZ[3][0] = 0;
+            rotate3DOZ[3][1] = 0;
+            rotate3DOZ[3][2] = 0;
+            rotate3DOZ[3][3] = 1;
+
+            for (int count = 0; count < coords3D.Count; ++count)
+            {
+                Coord3D temp = coords3D[count];
+
+                double deltaX = temp.x;
+                double deltaY = temp.y;
+                double deltaZ = temp.z;
+                double deltaS = temp.s;
+
+                temp.x = (deltaX * rotate3DOZ[0][0] + deltaY * rotate3DOZ[1][0] +
+                    deltaZ * rotate3DOZ[2][0] + deltaS * rotate3DOZ[3][0]);
+                temp.y = (deltaX * rotate3DOZ[0][1] + deltaY * rotate3DOZ[1][1] +
+                    deltaZ * rotate3DOZ[2][1] + deltaS * rotate3DOZ[3][1]);
+                temp.z = (deltaX * rotate3DOZ[0][2] + deltaY * rotate3DOZ[1][2] +
+                    deltaZ * rotate3DOZ[2][2] + deltaS * rotate3DOZ[3][2]);
+                temp.s = deltaX * rotate3DOZ[0][3] + deltaY * rotate3DOZ[1][3] +
+                    deltaZ * rotate3DOZ[2][3] + deltaS * rotate3DOZ[3][3];
+
+                coords3D[count] = temp;
+            }
+        }
 
     }
 }

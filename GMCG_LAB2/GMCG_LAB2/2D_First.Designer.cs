@@ -108,6 +108,11 @@
             this.pictureBoxOXY = new System.Windows.Forms.PictureBox();
             this.pictureBoxOXZ = new System.Windows.Forms.PictureBox();
             this.pictureBoxOYZ = new System.Windows.Forms.PictureBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.button_rotation_3D_OX = new System.Windows.Forms.Button();
+            this.button_rotation_3D_OY = new System.Windows.Forms.Button();
+            this.button_rotation_3D_OZ = new System.Windows.Forms.Button();
+            this.textBox_angle_for_rotation_3D = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_2d)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -713,6 +718,11 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.textBox_angle_for_rotation_3D);
+            this.tabPage3.Controls.Add(this.button_rotation_3D_OZ);
+            this.tabPage3.Controls.Add(this.button_rotation_3D_OY);
+            this.tabPage3.Controls.Add(this.button_rotation_3D_OX);
+            this.tabPage3.Controls.Add(this.label26);
             this.tabPage3.Controls.Add(this.buttonMirror3DOYZ);
             this.tabPage3.Controls.Add(this.buttonMirror3DOXZ);
             this.tabPage3.Controls.Add(this.buttonMirror3DOXY);
@@ -931,6 +941,54 @@
             this.pictureBoxOYZ.TabIndex = 2;
             this.pictureBoxOYZ.TabStop = false;
             // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
+            this.label26.Location = new System.Drawing.Point(327, 400);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(46, 15);
+            this.label26.TabIndex = 36;
+            this.label26.Text = "Угол φ";
+            // 
+            // button_rotation_3D_OX
+            // 
+            this.button_rotation_3D_OX.Location = new System.Drawing.Point(262, 307);
+            this.button_rotation_3D_OX.Name = "button_rotation_3D_OX";
+            this.button_rotation_3D_OX.Size = new System.Drawing.Size(217, 23);
+            this.button_rotation_3D_OX.TabIndex = 37;
+            this.button_rotation_3D_OX.Text = "Поворот относительно оси Ox";
+            this.button_rotation_3D_OX.UseVisualStyleBackColor = true;
+            this.button_rotation_3D_OX.Click += new System.EventHandler(this.button_rotation_3D_OX_Click);
+            // 
+            // button_rotation_3D_OY
+            // 
+            this.button_rotation_3D_OY.Location = new System.Drawing.Point(262, 336);
+            this.button_rotation_3D_OY.Name = "button_rotation_3D_OY";
+            this.button_rotation_3D_OY.Size = new System.Drawing.Size(217, 23);
+            this.button_rotation_3D_OY.TabIndex = 38;
+            this.button_rotation_3D_OY.Text = "Поворот относительно оси Oy";
+            this.button_rotation_3D_OY.UseVisualStyleBackColor = true;
+            this.button_rotation_3D_OY.Click += new System.EventHandler(this.button_rotation_3D_OY_Click);
+            // 
+            // button_rotation_3D_OZ
+            // 
+            this.button_rotation_3D_OZ.Location = new System.Drawing.Point(262, 368);
+            this.button_rotation_3D_OZ.Name = "button_rotation_3D_OZ";
+            this.button_rotation_3D_OZ.Size = new System.Drawing.Size(217, 23);
+            this.button_rotation_3D_OZ.TabIndex = 39;
+            this.button_rotation_3D_OZ.Text = "Поворот относительно оси Oz";
+            this.button_rotation_3D_OZ.UseVisualStyleBackColor = true;
+            this.button_rotation_3D_OZ.Click += new System.EventHandler(this.button_rotation_3D_OZ_Click);
+            // 
+            // textBox_angle_for_rotation_3D
+            // 
+            this.textBox_angle_for_rotation_3D.Location = new System.Drawing.Point(379, 397);
+            this.textBox_angle_for_rotation_3D.Name = "textBox_angle_for_rotation_3D";
+            this.textBox_angle_for_rotation_3D.Size = new System.Drawing.Size(100, 20);
+            this.textBox_angle_for_rotation_3D.TabIndex = 40;
+            this.textBox_angle_for_rotation_3D.Text = "0";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1037,6 +1095,11 @@
         private System.Windows.Forms.Button buttonMirror3DOYZ;
         private System.Windows.Forms.Button buttonMirror3DOXZ;
         private System.Windows.Forms.Button buttonMirror3DOXY;
+        private System.Windows.Forms.TextBox textBox_angle_for_rotation_3D;
+        private System.Windows.Forms.Button button_rotation_3D_OZ;
+        private System.Windows.Forms.Button button_rotation_3D_OY;
+        private System.Windows.Forms.Button button_rotation_3D_OX;
+        private System.Windows.Forms.Label label26;
     }
 }
 
