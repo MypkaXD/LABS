@@ -35,7 +35,10 @@ namespace GMCG_LAB2
         }
 
         List<Coord3D> coords3D = new List<Coord3D>();
+        List<Coord3D> coords_for_Trimetric_Projection = new List<Coord3D>();
+
         List<Tuple<Coord3D, Coord3D>> pairs = new List<Tuple<Coord3D, Coord3D>>();
+        List<Tuple<Coord3D, Coord3D>> pairs_for_Trimetric_Projection = new List<Tuple<Coord3D, Coord3D>>();
 
         double x0_for_3D_OXY, y0_for_3D_OXY, z0_for_3D_OXY;
         double x0_for_3D_OXZ, y0_for_3D_OXZ, z0_for_3D_OXZ;
@@ -71,6 +74,7 @@ namespace GMCG_LAB2
                 Double.TryParse(this.textBox_for_add_Z_3D.Text, out temp_z))
             {
                 coords3D.Add(new Coord3D(temp_x, temp_y, temp_z, counter++));
+                coords_for_Trimetric_Projection.Add(new Coord3D(temp_x, temp_y, temp_z, counter-1));
             }
             else
             {
@@ -124,15 +128,15 @@ namespace GMCG_LAB2
 
             user_Graphicsfor_Trimetric_Projection.FillRectangle(Brushes.White, 0, 0, pictureBoxTrimetricProjection.Width, pictureBoxTrimetricProjection.Height);
 
-            foreach(var pair in pairs)
+            foreach(var pair in pairs_for_Trimetric_Projection)
             {
                 user_Graphicsfor_Trimetric_Projection.DrawLine(myPen, (float)(pair.Item1.x + x0_for_Trimetric_Projection), (float)(-pair.Item1.y + y0_for_Trimetric_Projection), (float)(pair.Item2.x + x0_for_Trimetric_Projection), (float)(-pair.Item2.y + y0_for_Trimetric_Projection));
             }
 
             pictureBoxTrimetricProjection.Image = canvasfor_Trimetric_Projection;
 
-            foreach (var point in coords3D)
-                user_Graphicsfor_Trimetric_Projection.DrawString(string.Format("p{0:d}", coords3D.IndexOf(point)), drawFont, drawBrush, (float)(point.x + x0_for_Trimetric_Projection + 3), (float)(-point.y + y0_for_Trimetric_Projection + 3), drawFormat);
+            foreach (var point in coords_for_Trimetric_Projection)
+                user_Graphicsfor_Trimetric_Projection.DrawString(string.Format("p{0:d}", coords_for_Trimetric_Projection.IndexOf(point)), drawFont, drawBrush, (float)(point.x + x0_for_Trimetric_Projection + 3), (float)(-point.y + y0_for_Trimetric_Projection + 3), drawFormat);
 
 
             user_GraphicsForOXYTab.DrawLine(Pens.Gray, (float)x0_for_3D_OXY, 2, (float)x0_for_3D_OXY, pictureBoxOXY.Height - 2);
@@ -585,9 +589,9 @@ namespace GMCG_LAB2
             TrimetricProjection[3][2] = 0;
             TrimetricProjection[3][3] = 1;
 
-            for (int count = 0; count < coords3D.Count; ++count)
+            for (int count = 0; count < coords_for_Trimetric_Projection.Count; ++count)
             {
-                Coord3D temp = coords3D[count];
+                Coord3D temp = coords_for_Trimetric_Projection[count];
 
                 double deltaX = temp.x;
                 double deltaY = temp.y;
@@ -603,7 +607,7 @@ namespace GMCG_LAB2
                 temp.s = deltaX * TrimetricProjection[0][3] + deltaY * TrimetricProjection[1][3] +
                     deltaZ * TrimetricProjection[2][3] + deltaS * TrimetricProjection[3][3];
 
-                coords3D[count] = temp;
+                coords_for_Trimetric_Projection[count] = temp;
             }
         }
         private void button8_Click(object sender, EventArgs e)
@@ -641,6 +645,7 @@ namespace GMCG_LAB2
             if (isContainFirst && isContainSecond) 
             {
                 pairs.Add(Tuple.Create(first, second));
+                pairs_for_Trimetric_Projection.Add(Tuple.Create(coords_for_Trimetric_Projection[first.index], coords_for_Trimetric_Projection[second.index]));
             }
             else
             {
