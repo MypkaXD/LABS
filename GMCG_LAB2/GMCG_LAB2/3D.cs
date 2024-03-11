@@ -176,6 +176,154 @@ namespace GMCG_LAB2
             coords3D[count] = temp;
             }
         }
-    }
 
+        private void buttonMirror3DOXY_Click(object sender, EventArgs e)
+        {
+            double[][] mirror3DOXY = new double[4][];
+
+            for (int count = 0; count < 4; ++count)
+                mirror3DOXY[count] = new double[4];
+
+            mirror3DOXY[0][0] = 1;
+            mirror3DOXY[0][1] = 0;
+            mirror3DOXY[0][2] = 0;
+            mirror3DOXY[0][3] = 0;
+
+            mirror3DOXY[1][0] = 0;
+            mirror3DOXY[1][1] = 1;
+            mirror3DOXY[1][2] = 0;
+            mirror3DOXY[1][3] = 0;
+
+            mirror3DOXY[2][0] = 0;
+            mirror3DOXY[2][1] = 0;
+            mirror3DOXY[2][2] = -1;
+            mirror3DOXY[2][3] = 0;
+
+            mirror3DOXY[3][0] = 0;
+            mirror3DOXY[3][1] = 0;
+            mirror3DOXY[3][2] = 0;
+            mirror3DOXY[3][3] = 1;
+
+            for (int count = 0; count < coords3D.Count; ++count)
+            {
+                Coord3D temp = coords3D[count];
+
+                double deltaX = temp.x;
+                double deltaY = temp.y;
+                double deltaZ = temp.z;
+                double deltaS = temp.s;
+
+                temp.x = (deltaX * mirror3DOXY[0][0] + deltaY * mirror3DOXY[1][0] +
+                    deltaZ * mirror3DOXY[2][0] + deltaS * mirror3DOXY[3][0]);
+                temp.y = (deltaX * mirror3DOXY[0][1] + deltaY * mirror3DOXY[1][1] +
+                    deltaZ * mirror3DOXY[2][1] + deltaS * mirror3DOXY[3][1]);
+                temp.z = (deltaX * mirror3DOXY[0][2] + deltaY * mirror3DOXY[1][2] +
+                    deltaZ * mirror3DOXY[2][2] + deltaS * mirror3DOXY[3][2]);
+                temp.s = deltaX * mirror3DOXY[0][3] + deltaY * mirror3DOXY[1][3] +
+                    deltaZ * mirror3DOXY[2][3] + deltaS * mirror3DOXY[3][3];
+
+                coords3D[count] = temp;
+            }
+        }
+
+        private void buttonMirror3DOXZ_Click(object sender, EventArgs e)
+        {
+            double[][] mirror3DOXZ = new double[4][];
+
+            for (int count = 0; count < 4; ++count)
+                mirror3DOXZ[count] = new double[4];
+
+            mirror3DOXZ[0][0] = 1;
+            mirror3DOXZ[0][1] = 0;
+            mirror3DOXZ[0][2] = 0;
+            mirror3DOXZ[0][3] = 0;
+
+            mirror3DOXZ[1][0] = 0;
+            mirror3DOXZ[1][1] = -1;
+            mirror3DOXZ[1][2] = 0;
+            mirror3DOXZ[1][3] = 0;
+
+            mirror3DOXZ[2][0] = 0;
+            mirror3DOXZ[2][1] = 0;
+            mirror3DOXZ[2][2] = 1;
+            mirror3DOXZ[2][3] = 0;
+
+            mirror3DOXZ[3][0] = 0;
+            mirror3DOXZ[3][1] = 0;
+            mirror3DOXZ[3][2] = 0;
+            mirror3DOXZ[3][3] = 1;
+
+            for (int count = 0; count < coords3D.Count; ++count)
+            {
+                Coord3D temp = coords3D[count];
+
+                double deltaX = temp.x;
+                double deltaY = temp.y;
+                double deltaZ = temp.z;
+                double deltaS = temp.s;
+
+                temp.x = (deltaX * mirror3DOXZ[0][0] + deltaY * mirror3DOXZ[1][0] +
+                    deltaZ * mirror3DOXZ[2][0] + deltaS * mirror3DOXZ[3][0]);
+                temp.y = (deltaX * mirror3DOXZ[0][1] + deltaY * mirror3DOXZ[1][1] +
+                    deltaZ * mirror3DOXZ[2][1] + deltaS * mirror3DOXZ[3][1]);
+                temp.z = (deltaX * mirror3DOXZ[0][2] + deltaY * mirror3DOXZ[1][2] +
+                    deltaZ * mirror3DOXZ[2][2] + deltaS * mirror3DOXZ[3][2]);
+                temp.s = deltaX * mirror3DOXZ[0][3] + deltaY * mirror3DOXZ[1][3] +
+                    deltaZ * mirror3DOXZ[2][3] + deltaS * mirror3DOXZ[3][3];
+
+                coords3D[count] = temp;
+            }
+        }
+
+        private void buttonMirror3DOYZ_Click(object sender, EventArgs e)
+        {
+            double[][] mirror3DOYZ = new double[4][];
+
+            for (int count = 0; count < 4; ++count)
+                mirror3DOYZ[count] = new double[4];
+
+            mirror3DOYZ[0][0] = 1;
+            mirror3DOYZ[0][1] = 0;
+            mirror3DOYZ[0][2] = 0;
+            mirror3DOYZ[0][3] = 0;
+
+            mirror3DOYZ[1][0] = 0;
+            mirror3DOYZ[1][1] = -1;
+            mirror3DOYZ[1][2] = 0;
+            mirror3DOYZ[1][3] = 0;
+
+            mirror3DOYZ[2][0] = 0;
+            mirror3DOYZ[2][1] = 0;
+            mirror3DOYZ[2][2] = 1;
+            mirror3DOYZ[2][3] = 0;
+
+            mirror3DOYZ[3][0] = 0;
+            mirror3DOYZ[3][1] = 0;
+            mirror3DOYZ[3][2] = 0;
+            mirror3DOYZ[3][3] = 1;
+
+            for (int count = 0; count < coords3D.Count; ++count)
+            {
+                Coord3D temp = coords3D[count];
+
+                double deltaX = temp.x;
+                double deltaY = temp.y;
+                double deltaZ = temp.z;
+                double deltaS = temp.s;
+
+                temp.x = (deltaX * mirror3DOYZ[0][0] + deltaY * mirror3DOYZ[1][0] +
+                    deltaZ * mirror3DOYZ[2][0] + deltaS * mirror3DOYZ[3][0]);
+                temp.y = (deltaX * mirror3DOYZ[0][1] + deltaY * mirror3DOYZ[1][1] +
+                    deltaZ * mirror3DOYZ[2][1] + deltaS * mirror3DOYZ[3][1]);
+                temp.z = (deltaX * mirror3DOYZ[0][2] + deltaY * mirror3DOYZ[1][2] +
+                    deltaZ * mirror3DOYZ[2][2] + deltaS * mirror3DOYZ[3][2]);
+                temp.s = deltaX * mirror3DOYZ[0][3] + deltaY * mirror3DOYZ[1][3] +
+                    deltaZ * mirror3DOYZ[2][3] + deltaS * mirror3DOYZ[3][3];
+
+                coords3D[count] = temp;
+            }
+        }
+
+
+    }
 }
