@@ -151,6 +151,15 @@ namespace GMCG_LAB2
             user_GraphicsForSecondTab.DrawString("y", axFont, axBrush, (float)(x0_for_Trimetric_Projection - 10), (float)(3.0), drawFormat);
 
             pictureBoxTrimetricProjection.Image = canvasfor_Trimetric_Projection;
+
+            basis.Add(new Coord3D(0, 0, 0, 0));
+            basis.Add(new Coord3D(100, 0, 0, 1));
+            basis.Add(new Coord3D(0, 100, 0, 2));
+            basis.Add(new Coord3D(0, 0, 100, 3));
+
+            basis_line.Add(Tuple.Create(basis[0], basis[1]));
+            basis_line.Add(Tuple.Create(basis[0], basis[2]));
+            basis_line.Add(Tuple.Create(basis[0], basis[3]));
         }
 
         private void button1_Click(object sender, EventArgs e)

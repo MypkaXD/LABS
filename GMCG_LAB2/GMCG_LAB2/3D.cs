@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 
 namespace GMCG_LAB2
 {
@@ -39,6 +40,9 @@ namespace GMCG_LAB2
 
         List<Tuple<Coord3D, Coord3D>> pairs = new List<Tuple<Coord3D, Coord3D>>();
         List<Tuple<Coord3D, Coord3D>> pairs_for_Trimetric_Projection = new List<Tuple<Coord3D, Coord3D>>();
+        
+        List<Coord3D> basis = new List<Coord3D>();
+        List<Tuple<Coord3D, Coord3D>> basis_line = new List<Tuple<Coord3D, Coord3D>>();
 
         double x0_for_3D_OXY, y0_for_3D_OXY, z0_for_3D_OXY;
         double x0_for_3D_OXZ, y0_for_3D_OXZ, z0_for_3D_OXZ;
@@ -133,6 +137,12 @@ namespace GMCG_LAB2
                 user_Graphicsfor_Trimetric_Projection.DrawLine(myPen, (float)(pair.Item1.x + x0_for_Trimetric_Projection), (float)(-pair.Item1.y + y0_for_Trimetric_Projection), (float)(pair.Item2.x + x0_for_Trimetric_Projection), (float)(-pair.Item2.y + y0_for_Trimetric_Projection));
             }
 
+            foreach (var pair in basis_line)
+            {
+                user_Graphicsfor_Trimetric_Projection.DrawLine(myPen, (float)(pair.Item1.x + x0_for_Trimetric_Projection), (float)(-pair.Item1.y + y0_for_Trimetric_Projection), (float)(pair.Item2.x + x0_for_Trimetric_Projection), (float)(-pair.Item2.y + y0_for_Trimetric_Projection));
+            }
+
+
             pictureBoxTrimetricProjection.Image = canvasfor_Trimetric_Projection;
 
             foreach (var point in coords_for_Trimetric_Projection)
@@ -154,10 +164,10 @@ namespace GMCG_LAB2
             user_GraphicsForOYZTab.DrawString("y", axFont, axBrush, (float)(pictureBoxOYZ.Width - 10), (float)(z0_for_3D_OYZ + 3), drawFormat);
             user_GraphicsForOYZTab.DrawString("z", axFont, axBrush, (float)(y0_for_3D_OYZ - 10), (float)(3.0), drawFormat);
 
-            user_Graphicsfor_Trimetric_Projection.DrawLine(Pens.Gray, (float)x0_for_Trimetric_Projection, 2, (float)x0_for_Trimetric_Projection, pictureBoxTrimetricProjection.Height - 2);
-            user_Graphicsfor_Trimetric_Projection.DrawLine(Pens.Gray, 2, (float)y0_for_Trimetric_Projection, pictureBoxTrimetricProjection.Width - 2, (float)y0_for_Trimetric_Projection);
-            user_Graphicsfor_Trimetric_Projection.DrawString("x", axFont, axBrush, (float)(pictureBoxTrimetricProjection.Width - 10), (float)(y0_for_Trimetric_Projection + 3), drawFormat);
-            user_Graphicsfor_Trimetric_Projection.DrawString("y", axFont, axBrush, (float)(x0_for_Trimetric_Projection - 10), (float)(3.0), drawFormat);
+            //user_Graphicsfor_Trimetric_Projection.DrawLine(Pens.Gray, (float)x0_for_Trimetric_Projection, 2, (float)x0_for_Trimetric_Projection, pictureBoxTrimetricProjection.Height - 2);
+            //user_Graphicsfor_Trimetric_Projection.DrawLine(Pens.Gray, 2, (float)y0_for_Trimetric_Projection, pictureBoxTrimetricProjection.Width - 2, (float)y0_for_Trimetric_Projection);
+            //user_Graphicsfor_Trimetric_Projection.DrawString("x", axFont, axBrush, (float)(pictureBoxTrimetricProjection.Width - 10), (float)(y0_for_Trimetric_Projection + 3), drawFormat);
+            //user_Graphicsfor_Trimetric_Projection.DrawString("y", axFont, axBrush, (float)(x0_for_Trimetric_Projection - 10), (float)(3.0), drawFormat);
         }
         private void ButtonResize3D_Click(object sender, EventArgs e)
         {
@@ -606,9 +616,33 @@ namespace GMCG_LAB2
                     deltaZ * TrimetricProjection[2][2] + deltaS * TrimetricProjection[3][2]);
                 temp.s = deltaX * TrimetricProjection[0][3] + deltaY * TrimetricProjection[1][3] +
                     deltaZ * TrimetricProjection[2][3] + deltaS * TrimetricProjection[3][3];
-
                 coords_for_Trimetric_Projection[count] = temp;
             }
+
+            for(int count = 0; count < basis.Count; ++count)
+            {
+                Coord3D temp = basis[count];
+
+                double deltaX = temp.x;
+                double deltaY = temp.y;
+                double deltaZ = temp.z;
+                double deltaS = temp.s;
+
+                temp.x = (deltaX * TrimetricProjection[0][0] + deltaY * TrimetricProjection[1][0] +
+                    deltaZ * TrimetricProjection[2][0] + deltaS * TrimetricProjection[3][0]);
+                temp.y = (deltaX * TrimetricProjection[0][1] + deltaY * TrimetricProjection[1][1] +
+                    deltaZ * TrimetricProjection[2][1] + deltaS * TrimetricProjection[3][1]);
+                temp.z = (deltaX * TrimetricProjection[0][2] + deltaY * TrimetricProjection[1][2] +
+                    deltaZ * TrimetricProjection[2][2] + deltaS * TrimetricProjection[3][2]);
+                temp.s = deltaX * TrimetricProjection[0][3] + deltaY * TrimetricProjection[1][3] +
+                    deltaZ * TrimetricProjection[2][3] + deltaS * TrimetricProjection[3][3];
+
+                basis[count] = temp;
+            }
+
+            basis_line[0] = Tuple.Create(basis[0], basis[1]);
+            basis_line[1] = Tuple.Create(basis[0], basis[2]);
+            basis_line[2] = Tuple.Create(basis[0], basis[3]);
         }
         private void button8_Click(object sender, EventArgs e)
         {
