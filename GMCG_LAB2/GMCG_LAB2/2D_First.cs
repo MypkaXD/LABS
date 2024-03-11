@@ -132,6 +132,25 @@ namespace GMCG_LAB2
             pictureBoxOXY.Image = canvasFor3DTabOXY;
             pictureBoxOXZ.Image = canvasFor3DTabOXZ;
             pictureBoxOYZ.Image = canvasFor3DTabOYZ;
+
+            ///////////
+
+            penFor3DTab = new Pen(user_color, 2);
+
+            canvasfor_Trimetric_Projection = new Bitmap(pictureBoxTrimetricProjection.Width, pictureBoxTrimetricProjection.Height);
+
+            user_Graphicsfor_Trimetric_Projection = Graphics.FromImage(canvasfor_Trimetric_Projection);
+
+            x0_for_Trimetric_Projection = (int)(pictureBoxTrimetricProjection.Width / 2);
+            y0_for_Trimetric_Projection = (int)(pictureBoxTrimetricProjection.Height / 2);
+
+            user_GraphicsForSecondTab.FillRectangle(Brushes.White, 0, 0, pictureBoxTrimetricProjection.Width, pictureBoxTrimetricProjection.Height);
+            user_GraphicsForSecondTab.DrawLine(Pens.Gray, (float)x0_for_Trimetric_Projection, 2, (float)x0_for_Trimetric_Projection, pictureBoxTrimetricProjection.Height - 2);
+            user_GraphicsForSecondTab.DrawLine(Pens.Gray, 2, (float)y0_for_Trimetric_Projection, pictureBoxTrimetricProjection.Width - 2, (float)y0_for_Trimetric_Projection);
+            user_GraphicsForSecondTab.DrawString("x", axFont, axBrush, (float)(pictureBoxTrimetricProjection.Width - 10), (float)(y0_for_Trimetric_Projection + 3), drawFormat);
+            user_GraphicsForSecondTab.DrawString("y", axFont, axBrush, (float)(x0_for_Trimetric_Projection - 10), (float)(3.0), drawFormat);
+
+            pictureBoxTrimetricProjection.Image = canvasfor_Trimetric_Projection;
         }
 
         private void button1_Click(object sender, EventArgs e)

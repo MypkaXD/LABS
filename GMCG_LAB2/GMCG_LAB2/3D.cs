@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -10,6 +12,8 @@ namespace GMCG_LAB2
 {
     public partial class Form1 : Form
     {
+        public int counter = 0;
+
         private class Coord3D
         {
             public double x { get; set; }
@@ -17,30 +21,41 @@ namespace GMCG_LAB2
             public double z { get; set; }
             public double s { get; set; }
 
-            public Coord3D(double x, double y, double z)
+            public int index;
+
+            public Coord3D(double x, double y, double z, int index)
             {
                 this.x = x;
                 this.y = y;
                 this.z = z;
                 this.s = 1;
+
+                this.index = index;
             }
         }
 
         List<Coord3D> coords3D = new List<Coord3D>();
+        List<Tuple<Coord3D, Coord3D>> pairs = new List<Tuple<Coord3D, Coord3D>>();
 
         double x0_for_3D_OXY, y0_for_3D_OXY, z0_for_3D_OXY;
         double x0_for_3D_OXZ, y0_for_3D_OXZ, z0_for_3D_OXZ;
         double x0_for_3D_OYZ, y0_for_3D_OYZ, z0_for_3D_OYZ;
 
+        double x0_for_Trimetric_Projection, y0_for_Trimetric_Projection, z0_for_Trimetric_Projection;
+
         Pen penFor3DTab;
+
+        Pen myPen = new Pen(Color.Blue, 2.0f);
 
         Bitmap canvasFor3DTabOXY;
         Bitmap canvasFor3DTabOXZ;
         Bitmap canvasFor3DTabOYZ;
+        Bitmap canvasfor_Trimetric_Projection;
 
         Graphics user_GraphicsForOXYTab;
         Graphics user_GraphicsForOXZTab;
         Graphics user_GraphicsForOYZTab;
+        Graphics user_Graphicsfor_Trimetric_Projection;
 
         private void button_for_adding_point_in_3d_Click(object sender, EventArgs e)
         {
@@ -55,7 +70,7 @@ namespace GMCG_LAB2
                 Double.TryParse(this.textBox_for_add_Y_3D.Text, out temp_y) &&
                 Double.TryParse(this.textBox_for_add_Z_3D.Text, out temp_z))
             {
-                coords3D.Add(new Coord3D(temp_x, temp_y, temp_z));
+                coords3D.Add(new Coord3D(temp_x, temp_y, temp_z, counter++));
             }
             else
             {
@@ -67,11 +82,10 @@ namespace GMCG_LAB2
         {
             user_GraphicsForOXYTab.FillRectangle(Brushes.White, 0, 0, pictureBoxOXY.Width, pictureBoxOXY.Height);
 
-            if (coords3D.Count < 3)
-                foreach (var point in coords3D)
-                    user_GraphicsForOXYTab.FillEllipse(Brushes.Blue, (float)point.x + (float)x0_for_3D_OXY - 2, -(float)point.y + (float)y0_for_3D_OXY - 2, 4, 4);
-            else
-                user_GraphicsForOXYTab.DrawPolygon(penFor3DTab, coords3D.Select(p => new PointF((float)(p.x + x0_for_3D_OXY), (float)(-p.y + y0_for_3D_OXY))).ToArray());
+            foreach (var pair in pairs)
+            {
+                user_GraphicsForOXYTab.DrawLine(myPen, (float)(pair.Item1.x + x0_for_3D_OXY), (float)(-pair.Item1.y + y0_for_3D_OXY), (float)(pair.Item2.x + x0_for_3D_OXY), (float)(-pair.Item2.y + y0_for_3D_OXY));
+            }
 
             pictureBoxOXY.Image = canvasFor3DTabOXY;
 
@@ -82,11 +96,10 @@ namespace GMCG_LAB2
 
             user_GraphicsForOXZTab.FillRectangle(Brushes.White, 0, 0, pictureBoxOXZ.Width, pictureBoxOXZ.Height);
 
-            if (coords3D.Count < 3)
-                foreach (var point in coords3D)
-                    user_GraphicsForOXZTab.FillEllipse(Brushes.Blue, (float)point.x + (float)x0_for_3D_OXZ - 2, -(float)point.z + (float)z0_for_3D_OXZ - 2, 4, 4);
-            else
-                user_GraphicsForOXZTab.DrawPolygon(penFor3DTab, coords3D.Select(p => new PointF((float)(p.x + x0_for_3D_OXZ), -(float)p.z + (float)z0_for_3D_OXZ)).ToArray());
+            foreach (var pair in pairs)
+            {
+                user_GraphicsForOXZTab.DrawLine(myPen, (float)(pair.Item1.x + x0_for_3D_OXZ), (float)(-pair.Item1.z + z0_for_3D_OXZ), (float)(pair.Item2.x + x0_for_3D_OXZ), (float)(-pair.Item2.z + z0_for_3D_OXZ));
+            }
 
             pictureBoxOXZ.Image = canvasFor3DTabOXZ;
 
@@ -97,16 +110,30 @@ namespace GMCG_LAB2
 
             user_GraphicsForOYZTab.FillRectangle(Brushes.White, 0, 0, pictureBoxOYZ.Width, pictureBoxOYZ.Height);
 
-            if (coords3D.Count < 3)
-                foreach (var point in coords3D)
-                    user_GraphicsForOYZTab.FillEllipse(Brushes.Blue, (float)(point.y + y0_for_3D_OYZ) - 2, (float)(-point.z + z0_for_3D_OYZ) - 2, 4, 4);
-            else
-                user_GraphicsForOYZTab.DrawPolygon(penFor3DTab, coords3D.Select(p => new PointF((float)(p.y + y0_for_3D_OYZ), (float)(-p.z + z0_for_3D_OYZ))).ToArray());
+            foreach (var pair in pairs)
+            {
+                user_GraphicsForOYZTab.DrawLine(myPen, (float)(pair.Item1.y + y0_for_3D_OYZ), (float)(-pair.Item1.z + z0_for_3D_OYZ), (float)(pair.Item2.y + y0_for_3D_OYZ), (float)(-pair.Item2.z + z0_for_3D_OYZ));
+            }
 
             pictureBoxOYZ.Image = canvasFor3DTabOYZ;
 
             foreach (var point in coords3D)
                 user_GraphicsForOYZTab.DrawString(string.Format("p{0:d}", coords3D.IndexOf(point)), drawFont, drawBrush, (float)((point.y + y0_for_3D_OYZ) + 3), (float)((-point.z + z0_for_3D_OYZ) + 3), drawFormat);
+
+            /////
+
+            user_Graphicsfor_Trimetric_Projection.FillRectangle(Brushes.White, 0, 0, pictureBoxTrimetricProjection.Width, pictureBoxTrimetricProjection.Height);
+
+            foreach(var pair in pairs)
+            {
+                user_Graphicsfor_Trimetric_Projection.DrawLine(myPen, (float)(pair.Item1.x + x0_for_Trimetric_Projection), (float)(-pair.Item1.y + y0_for_Trimetric_Projection), (float)(pair.Item2.x + x0_for_Trimetric_Projection), (float)(-pair.Item2.y + y0_for_Trimetric_Projection));
+            }
+
+            pictureBoxTrimetricProjection.Image = canvasfor_Trimetric_Projection;
+
+            foreach (var point in coords3D)
+                user_Graphicsfor_Trimetric_Projection.DrawString(string.Format("p{0:d}", coords3D.IndexOf(point)), drawFont, drawBrush, (float)(point.x + x0_for_Trimetric_Projection + 3), (float)(-point.y + y0_for_Trimetric_Projection + 3), drawFormat);
+
 
             user_GraphicsForOXYTab.DrawLine(Pens.Gray, (float)x0_for_3D_OXY, 2, (float)x0_for_3D_OXY, pictureBoxOXY.Height - 2);
             user_GraphicsForOXYTab.DrawLine(Pens.Gray, 2, (float)y0_for_3D_OXY, pictureBoxOXY.Width - 2, (float)y0_for_3D_OXY);
@@ -123,6 +150,10 @@ namespace GMCG_LAB2
             user_GraphicsForOYZTab.DrawString("y", axFont, axBrush, (float)(pictureBoxOYZ.Width - 10), (float)(z0_for_3D_OYZ + 3), drawFormat);
             user_GraphicsForOYZTab.DrawString("z", axFont, axBrush, (float)(y0_for_3D_OYZ - 10), (float)(3.0), drawFormat);
 
+            user_Graphicsfor_Trimetric_Projection.DrawLine(Pens.Gray, (float)x0_for_Trimetric_Projection, 2, (float)x0_for_Trimetric_Projection, pictureBoxTrimetricProjection.Height - 2);
+            user_Graphicsfor_Trimetric_Projection.DrawLine(Pens.Gray, 2, (float)y0_for_Trimetric_Projection, pictureBoxTrimetricProjection.Width - 2, (float)y0_for_Trimetric_Projection);
+            user_Graphicsfor_Trimetric_Projection.DrawString("x", axFont, axBrush, (float)(pictureBoxTrimetricProjection.Width - 10), (float)(y0_for_Trimetric_Projection + 3), drawFormat);
+            user_Graphicsfor_Trimetric_Projection.DrawString("y", axFont, axBrush, (float)(x0_for_Trimetric_Projection - 10), (float)(3.0), drawFormat);
         }
         private void ButtonResize3D_Click(object sender, EventArgs e)
         {
@@ -473,6 +504,147 @@ namespace GMCG_LAB2
                     deltaZ * rotate3DOZ[2][3] + deltaS * rotate3DOZ[3][3];
 
                 coords3D[count] = temp;
+            }
+        }
+        private void buttonMove3D_Click(object sender, EventArgs e)
+        {
+            double[][] move3D = new double[4][];
+
+            for (int count = 0; count < 4; ++count)
+                move3D[count] = new double[4];
+
+            move3D[0][0] = 1;
+            move3D[0][1] = 0;
+            move3D[0][2] = 0;
+            move3D[0][3] = 0;
+
+            move3D[1][0] = 0;
+            move3D[1][1] = 1;
+            move3D[1][2] = 0;
+            move3D[1][3] = 0;
+
+            move3D[2][0] = 0;
+            move3D[2][1] = 0;
+            move3D[2][2] = 1;
+            move3D[2][3] = 0;
+
+            move3D[3][0] = System.Convert.ToDouble(this.textBoxLambdaFor3D.Text);
+            move3D[3][1] = System.Convert.ToDouble(this.textBoxMuFor3D.Text);
+            move3D[3][2] = System.Convert.ToDouble(this.textBoxNuFor3D.Text);
+            move3D[3][3] = 1;
+
+            for (int count = 0; count < coords3D.Count; ++count)
+            {
+                Coord3D temp = coords3D[count];
+
+                double deltaX = temp.x;
+                double deltaY = temp.y;
+                double deltaZ = temp.z;
+                double deltaS = temp.s;
+
+                temp.x = (deltaX * move3D[0][0] + deltaY * move3D[1][0] +
+                    deltaZ * move3D[2][0] + deltaS * move3D[3][0]);
+                temp.y = (deltaX * move3D[0][1] + deltaY * move3D[1][1] +
+                    deltaZ * move3D[2][1] + deltaS * move3D[3][1]);
+                temp.z = (deltaX * move3D[0][2] + deltaY * move3D[1][2] +
+                    deltaZ * move3D[2][2] + deltaS * move3D[3][2]);
+                temp.s = deltaX * move3D[0][3] + deltaY * move3D[1][3] +
+                    deltaZ * move3D[2][3] + deltaS * move3D[3][3];
+
+                coords3D[count] = temp;
+            }
+        }
+
+        private void buttonTrimetricProjection_Click(object sender, EventArgs e)
+        {
+            double[][] TrimetricProjection = new double[4][];
+
+            for (int count = 0; count < 4; ++count)
+                TrimetricProjection[count] = new double[4];
+
+            double phi = System.Convert.ToDouble(this.textBoxTrimetricProjectionPhi.Text);
+            double tetta = System.Convert.ToDouble(this.textBoxTrimetricProjectionTetta.Text);
+
+            TrimetricProjection[0][0] = Math.Cos(phi);
+            TrimetricProjection[0][1] = Math.Sin(phi)*Math.Sin(tetta);
+            TrimetricProjection[0][2] = 0;
+            TrimetricProjection[0][3] = 0;
+
+            TrimetricProjection[1][0] = 0;
+            TrimetricProjection[1][1] = Math.Sin(tetta);
+            TrimetricProjection[1][2] = 0;
+            TrimetricProjection[1][3] = 0;
+
+            TrimetricProjection[2][0] = Math.Sin(phi);
+            TrimetricProjection[2][1] = -Math.Cos(phi) * Math.Sin(tetta);
+            TrimetricProjection[2][2] = 0;
+            TrimetricProjection[2][3] = 0;
+
+            TrimetricProjection[3][0] = 0;
+            TrimetricProjection[3][1] = 0;
+            TrimetricProjection[3][2] = 0;
+            TrimetricProjection[3][3] = 1;
+
+            for (int count = 0; count < coords3D.Count; ++count)
+            {
+                Coord3D temp = coords3D[count];
+
+                double deltaX = temp.x;
+                double deltaY = temp.y;
+                double deltaZ = temp.z;
+                double deltaS = temp.s;
+
+                temp.x = (deltaX * TrimetricProjection[0][0] + deltaY * TrimetricProjection[1][0] +
+                    deltaZ * TrimetricProjection[2][0] + deltaS * TrimetricProjection[3][0]);
+                temp.y = (deltaX * TrimetricProjection[0][1] + deltaY * TrimetricProjection[1][1] +
+                    deltaZ * TrimetricProjection[2][1] + deltaS * TrimetricProjection[3][1]);
+                temp.z = (deltaX * TrimetricProjection[0][2] + deltaY * TrimetricProjection[1][2] +
+                    deltaZ * TrimetricProjection[2][2] + deltaS * TrimetricProjection[3][2]);
+                temp.s = deltaX * TrimetricProjection[0][3] + deltaY * TrimetricProjection[1][3] +
+                    deltaZ * TrimetricProjection[2][3] + deltaS * TrimetricProjection[3][3];
+
+                coords3D[count] = temp;
+            }
+        }
+        private void button8_Click(object sender, EventArgs e)
+        {
+            string name_first = this.textBox8.Text;
+            string name_second = this.textBox9.Text;
+
+            Coord3D first = null;
+            Coord3D second = null;
+
+            if (name_first == name_second)
+            {
+                this.textBox8.Text = "";
+                this.textBox9.Text = "";
+                MessageBox.Show("Ввод данных произведен неверно!", "Ошибка ввода", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            bool isContainFirst = false;
+            bool isContainSecond = false;
+
+            foreach(var point in coords3D)
+            {
+                if (point.index == System.Convert.ToInt32(name_first))
+                {
+                    first = point;
+                    isContainFirst = true;
+                }
+                else if (point.index == System.Convert.ToInt32(name_second))
+                {
+                    second = point;
+                    isContainSecond = true;
+                }
+            }
+
+            if (isContainFirst && isContainSecond) 
+            {
+                pairs.Add(Tuple.Create(first, second));
+            }
+            else
+            {
+                MessageBox.Show("Ввод данных произведен неверно!", "Ошибка ввода", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

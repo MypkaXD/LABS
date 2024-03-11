@@ -87,6 +87,22 @@
             this.AddPoint3D = new System.Windows.Forms.Button();
             this.pictureBox_3d = new System.Windows.Forms.PictureBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label30 = new System.Windows.Forms.Label();
+            this.textBoxTrimetricProjectionPhi = new System.Windows.Forms.TextBox();
+            this.buttonTrimetricProjection = new System.Windows.Forms.Button();
+            this.pictureBoxTrimetricProjection = new System.Windows.Forms.PictureBox();
+            this.textBoxNuFor3D = new System.Windows.Forms.TextBox();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.textBoxMuFor3D = new System.Windows.Forms.TextBox();
+            this.textBoxLambdaFor3D = new System.Windows.Forms.TextBox();
+            this.buttonMove3D = new System.Windows.Forms.Button();
+            this.textBox_angle_for_rotation_3D = new System.Windows.Forms.TextBox();
+            this.button_rotation_3D_OZ = new System.Windows.Forms.Button();
+            this.button_rotation_3D_OY = new System.Windows.Forms.Button();
+            this.button_rotation_3D_OX = new System.Windows.Forms.Button();
+            this.label26 = new System.Windows.Forms.Label();
             this.buttonMirror3DOYZ = new System.Windows.Forms.Button();
             this.buttonMirror3DOXZ = new System.Windows.Forms.Button();
             this.buttonMirror3DOXY = new System.Windows.Forms.Button();
@@ -108,17 +124,17 @@
             this.pictureBoxOXY = new System.Windows.Forms.PictureBox();
             this.pictureBoxOXZ = new System.Windows.Forms.PictureBox();
             this.pictureBoxOYZ = new System.Windows.Forms.PictureBox();
-            this.label26 = new System.Windows.Forms.Label();
-            this.button_rotation_3D_OX = new System.Windows.Forms.Button();
-            this.button_rotation_3D_OY = new System.Windows.Forms.Button();
-            this.button_rotation_3D_OZ = new System.Windows.Forms.Button();
-            this.textBox_angle_for_rotation_3D = new System.Windows.Forms.TextBox();
+            this.textBoxTrimetricProjectionTetta = new System.Windows.Forms.TextBox();
+            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.button8 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_2d)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_3d)).BeginInit();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTrimetricProjection)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOXY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOXZ)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOYZ)).BeginInit();
@@ -718,6 +734,21 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.button8);
+            this.tabPage3.Controls.Add(this.textBox9);
+            this.tabPage3.Controls.Add(this.textBox8);
+            this.tabPage3.Controls.Add(this.textBoxTrimetricProjectionTetta);
+            this.tabPage3.Controls.Add(this.label30);
+            this.tabPage3.Controls.Add(this.textBoxTrimetricProjectionPhi);
+            this.tabPage3.Controls.Add(this.buttonTrimetricProjection);
+            this.tabPage3.Controls.Add(this.pictureBoxTrimetricProjection);
+            this.tabPage3.Controls.Add(this.textBoxNuFor3D);
+            this.tabPage3.Controls.Add(this.label29);
+            this.tabPage3.Controls.Add(this.label27);
+            this.tabPage3.Controls.Add(this.label28);
+            this.tabPage3.Controls.Add(this.textBoxMuFor3D);
+            this.tabPage3.Controls.Add(this.textBoxLambdaFor3D);
+            this.tabPage3.Controls.Add(this.buttonMove3D);
             this.tabPage3.Controls.Add(this.textBox_angle_for_rotation_3D);
             this.tabPage3.Controls.Add(this.button_rotation_3D_OZ);
             this.tabPage3.Controls.Add(this.button_rotation_3D_OY);
@@ -751,6 +782,154 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "tabPage3";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
+            this.label30.Location = new System.Drawing.Point(1211, 579);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(46, 15);
+            this.label30.TabIndex = 51;
+            this.label30.Text = "Угол φ";
+            // 
+            // textBoxTrimetricProjectionPhi
+            // 
+            this.textBoxTrimetricProjectionPhi.Location = new System.Drawing.Point(1263, 579);
+            this.textBoxTrimetricProjectionPhi.Name = "textBoxTrimetricProjectionPhi";
+            this.textBoxTrimetricProjectionPhi.Size = new System.Drawing.Size(100, 20);
+            this.textBoxTrimetricProjectionPhi.TabIndex = 50;
+            this.textBoxTrimetricProjectionPhi.Text = "0";
+            // 
+            // buttonTrimetricProjection
+            // 
+            this.buttonTrimetricProjection.Location = new System.Drawing.Point(1050, 577);
+            this.buttonTrimetricProjection.Name = "buttonTrimetricProjection";
+            this.buttonTrimetricProjection.Size = new System.Drawing.Size(155, 23);
+            this.buttonTrimetricProjection.TabIndex = 49;
+            this.buttonTrimetricProjection.Text = "Trimetric projection Z=0";
+            this.buttonTrimetricProjection.UseVisualStyleBackColor = true;
+            this.buttonTrimetricProjection.Click += new System.EventHandler(this.buttonTrimetricProjection_Click);
+            // 
+            // pictureBoxTrimetricProjection
+            // 
+            this.pictureBoxTrimetricProjection.Location = new System.Drawing.Point(1050, 307);
+            this.pictureBoxTrimetricProjection.Name = "pictureBoxTrimetricProjection";
+            this.pictureBoxTrimetricProjection.Size = new System.Drawing.Size(519, 259);
+            this.pictureBoxTrimetricProjection.TabIndex = 48;
+            this.pictureBoxTrimetricProjection.TabStop = false;
+            // 
+            // textBoxNuFor3D
+            // 
+            this.textBoxNuFor3D.Location = new System.Drawing.Point(379, 507);
+            this.textBoxNuFor3D.Name = "textBoxNuFor3D";
+            this.textBoxNuFor3D.Size = new System.Drawing.Size(100, 20);
+            this.textBoxNuFor3D.TabIndex = 47;
+            this.textBoxNuFor3D.Text = "0";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
+            this.label29.Location = new System.Drawing.Point(271, 512);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(102, 15);
+            this.label29.TabIndex = 46;
+            this.label29.Text = "Коэффициент η";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
+            this.label27.Location = new System.Drawing.Point(272, 455);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(101, 15);
+            this.label27.TabIndex = 45;
+            this.label27.Text = "Коэффициент λ";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
+            this.label28.Location = new System.Drawing.Point(272, 481);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(102, 15);
+            this.label28.TabIndex = 44;
+            this.label28.Text = "Коэффициент μ";
+            // 
+            // textBoxMuFor3D
+            // 
+            this.textBoxMuFor3D.Location = new System.Drawing.Point(379, 478);
+            this.textBoxMuFor3D.Name = "textBoxMuFor3D";
+            this.textBoxMuFor3D.Size = new System.Drawing.Size(100, 20);
+            this.textBoxMuFor3D.TabIndex = 43;
+            this.textBoxMuFor3D.Text = "0";
+            // 
+            // textBoxLambdaFor3D
+            // 
+            this.textBoxLambdaFor3D.Location = new System.Drawing.Point(379, 452);
+            this.textBoxLambdaFor3D.Name = "textBoxLambdaFor3D";
+            this.textBoxLambdaFor3D.Size = new System.Drawing.Size(100, 20);
+            this.textBoxLambdaFor3D.TabIndex = 42;
+            this.textBoxLambdaFor3D.Text = "0";
+            // 
+            // buttonMove3D
+            // 
+            this.buttonMove3D.Location = new System.Drawing.Point(262, 423);
+            this.buttonMove3D.Name = "buttonMove3D";
+            this.buttonMove3D.Size = new System.Drawing.Size(217, 23);
+            this.buttonMove3D.TabIndex = 41;
+            this.buttonMove3D.Text = "Перенос (сдвиг)";
+            this.buttonMove3D.UseVisualStyleBackColor = true;
+            this.buttonMove3D.Click += new System.EventHandler(this.buttonMove3D_Click);
+            // 
+            // textBox_angle_for_rotation_3D
+            // 
+            this.textBox_angle_for_rotation_3D.Location = new System.Drawing.Point(379, 397);
+            this.textBox_angle_for_rotation_3D.Name = "textBox_angle_for_rotation_3D";
+            this.textBox_angle_for_rotation_3D.Size = new System.Drawing.Size(100, 20);
+            this.textBox_angle_for_rotation_3D.TabIndex = 40;
+            this.textBox_angle_for_rotation_3D.Text = "0";
+            // 
+            // button_rotation_3D_OZ
+            // 
+            this.button_rotation_3D_OZ.Location = new System.Drawing.Point(262, 368);
+            this.button_rotation_3D_OZ.Name = "button_rotation_3D_OZ";
+            this.button_rotation_3D_OZ.Size = new System.Drawing.Size(217, 23);
+            this.button_rotation_3D_OZ.TabIndex = 39;
+            this.button_rotation_3D_OZ.Text = "Поворот относительно оси Oz";
+            this.button_rotation_3D_OZ.UseVisualStyleBackColor = true;
+            this.button_rotation_3D_OZ.Click += new System.EventHandler(this.button_rotation_3D_OZ_Click);
+            // 
+            // button_rotation_3D_OY
+            // 
+            this.button_rotation_3D_OY.Location = new System.Drawing.Point(262, 336);
+            this.button_rotation_3D_OY.Name = "button_rotation_3D_OY";
+            this.button_rotation_3D_OY.Size = new System.Drawing.Size(217, 23);
+            this.button_rotation_3D_OY.TabIndex = 38;
+            this.button_rotation_3D_OY.Text = "Поворот относительно оси Oy";
+            this.button_rotation_3D_OY.UseVisualStyleBackColor = true;
+            this.button_rotation_3D_OY.Click += new System.EventHandler(this.button_rotation_3D_OY_Click);
+            // 
+            // button_rotation_3D_OX
+            // 
+            this.button_rotation_3D_OX.Location = new System.Drawing.Point(262, 307);
+            this.button_rotation_3D_OX.Name = "button_rotation_3D_OX";
+            this.button_rotation_3D_OX.Size = new System.Drawing.Size(217, 23);
+            this.button_rotation_3D_OX.TabIndex = 37;
+            this.button_rotation_3D_OX.Text = "Поворот относительно оси Ox";
+            this.button_rotation_3D_OX.UseVisualStyleBackColor = true;
+            this.button_rotation_3D_OX.Click += new System.EventHandler(this.button_rotation_3D_OX_Click);
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
+            this.label26.Location = new System.Drawing.Point(327, 400);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(46, 15);
+            this.label26.TabIndex = 36;
+            this.label26.Text = "Угол φ";
             // 
             // buttonMirror3DOYZ
             // 
@@ -941,59 +1120,43 @@
             this.pictureBoxOYZ.TabIndex = 2;
             this.pictureBoxOYZ.TabStop = false;
             // 
-            // label26
+            // textBoxTrimetricProjectionTetta
             // 
-            this.label26.AutoSize = true;
-            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
-            this.label26.Location = new System.Drawing.Point(327, 400);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(46, 15);
-            this.label26.TabIndex = 36;
-            this.label26.Text = "Угол φ";
+            this.textBoxTrimetricProjectionTetta.Location = new System.Drawing.Point(1263, 605);
+            this.textBoxTrimetricProjectionTetta.Name = "textBoxTrimetricProjectionTetta";
+            this.textBoxTrimetricProjectionTetta.Size = new System.Drawing.Size(100, 20);
+            this.textBoxTrimetricProjectionTetta.TabIndex = 52;
+            this.textBoxTrimetricProjectionTetta.Text = "0";
             // 
-            // button_rotation_3D_OX
+            // textBox8
             // 
-            this.button_rotation_3D_OX.Location = new System.Drawing.Point(262, 307);
-            this.button_rotation_3D_OX.Name = "button_rotation_3D_OX";
-            this.button_rotation_3D_OX.Size = new System.Drawing.Size(217, 23);
-            this.button_rotation_3D_OX.TabIndex = 37;
-            this.button_rotation_3D_OX.Text = "Поворот относительно оси Ox";
-            this.button_rotation_3D_OX.UseVisualStyleBackColor = true;
-            this.button_rotation_3D_OX.Click += new System.EventHandler(this.button_rotation_3D_OX_Click);
+            this.textBox8.Location = new System.Drawing.Point(809, 339);
+            this.textBox8.Name = "textBox8";
+            this.textBox8.Size = new System.Drawing.Size(100, 20);
+            this.textBox8.TabIndex = 53;
             // 
-            // button_rotation_3D_OY
+            // textBox9
             // 
-            this.button_rotation_3D_OY.Location = new System.Drawing.Point(262, 336);
-            this.button_rotation_3D_OY.Name = "button_rotation_3D_OY";
-            this.button_rotation_3D_OY.Size = new System.Drawing.Size(217, 23);
-            this.button_rotation_3D_OY.TabIndex = 38;
-            this.button_rotation_3D_OY.Text = "Поворот относительно оси Oy";
-            this.button_rotation_3D_OY.UseVisualStyleBackColor = true;
-            this.button_rotation_3D_OY.Click += new System.EventHandler(this.button_rotation_3D_OY_Click);
+            this.textBox9.Location = new System.Drawing.Point(809, 365);
+            this.textBox9.Name = "textBox9";
+            this.textBox9.Size = new System.Drawing.Size(100, 20);
+            this.textBox9.TabIndex = 54;
             // 
-            // button_rotation_3D_OZ
+            // button8
             // 
-            this.button_rotation_3D_OZ.Location = new System.Drawing.Point(262, 368);
-            this.button_rotation_3D_OZ.Name = "button_rotation_3D_OZ";
-            this.button_rotation_3D_OZ.Size = new System.Drawing.Size(217, 23);
-            this.button_rotation_3D_OZ.TabIndex = 39;
-            this.button_rotation_3D_OZ.Text = "Поворот относительно оси Oz";
-            this.button_rotation_3D_OZ.UseVisualStyleBackColor = true;
-            this.button_rotation_3D_OZ.Click += new System.EventHandler(this.button_rotation_3D_OZ_Click);
-            // 
-            // textBox_angle_for_rotation_3D
-            // 
-            this.textBox_angle_for_rotation_3D.Location = new System.Drawing.Point(379, 397);
-            this.textBox_angle_for_rotation_3D.Name = "textBox_angle_for_rotation_3D";
-            this.textBox_angle_for_rotation_3D.Size = new System.Drawing.Size(100, 20);
-            this.textBox_angle_for_rotation_3D.TabIndex = 40;
-            this.textBox_angle_for_rotation_3D.Text = "0";
+            this.button8.Location = new System.Drawing.Point(728, 339);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(75, 23);
+            this.button8.TabIndex = 55;
+            this.button8.Text = "button8";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1703, 704);
+            this.ClientSize = new System.Drawing.Size(1703, 790);
             this.Controls.Add(this.tabControl1);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -1006,6 +1169,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_3d)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTrimetricProjection)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOXY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOXZ)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOYZ)).EndInit();
@@ -1100,6 +1264,21 @@
         private System.Windows.Forms.Button button_rotation_3D_OY;
         private System.Windows.Forms.Button button_rotation_3D_OX;
         private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.TextBox textBoxMuFor3D;
+        private System.Windows.Forms.TextBox textBoxLambdaFor3D;
+        private System.Windows.Forms.Button buttonMove3D;
+        private System.Windows.Forms.TextBox textBoxNuFor3D;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.PictureBox pictureBoxTrimetricProjection;
+        private System.Windows.Forms.TextBox textBoxTrimetricProjectionPhi;
+        private System.Windows.Forms.Button buttonTrimetricProjection;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.TextBox textBoxTrimetricProjectionTetta;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.TextBox textBox8;
     }
 }
 
