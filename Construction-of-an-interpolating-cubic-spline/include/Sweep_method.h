@@ -62,14 +62,13 @@ public:
 		phi.resize(N + 1);
 	}
 
-	void set_phi() {
-
-	}
-
 	void set_phi(const std::vector<double>& phi) {
 
 		m1 = phi[0];
 		m2 = phi[N];
+
+		std::cout << "M1: " << m1 << std::endl;
+		std::cout << "M2: " << m2 << std::endl;
 
 		this->phi = phi; // мб тут лучше даже swap
 	}
