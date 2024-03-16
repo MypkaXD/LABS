@@ -27,14 +27,23 @@ private:
     bool isAnalyticalSolutionSet = false; // просчитано ли аналитическое решение
     bool isShowAnalyticalSolution = false; // показывать ли аналитическое решение
 
+    bool isAnalyticalSolutionFirstDifSet = false;
+    bool isShowAnalyticalSolutionFirstDif = false;
+
+    bool isAnalyticalSolutionSecondDifSet = false;
+    bool isShowAnalyticalSolutionSecondDif = false;
+
     bool isNumericalSolutionSet = false; // просчитано ли численное решение
-    bool isShowNumericalSolutionSet = false; // показывать ли численное решение
+    bool isShowNumericalSolution = false; // показывать ли численное решение
 
     int separate_n = 10; // число разбиений дл€ S_i(x)
     int item_current_idx = 0;
 
     std::vector<double> x_of_analytical_solution;
+
     std::vector<double> y_of_analytical_solution;
+    std::vector<double> y_of_analytical_solution_first_dif;
+    std::vector<double> y_of_analytical_solution_second_dif;
 
     std::vector<double> x_of_numerical_solution;
     std::vector<double> y_of_numerical_solution;
@@ -42,6 +51,8 @@ private:
     ImGuiWindowFlags flags_for_window = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse;
 
     Construction_of_an_interpolating_cubic_spline cs;
+
+
 
 public:
     App()
@@ -77,12 +88,18 @@ public:
             if (item_current_idx == 0) {
                 cs.set_border(-1, 1);
                 get_data_for_test_task();
+                create_x_coords_for_analytical_solution();
                 create_data_for_analytical_solution();
+                create_data_for_analytical_solution_first_dif();
+                create_data_for_analytical_solution_second_dif();
             }
             else if (item_current_idx == 1) {
                 cs.set_border(0.2, 2);
                 get_data_for_first_task();
+                create_x_coords_for_analytical_solution_for_first_task();
                 create_data_for_analytical_solution_for_first_task();
+                create_data_for_analytical_solution_for_first_task_first_dif();
+                create_data_for_analytical_solution_for_first_task_second_dif();
             }
 
 
@@ -117,7 +134,11 @@ public:
                 const bool is_selected = (item_current_idx == n); // если задача в массиве, совпадающа€ с item_current_idx -> true
                 if (ImGui::Selectable(items[n], is_selected)) { // устанавливаем индекс n дл€ item_current_idx, если выбрана задача n
                     item_current_idx = n;
+
                     isAnalyticalSolutionSet = false;
+                    isAnalyticalSolutionFirstDifSet = false;
+                    isAnalyticalSolutionSecondDifSet = false;
+                    
                     isNumericalSolutionSet = false;
                 }
                 if (is_selected) // если is_selected
@@ -138,7 +159,9 @@ public:
         ImGui::Begin("Settings", 0, flags_for_window);
 
         ImGui::Checkbox("Show AnalSolut", &isShowAnalyticalSolution);
-        ImGui::Checkbox("Show NumericalSolut", &isShowNumericalSolutionSet);
+        ImGui::Checkbox("Show NumericalSolut", &isShowNumericalSolution);
+        ImGui::Checkbox("Show S'(x)", &isShowAnalyticalSolutionFirstDif);
+        ImGui::Checkbox("Show S''(x)", &isShowAnalyticalSolutionSecondDif);
 
         ImGui::End();
 
@@ -283,75 +306,23 @@ public:
         }
     }
 
-    void create_data_for_analytical_solution_for_first_task() {
-
-        if (!isAnalyticalSolutionSet) {
-
-            const static size_t size_of_analytical_solution = 1000; // ѕолучаем размер вектора точек дл€ аналитического решени€
-
-            x_of_analytical_solution.clear();
-            y_of_analytical_solution.clear();
-
-            x_of_analytical_solution.resize(size_of_analytical_solution);
-            y_of_analytical_solution.resize(size_of_analytical_solution);
-
-            double h_for_analytical_solution = abs(cs.get_border().second - cs.get_border().first) / size_of_analytical_solution;
-
-            for (size_t count = 0; count < size_of_analytical_solution; ++count) {
-                x_of_analytical_solution[count] = cs.get_border().first + h_for_analytical_solution * count;
-                y_of_analytical_solution[count] = log(x_of_analytical_solution[count] + 1) / (x_of_analytical_solution[count] + 1);
-            }
-
-            isAnalyticalSolutionSet = true;
-
-            std::cout << "EHRERER" << std::endl;
-
-        }
-
-    }
-
-    void create_data_for_analytical_solution() {
-
-        if (!isAnalyticalSolutionSet) {
-
-            const static size_t size_of_analytical_solution = 1000; // ѕолучаем размер вектора точек дл€ аналитического решени€
-
-            x_of_analytical_solution.clear();
-            y_of_analytical_solution.clear();
-
-            x_of_analytical_solution.resize(size_of_analytical_solution);
-            y_of_analytical_solution.resize(size_of_analytical_solution);
-
-            double h_for_analytical_solution = abs(cs.get_border().second - cs.get_border().first) / size_of_analytical_solution;
-
-            for (size_t count = 0; count < size_of_analytical_solution / 2; ++count) {
-                x_of_analytical_solution[count] = cs.get_border().first + h_for_analytical_solution * count;
-                y_of_analytical_solution[count] = x_of_analytical_solution[count] * x_of_analytical_solution[count] * x_of_analytical_solution[count] + 3 * x_of_analytical_solution[count] * x_of_analytical_solution[count];
-            }
-
-            for (size_t count = size_of_analytical_solution / 2; count < size_of_analytical_solution; ++count) {
-                x_of_analytical_solution[count] = cs.get_border().first + h_for_analytical_solution * count;
-                y_of_analytical_solution[count] = -x_of_analytical_solution[count] * x_of_analytical_solution[count] * x_of_analytical_solution[count] + 3 * x_of_analytical_solution[count] * x_of_analytical_solution[count];
-            }
-
-            isAnalyticalSolutionSet = true;
-
-        }
-    }
-    
-
     void createGraph() { // функци€ дл€ отрисовки графика
 
         ImGui::Begin("Graph");
 
         if (ImPlot::BeginPlot("Solution schedule", "x", "y", { 940,780 })) { // ќтрисовываем график
             
+            // јналитическое решение
             if (isAnalyticalSolutionSet && isShowAnalyticalSolution)
-                ImPlot::PlotLine("Analytical solution graph", x_of_analytical_solution.data(), y_of_analytical_solution.data(), x_of_analytical_solution.size()); // ќтрисовываем линию
-
-            if (isNumericalSolutionSet && isShowNumericalSolutionSet)
-                ImPlot::PlotLine("Numerical solution graph", x_of_numerical_solution.data(), y_of_numerical_solution.data(), x_of_numerical_solution.size()); // ќтрисовываем линию
-
+                ImPlot::PlotLine("F(x)", x_of_analytical_solution.data(), y_of_analytical_solution.data(), x_of_analytical_solution.size()); // ќтрисовываем линию
+            if (isAnalyticalSolutionFirstDifSet && isShowAnalyticalSolutionFirstDif)
+                ImPlot::PlotLine("F'(x)", x_of_analytical_solution.data(), y_of_analytical_solution_first_dif.data(), x_of_analytical_solution.size()); // ќтрисовываем линию
+            if (isAnalyticalSolutionSecondDifSet && isShowAnalyticalSolutionSecondDif)
+                ImPlot::PlotLine("F''(x)", x_of_analytical_solution.data(), y_of_analytical_solution_second_dif.data(), x_of_analytical_solution.size()); // ќтрисовываем линию
+            
+            // „исленное решение
+            if (isNumericalSolutionSet && isShowNumericalSolution)
+                ImPlot::PlotLine("S(x)", x_of_numerical_solution.data(), y_of_numerical_solution.data(), x_of_numerical_solution.size()); // ќтрисовываем линию
 
 
             
@@ -365,4 +336,179 @@ public:
         ImGui::SFML::Render(m_window);
         m_window.display();
     }
+
+private:
+    
+    // јналитическое решение дл€ тестовой задачи
+    void create_x_coords_for_analytical_solution() {
+
+        if (!isAnalyticalSolutionSet) {
+
+            const static size_t size_of_analytical_solution = 1000; // ѕолучаем размер вектора точек дл€ аналитического решени€
+
+            x_of_analytical_solution.clear();
+
+            x_of_analytical_solution.resize(size_of_analytical_solution + 1);
+
+            double h_for_analytical_solution = abs(cs.get_border().second - cs.get_border().first) / size_of_analytical_solution;
+
+            for (size_t count = 0; count < size_of_analytical_solution / 2; ++count)
+                x_of_analytical_solution[count] = cs.get_border().first + h_for_analytical_solution * count;
+
+            for (size_t count = size_of_analytical_solution / 2; count <= size_of_analytical_solution; ++count)
+                x_of_analytical_solution[count] = cs.get_border().first + h_for_analytical_solution * count;
+
+        }
+
+    }
+    void create_data_for_analytical_solution() {
+
+        if (!isAnalyticalSolutionSet) {
+
+            const static size_t size_of_analytical_solution = 1000; // ѕолучаем размер вектора точек дл€ аналитического решени€
+
+            y_of_analytical_solution.clear();
+
+            y_of_analytical_solution.resize(size_of_analytical_solution + 1);
+
+            double h_for_analytical_solution = abs(cs.get_border().second - cs.get_border().first) / size_of_analytical_solution;
+
+            for (size_t count = 0; count < size_of_analytical_solution / 2; ++count)
+                y_of_analytical_solution[count] = x_of_analytical_solution[count] * x_of_analytical_solution[count] * x_of_analytical_solution[count] + 3 * x_of_analytical_solution[count] * x_of_analytical_solution[count];
+
+            for (size_t count = size_of_analytical_solution / 2; count <= size_of_analytical_solution; ++count)
+                y_of_analytical_solution[count] = -x_of_analytical_solution[count] * x_of_analytical_solution[count] * x_of_analytical_solution[count] + 3 * x_of_analytical_solution[count] * x_of_analytical_solution[count];
+
+            isAnalyticalSolutionSet = true;
+
+        }
+    }
+    void create_data_for_analytical_solution_first_dif() {
+
+        if (!isAnalyticalSolutionFirstDifSet) {
+
+            const static size_t size_of_analytical_solution = 1000; // ѕолучаем размер вектора точек дл€ аналитического решени€
+
+            y_of_analytical_solution_first_dif.clear();
+
+            y_of_analytical_solution_first_dif.resize(size_of_analytical_solution + 1);
+
+            double h_for_analytical_solution = abs(cs.get_border().second - cs.get_border().first) / size_of_analytical_solution;
+
+            for (size_t count = 0; count < size_of_analytical_solution / 2; ++count)
+                y_of_analytical_solution_first_dif[count] = 3 * x_of_analytical_solution[count] * x_of_analytical_solution[count] + 6 * x_of_analytical_solution[count];
+
+            for (size_t count = size_of_analytical_solution / 2; count <= size_of_analytical_solution; ++count)
+                y_of_analytical_solution_first_dif[count] = -3 * x_of_analytical_solution[count] * x_of_analytical_solution[count] + 6 * x_of_analytical_solution[count];
+
+            isAnalyticalSolutionFirstDifSet = true;
+
+        }
+    }
+    void create_data_for_analytical_solution_second_dif() {
+
+        if (!isAnalyticalSolutionSecondDifSet) {
+
+            const static size_t size_of_analytical_solution = 1000; // ѕолучаем размер вектора точек дл€ аналитического решени€
+
+            y_of_analytical_solution_second_dif.clear();
+
+            y_of_analytical_solution_second_dif.resize(size_of_analytical_solution + 1);
+
+            double h_for_analytical_solution = abs(cs.get_border().second - cs.get_border().first) / size_of_analytical_solution;
+
+            for (size_t count = 0; count < size_of_analytical_solution / 2; ++count)
+                y_of_analytical_solution_second_dif[count] = 6 * x_of_analytical_solution[count] + 6;
+
+            for (size_t count = size_of_analytical_solution / 2; count <= size_of_analytical_solution; ++count)
+                y_of_analytical_solution_second_dif[count] = -6 * x_of_analytical_solution[count] + 6;
+
+            isAnalyticalSolutionSecondDifSet = true;
+
+        }
+    }
+
+    // јналитическое решение дл€ первой задачи
+    void create_x_coords_for_analytical_solution_for_first_task() {
+        if (!isAnalyticalSolutionSet) {
+
+            const static size_t size_of_analytical_solution = 1000; // ѕолучаем размер вектора точек дл€ аналитического решени€
+
+            x_of_analytical_solution.clear();
+
+            x_of_analytical_solution.resize(size_of_analytical_solution + 1);
+
+            double h_for_analytical_solution = abs(cs.get_border().second - cs.get_border().first) / size_of_analytical_solution;
+
+            for (size_t count = 0; count <= size_of_analytical_solution; ++count) {
+                x_of_analytical_solution[count] = cs.get_border().first + h_for_analytical_solution * count;
+            }
+
+        }
+    }
+    void create_data_for_analytical_solution_for_first_task() {
+
+        if (!isAnalyticalSolutionSet) {
+
+            const static size_t size_of_analytical_solution = 1000; // ѕолучаем размер вектора точек дл€ аналитического решени€
+
+            y_of_analytical_solution.clear();
+
+            y_of_analytical_solution.resize(size_of_analytical_solution + 1);
+
+            double h_for_analytical_solution = abs(cs.get_border().second - cs.get_border().first) / size_of_analytical_solution;
+
+            for (size_t count = 0; count <= size_of_analytical_solution; ++count) {
+                y_of_analytical_solution[count] = log(x_of_analytical_solution[count] + 1) / (x_of_analytical_solution[count] + 1);
+            }
+
+            isAnalyticalSolutionSet = true;
+
+        }
+    }
+    void create_data_for_analytical_solution_for_first_task_first_dif() {
+
+        if (!isAnalyticalSolutionFirstDifSet) {
+
+            const static size_t size_of_analytical_solution = 1000; // ѕолучаем размер вектора точек дл€ аналитического решени€
+
+            y_of_analytical_solution_first_dif.clear();
+
+            y_of_analytical_solution_first_dif.resize(size_of_analytical_solution + 1);
+
+            double h_for_analytical_solution = abs(cs.get_border().second - cs.get_border().first) / size_of_analytical_solution;
+
+            for (size_t count = 0; count <= size_of_analytical_solution; ++count)
+                y_of_analytical_solution_first_dif[count] = (double)1 / (x_of_analytical_solution[count] * x_of_analytical_solution[count] +
+                    2 * x_of_analytical_solution[count] + 1) - log(x_of_analytical_solution[count] + 1) / (x_of_analytical_solution[count] *
+                        x_of_analytical_solution[count] + 2 * x_of_analytical_solution[count] + 1);
+
+            isAnalyticalSolutionFirstDifSet = true;
+
+        }
+    }
+    void create_data_for_analytical_solution_for_first_task_second_dif() {
+
+        if (!isAnalyticalSolutionSecondDifSet) {
+
+            const static size_t size_of_analytical_solution = 1000; // ѕолучаем размер вектора точек дл€ аналитического решени€
+
+            y_of_analytical_solution_second_dif.clear();
+
+            y_of_analytical_solution_second_dif.resize(size_of_analytical_solution + 1);
+
+            double h_for_analytical_solution = abs(cs.get_border().second - cs.get_border().first) / size_of_analytical_solution;
+
+            for (size_t count = 0; count <= size_of_analytical_solution; ++count)
+                y_of_analytical_solution_second_dif[count] = (2 * log(x_of_analytical_solution[count] + 1)) / (x_of_analytical_solution[count] * x_of_analytical_solution[count] *
+                    x_of_analytical_solution[count] + 3 * x_of_analytical_solution[count] * x_of_analytical_solution[count] + 3 * x_of_analytical_solution[count] + 1) -
+                (double)3 / (x_of_analytical_solution[count] * x_of_analytical_solution[count] * x_of_analytical_solution[count] + 3 * x_of_analytical_solution[count] * x_of_analytical_solution[count] +
+                    3 * x_of_analytical_solution[count] + 1);
+
+            isAnalyticalSolutionSecondDifSet = true;
+
+        }
+    }
+
+
 };
