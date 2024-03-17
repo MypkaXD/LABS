@@ -42,6 +42,15 @@ private:
     int item_current_idx = 0;
     int N = 20;
 
+    double max = 0;
+    int index_max = -1;
+
+    double max_first = 0;
+    int index_max_first = -1;
+
+    double max_second = 0;
+    int index_max_second = -1;
+
     std::vector<double> x_of_analytical_solution;
 
     std::vector<double> y_of_analytical_solution;
@@ -63,11 +72,6 @@ private:
     std::vector<double> y_of_analytical_solution_for_graph;
     std::vector<double> y_of_analytical_solution_first_dif_for_graph;
     std::vector<double> y_of_analytical_solution_second_dif_for_graph;
-
-    std::vector<double> a;
-    std::vector<double> b;
-    std::vector<double> c;
-    std::vector<double> d;
 
     ImGuiWindowFlags flags_for_window = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse;
 
@@ -161,6 +165,7 @@ public:
             createWindowForInputN();
             createWindowForSettings();
             createWindowForSelectingTasks();
+            createWindowForInfo();
 
             createGraph();
             createTableForCoefs();
@@ -237,6 +242,28 @@ public:
         ImGui::End();
 
     }
+    void createWindowForInfo() {
+
+        ImGui::SetNextWindowPos({ 321,0 });
+        ImGui::SetNextWindowSize({ 639,232 });
+
+        ImGui::Begin("Info", 0, flags_for_window);
+
+        if (isNumericalSolutionSet) {
+
+            ImGui::Text(u8"Справка:");
+            ImGui::Text(u8"Сетка сплайна: n = %d", cs.get_n());
+            ImGui::Text(u8"Конрольная сетка: N = %d", N);
+            ImGui::Text(u8"Погрешность сплайна на контрольной сетке:");
+            ImGui::Text(u8"max|F(x_j)-S(x_j)| = %.12lf \tпри x = %lf", max, x_of_numerical_solution_with_multiple_n[index_max]);
+            ImGui::Text(u8"Погрешность производной на контрольной сетке:");
+            ImGui::Text(u8"max|F'(x_j)-S'(x_j)| = %.12lf \tпри x = %lf", max_first, x_of_numerical_solution_with_multiple_n[index_max_first]);
+            ImGui::Text(u8"Погрешность второй производной на контрольной сетке (опция):");
+            ImGui::Text(u8"max|F''(x_j)-S''(x_j)| = %.12lf \tпри x = %lf", max_second, x_of_numerical_solution_with_multiple_n[index_max_second]);
+        }
+
+        ImGui::End;
+    }
 
     void createGraph() { // функция для отрисовки графика
 
@@ -311,13 +338,13 @@ public:
                     else
                         ImGui::Text("%lf", x_of_numerical_solution[(row+1) * separate_n]);
                     ImGui::TableSetColumnIndex(3);
-                    ImGui::Text("%lf", a[row]);
+                    ImGui::Text("%lf", cs.get_a()[row]);
                     ImGui::TableSetColumnIndex(4);
-                    ImGui::Text("%lf", b[row]);
+                    ImGui::Text("%lf", cs.get_b()[row]);
                     ImGui::TableSetColumnIndex(5);
-                    ImGui::Text("%lf", c[row+1]);
+                    ImGui::Text("%lf", cs.get_c()[row+1]);
                     ImGui::TableSetColumnIndex(6);
-                    ImGui::Text("%lf", d[row]);
+                    ImGui::Text("%lf", cs.get_d()[row]);
                 }
                 ImGui::EndTable();
             }
@@ -371,7 +398,7 @@ public:
                     ImGui::TableSetColumnIndex(3);
                     ImGui::Text("%lf", y_of_numerical_solution_with_multiple_n[row * separate_n]);
                     ImGui::TableSetColumnIndex(4);
-                    ImGui::Text("%lf", abs(y_of_analytical_solution_for_graph[row] - y_of_numerical_solution_with_multiple_n[row * separate_n]));
+                    ImGui::Text("%.12lf", abs(y_of_analytical_solution_for_graph[row] - y_of_numerical_solution_with_multiple_n[row * separate_n]));
 
 
                     ImGui::TableSetColumnIndex(5);
@@ -379,14 +406,14 @@ public:
                     ImGui::TableSetColumnIndex(6);
                     ImGui::Text("%lf", y_of_numerical_solution_first_dif_with_multiple_n[row * separate_n]);
                     ImGui::TableSetColumnIndex(7);
-                    ImGui::Text("%lf", abs(y_of_analytical_solution_first_dif_for_graph[row] - y_of_numerical_solution_first_dif_with_multiple_n[row * separate_n]));
+                    ImGui::Text("%.12lf", abs(y_of_analytical_solution_first_dif_for_graph[row] - y_of_numerical_solution_first_dif_with_multiple_n[row * separate_n]));
 
                     ImGui::TableSetColumnIndex(8);
                     ImGui::Text("%lf", y_of_analytical_solution_second_dif_for_graph[row]);
                     ImGui::TableSetColumnIndex(9);
                     ImGui::Text("%lf", y_of_numerical_solution_second_dif_with_multiple_n[row * separate_n]);
                     ImGui::TableSetColumnIndex(10);
-                    ImGui::Text("%lf", abs(y_of_analytical_solution_second_dif_for_graph[row] - y_of_numerical_solution_second_dif_with_multiple_n[row * separate_n]));
+                    ImGui::Text("%.12lf", abs(y_of_analytical_solution_second_dif_for_graph[row] - y_of_numerical_solution_second_dif_with_multiple_n[row * separate_n]));
                 }
                 ImGui::EndTable();
             }
@@ -484,6 +511,46 @@ private:
             }
         }
 
+    }
+    void create_data_for_coefs() {
+        
+        if (item_current_idx == 0)
+            cs.set_phi_for_test();
+        else if (item_current_idx == 1)
+            cs.set_phi_for_first_task();
+        else if (item_current_idx == 2)
+            cs.set_phi_for_second_task();
+
+        cs.set_c();
+        cs.set_a(item_current_idx);
+        cs.set_b(item_current_idx);
+        cs.set_d();
+    }
+    void find_max() {
+
+        max = 0;
+        index_max = -1;
+
+        max_first = 0;
+        index_max_first = -1;
+
+        max_second = 0;
+        index_max_second = -1;
+
+        for (size_t count = 0; count < N; ++count) {
+            if (abs(y_of_analytical_solution_for_graph[count] - y_of_numerical_solution_with_multiple_n[count * separate_n]) >= max) {
+                index_max = x_of_numerical_solution_with_multiple_n[count * separate_n];
+                max = abs(y_of_analytical_solution_for_graph[count] - y_of_numerical_solution_with_multiple_n[count * separate_n]);
+            }
+            if (abs(y_of_analytical_solution_first_dif_for_graph[count] - y_of_numerical_solution_first_dif_with_multiple_n[count * separate_n]) >= max_first) {
+                index_max_first = x_of_numerical_solution_with_multiple_n[count * separate_n];
+                max_first = abs(y_of_analytical_solution_first_dif_for_graph[count] - y_of_numerical_solution_first_dif_with_multiple_n[count * separate_n]);
+            }
+            if (abs(y_of_analytical_solution_second_dif_for_graph[count] - y_of_numerical_solution_second_dif_with_multiple_n[count * separate_n]) >= max_second) {
+                index_max_second = x_of_numerical_solution_with_multiple_n[count * separate_n];
+                max_second = abs(y_of_analytical_solution_second_dif_for_graph[count] - y_of_numerical_solution_second_dif_with_multiple_n[count * separate_n]);
+            }
+        }
     }
 
     // Аналитическое решение для тестовой задачи
@@ -732,42 +799,12 @@ private:
 
         if (!isNumericalSolutionSet) {
 
-            cs.set_phi_for_test();
-            cs.set_c();
-
-            cs.set_a(item_current_idx);
-            cs.set_b(item_current_idx);
-            cs.set_d();
-
-            create_x_coords_for_numerical_solution();
-            create_data_for_numerical_solution();
-            create_data_for_numerical_solution_first_dif();
-            create_data_for_numerical_solution_second_dif();
-
-            a.clear();
-            a.resize(cs.get_n());
-            a = cs.get_a();
-            b.clear();
-            b.resize(cs.get_n());
-            b = cs.get_b();
-            c.clear();
-            c.resize(cs.get_n()+1);
-            c = cs.get_c();
-            d.clear();
-            d.resize(cs.get_n());
-            d = cs.get_d();
-
             int n = cs.get_n();
 
             cs.set_n(N);
             cs.set_h();
 
-            cs.set_phi_for_test();
-            cs.set_c();
-
-            cs.set_a(item_current_idx);
-            cs.set_b(item_current_idx);
-            cs.set_d();
+            create_data_for_coefs();
 
             create_x_coords_for_numerical_solution_with_multiple_n();
             create_data_for_numerical_solution_with_multiple_n();
@@ -775,8 +812,17 @@ private:
             create_data_for_numerical_solution_second_dif_with_multiple_n();
             create_data_for_analytical_solution_for_graph();
 
+            find_max();
+
             cs.set_n(n);
             cs.set_h();
+
+            create_data_for_coefs();
+
+            create_x_coords_for_numerical_solution();
+            create_data_for_numerical_solution();
+            create_data_for_numerical_solution_first_dif();
+            create_data_for_numerical_solution_second_dif();
 
             isNumericalSolutionSet = true;
         }
@@ -788,42 +834,12 @@ private:
 
         if (!isNumericalSolutionSet) {
 
-            cs.set_phi_for_first_task();
-            cs.set_c();
-
-            cs.set_a(item_current_idx);
-            cs.set_b(item_current_idx);
-            cs.set_d();
-
-            create_x_coords_for_numerical_solution();
-            create_data_for_numerical_solution();
-            create_data_for_numerical_solution_first_dif();
-            create_data_for_numerical_solution_second_dif();
-
-            a.clear();
-            a.resize(cs.get_n());
-            a = cs.get_a();
-            b.clear();
-            b.resize(cs.get_n());
-            b = cs.get_b();
-            c.clear();
-            c.resize(cs.get_n() + 1);
-            c = cs.get_c();
-            d.clear();
-            d.resize(cs.get_n());
-            d = cs.get_d();
-
             int n = cs.get_n();
 
             cs.set_n(N);
             cs.set_h();
 
-            cs.set_phi_for_test();
-            cs.set_c();
-
-            cs.set_a(item_current_idx);
-            cs.set_b(item_current_idx);
-            cs.set_d();
+            create_data_for_coefs();
 
             create_x_coords_for_numerical_solution_with_multiple_n();
             create_data_for_numerical_solution_with_multiple_n();
@@ -831,8 +847,17 @@ private:
             create_data_for_numerical_solution_second_dif_with_multiple_n();
             create_data_for_analytical_solution_for_graph();
 
+            find_max();
+
             cs.set_n(n);
             cs.set_h();
+
+            create_data_for_coefs();
+
+            create_x_coords_for_numerical_solution();
+            create_data_for_numerical_solution();
+            create_data_for_numerical_solution_first_dif();
+            create_data_for_numerical_solution_second_dif();
 
             isNumericalSolutionSet = true;
         }
@@ -844,42 +869,12 @@ private:
 
         if (!isNumericalSolutionSet) {
 
-            cs.set_phi_for_second_task();
-            cs.set_c();
-
-            cs.set_a(item_current_idx);
-            cs.set_b(item_current_idx);
-            cs.set_d();
-
-            create_x_coords_for_numerical_solution();
-            create_data_for_numerical_solution();
-            create_data_for_numerical_solution_first_dif();
-            create_data_for_numerical_solution_second_dif();
-
-            a.clear();
-            a.resize(cs.get_n());
-            a = cs.get_a();
-            b.clear();
-            b.resize(cs.get_n());
-            b = cs.get_b();
-            c.clear();
-            c.resize(cs.get_n() + 1);
-            c = cs.get_c();
-            d.clear();
-            d.resize(cs.get_n());
-            d = cs.get_d();
-
             int n = cs.get_n();
 
             cs.set_n(N);
             cs.set_h();
 
-            cs.set_phi_for_test();
-            cs.set_c();
-
-            cs.set_a(item_current_idx);
-            cs.set_b(item_current_idx);
-            cs.set_d();
+            create_data_for_coefs();
 
             create_x_coords_for_numerical_solution_with_multiple_n();
             create_data_for_numerical_solution_with_multiple_n();
@@ -887,8 +882,17 @@ private:
             create_data_for_numerical_solution_second_dif_with_multiple_n();
             create_data_for_analytical_solution_for_graph();
 
+            find_max();
+
             cs.set_n(n);
             cs.set_h();
+
+            create_data_for_coefs();
+
+            create_x_coords_for_numerical_solution();
+            create_data_for_numerical_solution();
+            create_data_for_numerical_solution_first_dif();
+            create_data_for_numerical_solution_second_dif();
 
             isNumericalSolutionSet = true;
         }
