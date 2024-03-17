@@ -42,15 +42,19 @@ public:
 		return this->b_border;
 	}
 
-	double get_f_i_for_first_task(const double& x) {
-		return log(x + 1) / (x + 1);
-	}
-
 	double get_f_i_for_test(const double& x) {
 		if (x >= -1 && x <= 0)
 			return (x * x * x + 3 * x * x);
 		else if (x <= 1 && x > 0)
 			return (-x * x * x + 3 * x * x);
+	}
+
+	double get_f_i_for_first_task(const double& x) {
+		return (double)log(x + 1) / x;
+	}
+
+	double get_f_i_for_second_task(const double& x) {
+		return (double)log(x + 1) / x + cos(10*x);
 	}
 
 	int& get_n() {
@@ -84,12 +88,6 @@ public:
 
 			phi[count] = 6 * ((f_next - f_current) / h - (f_current - f_prev) / h);
 		}
-
-		std::cout << "H: " << h << std::endl;
-		std::cout << "N: " << n << std::endl;
-
-		print_phi();
-
 	}
 
 	void set_phi_for_first_task() {
@@ -111,19 +109,33 @@ public:
 
 			phi[count] = 6 * ((f_next - f_current) / h - (f_current - f_prev) / h);
 		}
+	}
 
-		std::cout << "H: " << h << std::endl;
-		std::cout << "N: " << n << std::endl;
+	void set_phi_for_second_task() {
 
-		print_phi();
+		phi.clear();
+		phi.resize(n + 1);
 
+		double m1 = 0;
+		double m2 = 0;
+
+		phi[0] = m1;
+		phi[n] = m2;
+
+		for (size_t count = 1; count < n; ++count) {
+
+			double f_prev = get_f_i_for_second_task(a_border + (count - 1) * h);
+			double f_current = get_f_i_for_second_task(a_border + count * h);
+			double f_next = get_f_i_for_second_task(a_border + (count + 1) * h);
+
+			phi[count] = 6 * ((f_next - f_current) / h - (f_current - f_prev) / h);
+		}
 	}
 
 	void print_phi() {
 
-		for (size_t count = 0; count < phi.size(); ++count) {
+		for (size_t count = 0; count < phi.size(); ++count)
 			std::cout << phi[count] << std::endl;
-		}
 
 	}
 
@@ -144,20 +156,21 @@ public:
 		sm.straight_stroke();
 		sm.reverse_stroke();
 
-		sm.print();
-
 		c = sm.get_V();
-
-		print_c();
 	}
 
-	void set_a() {
+	void set_a(const int& index) {
 
 		a.clear();
 		a.resize(n);
 
 		for (size_t count = 0; count < n; ++count) {
-			a[count] = get_f_i_for_test(a_border + (count + 1) * h);
+			if (index == 0)
+				a[count] = get_f_i_for_test(a_border + (count + 1) * h);
+			else if (index == 1)
+				a[count] = get_f_i_for_first_task(a_border + (count + 1) * h);
+			else if (index == 2)
+				a[count] = get_f_i_for_second_task(a_border + (count + 1) * h);
 		}
 	}
 
@@ -166,19 +179,24 @@ public:
 		d.clear();
 		d.resize(n);
 
-		for (size_t count = 0; count < n; ++count) {
-			d[count] = c[count + 1] - c[count];
-		}
-
+		for (size_t count = 0; count < n; ++count)
+			d[count] = (c[count + 1] - c[count]) / h;
 	}
 
-	void set_b() {
+	void set_b(const int& index) {
 
 		b.clear(); 
 		b.resize(n);
 
 		for (size_t count = 0; count < n; ++count) {
-			b[count] = (get_f_i_for_test(a_border + (count + 1) * h) - get_f_i_for_test(a_border + count * h)) / h +
+			if (index == 0)
+				b[count] = (get_f_i_for_test(a_border + (count + 1) * h) - get_f_i_for_test(a_border + count * h)) / h +
+				c[count + 1] * h / 3 + c[count] * h / 6;
+			else if (index == 1)
+				b[count] = (get_f_i_for_first_task(a_border + (count + 1) * h) - get_f_i_for_first_task(a_border + count * h)) / h +
+				c[count + 1] * h / 3 + c[count] * h / 6;
+			else if (index == 2)
+				b[count] = (get_f_i_for_second_task(a_border + (count + 1) * h) - get_f_i_for_second_task(a_border + count * h)) / h +
 				c[count + 1] * h / 3 + c[count] * h / 6;
 		}
 

@@ -12,7 +12,7 @@ private:
 
 	int N = 100; // число шагов (разбиений сетки)
 
-	double m1 = 1; // мю 1
+	double m1 = 0; // мю 1
 	double m2 = 0; // мю 2
 
 	std::vector<double> A; // вектор коэффов А из 3-х диагональной матрица
@@ -67,9 +67,6 @@ public:
 		m1 = phi[0];
 		m2 = phi[N];
 
-		std::cout << "M1: " << m1 << std::endl;
-		std::cout << "M2: " << m2 << std::endl;
-
 		this->phi = phi; // мб тут лучше даже swap
 	}
 
@@ -117,13 +114,8 @@ public:
 
 	std::vector<double>& get_V() { // получить ССЫЛКУ на вектор решений
 
-		//for (size_t count = 0; count < v.size(); ++count) {
-		//	std::cout << v[count] << "\t";
-		//}
-		//
-		//std::cout << "+++++++++++++++++++" << std::endl;
-
 		return v;
+	
 	}
 
 	void print_v() {
