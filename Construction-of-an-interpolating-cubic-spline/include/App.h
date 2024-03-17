@@ -1,4 +1,4 @@
-#include "imgui.h"
+п»ї#include "imgui.h"
 #include "imgui-SFML.h"
 
 #include "implot.h"
@@ -24,8 +24,8 @@ private:
     bool isRecreateData = true;
     bool isShow = false;
     
-    bool isAnalyticalSolutionSet = false; // просчитано ли аналитическое решение
-    bool isShowAnalyticalSolution = false; // показывать ли аналитическое решение
+    bool isAnalyticalSolutionSet = false; // РїСЂРѕСЃС‡РёС‚Р°РЅРѕ Р»Рё Р°РЅР°Р»РёС‚РёС‡РµСЃРєРѕРµ СЂРµС€РµРЅРёРµ
+    bool isShowAnalyticalSolution = false; // РїРѕРєР°Р·С‹РІР°С‚СЊ Р»Рё Р°РЅР°Р»РёС‚РёС‡РµСЃРєРѕРµ СЂРµС€РµРЅРёРµ
 
     bool isAnalyticalSolutionFirstDifSet = false;
     bool isShowAnalyticalSolutionFirstDif = false;
@@ -33,12 +33,12 @@ private:
     bool isAnalyticalSolutionSecondDifSet = false;
     bool isShowAnalyticalSolutionSecondDif = false;
 
-    bool isNumericalSolutionSet = false; // просчитано ли численное решение
-    bool isShowNumericalSolution = false; // показывать ли численное решение
+    bool isNumericalSolutionSet = false; // РїСЂРѕСЃС‡РёС‚Р°РЅРѕ Р»Рё С‡РёСЃР»РµРЅРЅРѕРµ СЂРµС€РµРЅРёРµ
+    bool isShowNumericalSolution = false; // РїРѕРєР°Р·С‹РІР°С‚СЊ Р»Рё С‡РёСЃР»РµРЅРЅРѕРµ СЂРµС€РµРЅРёРµ
     bool isShowNumericalSolutionFirstDif = false;
     bool isShowNumericalSolutionSecondDif = false;
 
-    int separate_n = 10; // число разбиений для S_i(x)
+    int separate_n = 10; // С‡РёСЃР»Рѕ СЂР°Р·Р±РёРµРЅРёР№ РґР»СЏ S_i(x)
     int item_current_idx = 0;
 
     std::vector<double> x_of_analytical_solution;
@@ -53,6 +53,16 @@ private:
     std::vector<double> y_of_numerical_solution_first_dif;
     std::vector<double> y_of_numerical_solution_second_dif;
 
+    std::vector<double> x_of_numerical_solution_with_multiple_n;
+
+    std::vector<double> y_of_numerical_solution_with_multiple_n;
+    std::vector<double> y_of_numerical_solution_first_dif_with_multiple_n;
+    std::vector<double> y_of_numerical_solution_second_dif_with_multiple_n;
+
+    std::vector<double> y_of_analytical_solution_for_graph;
+    std::vector<double> y_of_analytical_solution_first_dif_for_graph;
+    std::vector<double> y_of_analytical_solution_second_dif_for_graph;
+
     ImGuiWindowFlags flags_for_window = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse;
 
     Construction_of_an_interpolating_cubic_spline cs;
@@ -66,11 +76,27 @@ public:
     }
 
     void init() {
-        m_window.create(sf::VideoMode(1920, 1080, 32), "Cauchy problem");
+        m_window.create(sf::VideoMode(1920, 1080, 32), "Construction of an interpolating cubic spline");
         m_window.setFramerateLimit(60);
         ImGui::SFML::Init(m_window);
         io = ImGui::GetIO();
         ImPlot::CreateContext();
+
+        io.Fonts->Clear();
+        io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Tahoma.ttf", 13.0f, NULL, ImGui::GetIO().Fonts->GetGlyphRangesCyrillic());
+
+        ImGui::SFML::UpdateFontTexture();
+
+        ImGuiStyle& style = ImGui::GetStyle();
+        style.Colors[ImGuiCol_Text] = ImVec4(0, 0, 0, 100.0f);
+        style.Colors[ImGuiCol_Button] = ImVec4(0.2f, 0.4f, 0.8f, 1.0f);
+        style.Colors[ImGuiCol_WindowBg] = ImVec4(255, 255, 255, 100);
+        style.Colors[ImGuiCol_PopupBg] = ImVec4(255, 255, 255, 1.0f);
+        style.Colors[ImGuiCol_TableHeaderBg] = ImVec4(255, 255, 255, 1.0f);
+
+        ImPlotStyle& plotStyle = ImPlot::GetStyle();
+        //plotStyle.Colors[ImPlotCol_Line] = ImVec4(255, 0.0f, 0.0f, 1.0f);
+        plotStyle.LineWeight = 3;
     }
 
     void run() {
@@ -82,13 +108,15 @@ public:
             while (m_window.pollEvent(event)) {
                 ImGui::SFML::ProcessEvent(m_window, event);
 
-                if (event.type == sf::Event::Closed) {
+                if (event.type == sf::Event::Closed)
                     m_window.close();
-                }
+            
             }
+            
             ImGui::SFML::Update(m_window, deltaClock.restart());
 
             if (item_current_idx == 0) {
+
                 cs.set_border(-1, 1);
 
                 get_data_for_test_task();
@@ -97,8 +125,11 @@ public:
                 create_data_for_analytical_solution();
                 create_data_for_analytical_solution_first_dif();
                 create_data_for_analytical_solution_second_dif();
+                create_data_for_analytical_solution_for_graph();
+
             }
             else if (item_current_idx == 1) {
+
                 cs.set_border(2, 4);
 
                 get_data_for_first_task();
@@ -107,8 +138,11 @@ public:
                 create_data_for_analytical_solution_for_first_task();
                 create_data_for_analytical_solution_for_first_task_first_dif();
                 create_data_for_analytical_solution_for_first_task_second_dif();
+                create_data_for_analytical_solution_for_graph();
+
             }
             else if (item_current_idx == 2) {
+
                 cs.set_border(2, 4);
 
                 get_data_for_second_task();
@@ -117,37 +151,39 @@ public:
                 create_data_for_analytical_solution_for_second_task();
                 create_data_for_analytical_solution_for_second_task_first_dif();
                 create_data_for_analytical_solution_for_second_task_second_dif();
-            }
+                create_data_for_analytical_solution_for_graph();
 
+            }
 
             createWindowForInputN();
             createWindowForSettings();
             createWindowForSelectingTasks();
 
             createGraph();
-            createTable();
+            createTableForCoefs();
+            createTableForComparison();
 
-            m_window.clear();
+            m_window.clear({ 255,255,255,100 });
             render();
         }
     }
 
     void createWindowForSelectingTasks() {
 
-        ImGui::SetNextWindowPos({ 0, 500 });
-        ImGui::SetNextWindowSize({ 500, 500 });
+        ImGui::SetNextWindowPos({ 0, 0 });
+        ImGui::SetNextWindowSize({ 300, 40 });
 
         ImGui::Begin("Select_Tasks", 0, flags_for_window);
 
-        const char* items[] = { "Test", "First", "Second" }; // создаем массив с названием задача
-        const char* combo_preview_value = items[item_current_idx];  // отображает предыдущую выбранную задачу
+        const char* items[] = { u8"РўРµСЃС‚РѕРІР°СЏ", u8"РџРµСЂРІР°СЏ", u8"Р’С‚РѕСЂР°СЏ" }; // СЃРѕР·РґР°РµРј РјР°СЃСЃРёРІ СЃ РЅР°Р·РІР°РЅРёРµРј Р·Р°РґР°С‡Р°
+        const char* combo_preview_value = items[item_current_idx];  // РѕС‚РѕР±СЂР°Р¶Р°РµС‚ РїСЂРµРґС‹РґСѓС‰СѓСЋ РІС‹Р±СЂР°РЅРЅСѓСЋ Р·Р°РґР°С‡Сѓ
 
-        if (ImGui::BeginCombo("Select the task", combo_preview_value)) // создаем выплывающий список из задача
+        if (ImGui::BeginCombo(u8"Р’С‹Р±РµСЂРµС‚Рµ Р·Р°РґР°С‡Сѓ", combo_preview_value)) // СЃРѕР·РґР°РµРј РІС‹РїР»С‹РІР°СЋС‰РёР№ СЃРїРёСЃРѕРє РёР· Р·Р°РґР°С‡Р°
         {
-            for (int n = 0; n < IM_ARRAYSIZE(items); n++) // проходи циклом по массиву задач
+            for (int n = 0; n < IM_ARRAYSIZE(items); n++) // РїСЂРѕС…РѕРґРё С†РёРєР»РѕРј РїРѕ РјР°СЃСЃРёРІСѓ Р·Р°РґР°С‡
             {
-                const bool is_selected = (item_current_idx == n); // если задача в массиве, совпадающая с item_current_idx -> true
-                if (ImGui::Selectable(items[n], is_selected)) { // устанавливаем индекс n для item_current_idx, если выбрана задача n
+                const bool is_selected = (item_current_idx == n); // РµСЃР»Рё Р·Р°РґР°С‡Р° РІ РјР°СЃСЃРёРІРµ, СЃРѕРІРїР°РґР°СЋС‰Р°СЏ СЃ item_current_idx -> true
+                if (ImGui::Selectable(items[n], is_selected)) { // СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј РёРЅРґРµРєСЃ n РґР»СЏ item_current_idx, РµСЃР»Рё РІС‹Р±СЂР°РЅР° Р·Р°РґР°С‡Р° n
                     item_current_idx = n;
 
                     isAnalyticalSolutionSet = false;
@@ -156,68 +192,40 @@ public:
                     
                     isNumericalSolutionSet = false;
                 }
-                if (is_selected) // если is_selected
-                    ImGui::SetItemDefaultFocus(); // устанавливаем фокус на выбранную задачу
+                if (is_selected) // РµСЃР»Рё is_selected
+                    ImGui::SetItemDefaultFocus(); // СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј С„РѕРєСѓСЃ РЅР° РІС‹Р±СЂР°РЅРЅСѓСЋ Р·Р°РґР°С‡Сѓ
             }
-            ImGui::EndCombo(); // удаляем выплывающее окно
+            ImGui::EndCombo(); // СѓРґР°Р»СЏРµРј РІС‹РїР»С‹РІР°СЋС‰РµРµ РѕРєРЅРѕ
         }
 
         ImGui::End();
 
     }
-
     void createWindowForSettings() {
 
-        ImGui::SetNextWindowPos({ 1000,0 });
-        ImGui::SetNextWindowSize({ 500,500 });
+        ImGui::SetNextWindowPos({ 0,41 });
+        ImGui::SetNextWindowSize({ 300, 150});
 
         ImGui::Begin("Settings", 0, flags_for_window);
 
-        ImGui::Checkbox("Show F(x)", &isShowAnalyticalSolution);
-        ImGui::Checkbox("Show F'(x)", &isShowAnalyticalSolutionFirstDif);
-        ImGui::Checkbox("Show F''(x)", &isShowAnalyticalSolutionSecondDif);
-        ImGui::Checkbox("Show S(x)", &isShowNumericalSolution);
-        ImGui::Checkbox("Show S'(x)", &isShowNumericalSolutionFirstDif);
-        ImGui::Checkbox("Show S''(x)", &isShowNumericalSolutionSecondDif);
+        ImGui::Checkbox(u8"РћС‚РѕР±СЂР°Р¶Р°С‚СЊ F(x)", &isShowAnalyticalSolution);
+        ImGui::Checkbox(u8"РћС‚РѕР±СЂР°Р¶Р°С‚СЊ F'(x)", &isShowAnalyticalSolutionFirstDif);
+        ImGui::Checkbox(u8"РћС‚РѕР±СЂР°Р¶Р°С‚СЊ F''(x)", &isShowAnalyticalSolutionSecondDif);
+        ImGui::Checkbox(u8"РћС‚РѕР±СЂР°Р¶Р°С‚СЊ S(x)", &isShowNumericalSolution);
+        ImGui::Checkbox(u8"РћС‚РѕР±СЂР°Р¶Р°С‚СЊ S'(x)", &isShowNumericalSolutionFirstDif);
+        ImGui::Checkbox(u8"РћС‚РѕР±СЂР°Р¶Р°С‚СЊ S''(x)", &isShowNumericalSolutionSecondDif);
 
         ImGui::End();
 
     }
-
-    void createWindowForInputBorder() {
-
-        ImGui::SetNextWindowPos({ 0,0 });
-        ImGui::SetNextWindowSize({ 500,500 });
-
-        ImGui::Begin("Input_Borders", 0, flags_for_window);
-
-        double a_border = cs.get_border().first + 0.001;
-        double b_border = cs.get_border().second - 0.001;
-
-        static double max_value = INFINITY;
-        static double min_value = -INFINITY;
-
-        if (ImGui::DragScalar("Input left border", ImGuiDataType_Double, &cs.get_left_border(), 0.1f, &min_value, &b_border, "%.10f", ImGuiSliderFlags_AlwaysClamp)
-            || ImGui::DragScalar("Input right border", ImGuiDataType_Double, &cs.get_right_border(), 0.1f, &a_border, &max_value, "%.10f", ImGuiSliderFlags_AlwaysClamp)) {
-
-            isRecreateData = true;
-
-            isAnalyticalSolutionSet = false;
-            isNumericalSolutionSet = false;
-        }
-
-        ImGui::End();
-
-    }
-
     void createWindowForInputN() {
 
-        ImGui::SetNextWindowPos({ 500,0 });
-        ImGui::SetNextWindowSize({ 500,500 });
+        ImGui::SetNextWindowPos({ 0, 192 });
+        ImGui::SetNextWindowSize({ 300,40 });
 
         ImGui::Begin("Input_N", 0, flags_for_window);
 
-        if (ImGui::DragInt("Input N", &cs.get_n(), 1, 1, INT_MAX, "%d", ImGuiSliderFlags_AlwaysClamp)) {
+        if (ImGui::DragInt(u8"Р§РёСЃР»Рѕ СЂР°Р·Р±РёРµРЅРёР№", &cs.get_n(), 1, 1, INT_MAX, "%d", ImGuiSliderFlags_AlwaysClamp)) {
             cs.set_h();
             isNumericalSolutionSet = false;
         }
@@ -226,48 +234,50 @@ public:
 
     }
 
-    void createGraph() { // функция для отрисовки графика
+    void createGraph() { // С„СѓРЅРєС†РёСЏ РґР»СЏ РѕС‚СЂРёСЃРѕРІРєРё РіСЂР°С„РёРєР°
 
-        ImGui::Begin("Graph");
+        ImGui::SetNextWindowPos({ 961, 0 });
+        ImGui::SetNextWindowSize({ 940,1080 });
 
-        if (ImPlot::BeginPlot("Solution schedule", "x", "y", { 940,780 })) { // Отрисовываем график
+        ImGui::Begin("Graph", 0, flags_for_window);
+
+        if (ImPlot::BeginPlot(u8"Р“СЂР°С„РёРє", "x", "y", { 930,1000})) { // РћС‚СЂРёСЃРѕРІС‹РІР°РµРј РіСЂР°С„РёРє
             
-            // Аналитическое решение
+            // РђРЅР°Р»РёС‚РёС‡РµСЃРєРѕРµ СЂРµС€РµРЅРёРµ
             if (isAnalyticalSolutionSet && isShowAnalyticalSolution)
-                ImPlot::PlotLine("F(x)", x_of_analytical_solution.data(), y_of_analytical_solution.data(), x_of_analytical_solution.size()); // Отрисовываем линию
+                ImPlot::PlotLine("F(x)", x_of_analytical_solution.data(), y_of_analytical_solution.data(), x_of_analytical_solution.size()); // РћС‚СЂРёСЃРѕРІС‹РІР°РµРј Р»РёРЅРёСЋ
             if (isAnalyticalSolutionFirstDifSet && isShowAnalyticalSolutionFirstDif)
-                ImPlot::PlotLine("F'(x)", x_of_analytical_solution.data(), y_of_analytical_solution_first_dif.data(), x_of_analytical_solution.size()); // Отрисовываем линию
+                ImPlot::PlotLine("F'(x)", x_of_analytical_solution.data(), y_of_analytical_solution_first_dif.data(), x_of_analytical_solution.size()); // РћС‚СЂРёСЃРѕРІС‹РІР°РµРј Р»РёРЅРёСЋ
             if (isAnalyticalSolutionSecondDifSet && isShowAnalyticalSolutionSecondDif)
-                ImPlot::PlotLine("F''(x)", x_of_analytical_solution.data(), y_of_analytical_solution_second_dif.data(), x_of_analytical_solution.size()); // Отрисовываем линию
+                ImPlot::PlotLine("F''(x)", x_of_analytical_solution.data(), y_of_analytical_solution_second_dif.data(), x_of_analytical_solution.size()); // РћС‚СЂРёСЃРѕРІС‹РІР°РµРј Р»РёРЅРёСЋ
             
-            // Численное решение
+            // Р§РёСЃР»РµРЅРЅРѕРµ СЂРµС€РµРЅРёРµ
             if (isNumericalSolutionSet && isShowNumericalSolution)
-                ImPlot::PlotLine("S(x)", x_of_numerical_solution.data(), y_of_numerical_solution.data(), x_of_numerical_solution.size()); // Отрисовываем линию
+                ImPlot::PlotLine("S(x)", x_of_numerical_solution.data(), y_of_numerical_solution.data(), x_of_numerical_solution.size()); // РћС‚СЂРёСЃРѕРІС‹РІР°РµРј Р»РёРЅРёСЋ
             if (isNumericalSolutionSet && isShowNumericalSolutionFirstDif)
-                ImPlot::PlotLine("S'(x)", x_of_numerical_solution.data(), y_of_numerical_solution_first_dif.data(), x_of_numerical_solution.size()); // Отрисовываем линию
+                ImPlot::PlotLine("S'(x)", x_of_numerical_solution.data(), y_of_numerical_solution_first_dif.data(), x_of_numerical_solution.size()); // РћС‚СЂРёСЃРѕРІС‹РІР°РµРј Р»РёРЅРёСЋ
             if (isNumericalSolutionSet && isShowNumericalSolutionSecondDif)
-                ImPlot::PlotLine("S''(x)", x_of_numerical_solution.data(), y_of_numerical_solution_second_dif.data(), x_of_numerical_solution.size()); // Отрисовываем линию
-
-
+                ImPlot::PlotLine("S''(x)", x_of_numerical_solution.data(), y_of_numerical_solution_second_dif.data(), x_of_numerical_solution.size()); // РћС‚СЂРёСЃРѕРІС‹РІР°РµРј Р»РёРЅРёСЋ
             
-            ImPlot::EndPlot(); // Заканчиваем отрисовку графика
+            ImPlot::EndPlot(); // Р—Р°РєР°РЅС‡РёРІР°РµРј РѕС‚СЂРёСЃРѕРІРєСѓ РіСЂР°С„РёРєР°
         }
-        ImGui::End(); // Удаляем окно
+
+        ImGui::End(); // РЈРґР°Р»СЏРµРј РѕРєРЅРѕ
 
     }
 
-    void createTable() { // функция для отрисовки графика
+    void createTableForCoefs() { // С„СѓРЅРєС†РёСЏ РґР»СЏ РѕС‚СЂРёСЃРѕРІРєРё РіСЂР°С„РёРєР°
 
-        static ImGuiTableFlags flags = ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg; // настройки для таблицы
+        static ImGuiTableFlags flags = ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg; // РЅР°СЃС‚СЂРѕР№РєРё РґР»СЏ С‚Р°Р±Р»РёС†С‹
 
-        ImGui::SetNextWindowPos({ 0,220 }); // устанавливаем позицию для создаваемого окна для таблицы
-        ImGui::SetNextWindowSize({ 960,790 }); // устанавливаем размер для создаваемого окна для таблицы
+        ImGui::SetNextWindowPos({ 0,233 }); // СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј РїРѕР·РёС†РёСЋ РґР»СЏ СЃРѕР·РґР°РІР°РµРјРѕРіРѕ РѕРєРЅР° РґР»СЏ С‚Р°Р±Р»РёС†С‹
+        ImGui::SetNextWindowSize({ 960,395 }); // СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЂР°Р·РјРµСЂ РґР»СЏ СЃРѕР·РґР°РІР°РµРјРѕРіРѕ РѕРєРЅР° РґР»СЏ С‚Р°Р±Р»РёС†С‹
 
-        ImGui::Begin("Table", 0, flags_for_window); // создаем окно с заданными настройками
+        ImGui::Begin("TableForCoefs", 0, flags_for_window); // СЃРѕР·РґР°РµРј РѕРєРЅРѕ СЃ Р·Р°РґР°РЅРЅС‹РјРё РЅР°СЃС‚СЂРѕР№РєР°РјРё
 
-        if (isAnalyticalSolutionSet) {
+        if (isNumericalSolutionSet) {
 
-            if (ImGui::BeginTable("table1", 7, flags)) // создаем таблицу с заданными настройками
+            if (ImGui::BeginTable("TableForCoefs", 7, flags)) // СЃРѕР·РґР°РµРј С‚Р°Р±Р»РёС†Сѓ СЃ Р·Р°РґР°РЅРЅС‹РјРё РЅР°СЃС‚СЂРѕР№РєР°РјРё
             {
                 if (true)
                 {
@@ -311,7 +321,75 @@ public:
         }
 
 
-        ImGui::End(); // Удаляем окно
+        ImGui::End(); // РЈРґР°Р»СЏРµРј РѕРєРЅРѕ
+
+    }
+    void createTableForComparison() {
+        static ImGuiTableFlags flags = ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg; // РЅР°СЃС‚СЂРѕР№РєРё РґР»СЏ С‚Р°Р±Р»РёС†С‹
+
+        ImGui::SetNextWindowPos({ 0,629 }); // СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј РїРѕР·РёС†РёСЋ РґР»СЏ СЃРѕР·РґР°РІР°РµРјРѕРіРѕ РѕРєРЅР° РґР»СЏ С‚Р°Р±Р»РёС†С‹
+        ImGui::SetNextWindowSize({ 960,395 }); // СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЂР°Р·РјРµСЂ РґР»СЏ СЃРѕР·РґР°РІР°РµРјРѕРіРѕ РѕРєРЅР° РґР»СЏ С‚Р°Р±Р»РёС†С‹
+
+        ImGui::Begin("TableForCompariso", 0, flags_for_window); // СЃРѕР·РґР°РµРј РѕРєРЅРѕ СЃ Р·Р°РґР°РЅРЅС‹РјРё РЅР°СЃС‚СЂРѕР№РєР°РјРё
+
+        if (isNumericalSolutionSet) {
+
+            if (ImGui::BeginTable("TableForCompariso", 11, flags)) // СЃРѕР·РґР°РµРј С‚Р°Р±Р»РёС†Сѓ СЃ Р·Р°РґР°РЅРЅС‹РјРё РЅР°СЃС‚СЂРѕР№РєР°РјРё
+            {
+                if (true)
+                {
+                    ImGui::TableSetupColumn("j", ImGuiTableColumnFlags_WidthFixed);
+                    ImGui::TableSetupColumn("x_j", ImGuiTableColumnFlags_WidthFixed);
+                    ImGui::TableSetupColumn("F(x_j)", ImGuiTableColumnFlags_WidthFixed);
+                    ImGui::TableSetupColumn("S(x_j)", ImGuiTableColumnFlags_WidthFixed);
+                    ImGui::TableSetupColumn("|F(x_j)-S(x_j)|", ImGuiTableColumnFlags_WidthFixed);
+                    ImGui::TableSetupColumn("F'(x_j)", ImGuiTableColumnFlags_WidthFixed);
+                    ImGui::TableSetupColumn("S'(x_j)", ImGuiTableColumnFlags_WidthFixed);
+                    ImGui::TableSetupColumn("|F'(x_j)-S'(x_j)|", ImGuiTableColumnFlags_WidthFixed);
+                    ImGui::TableSetupColumn("F''(x_j)", ImGuiTableColumnFlags_WidthFixed);
+                    ImGui::TableSetupColumn("S''(x_j)", ImGuiTableColumnFlags_WidthFixed);
+                    ImGui::TableSetupColumn("|F''(x_j)-S''(x_j)|", ImGuiTableColumnFlags_WidthFixed);
+                    ImGui::TableHeadersRow();
+                }
+
+                for (int row = 0; row <= cs.get_n(); row++)
+                {
+                    ImGui::TableNextRow();
+
+                    ImGui::TableSetColumnIndex(0);
+                    ImGui::Text("%d", row);
+
+                    ImGui::TableSetColumnIndex(1);
+                    ImGui::Text("%lf", x_of_numerical_solution[row * separate_n]);
+
+                    ImGui::TableSetColumnIndex(2);
+                    ImGui::Text("%lf", y_of_analytical_solution_for_graph[row]);
+                    ImGui::TableSetColumnIndex(3);
+                    ImGui::Text("%lf", y_of_numerical_solution[row * separate_n]);
+                    ImGui::TableSetColumnIndex(4);
+                    ImGui::Text("%lf", abs(y_of_analytical_solution_for_graph[row] - y_of_numerical_solution[row * separate_n]));
+
+                    ImGui::TableSetColumnIndex(5);
+                    ImGui::Text("%lf", y_of_analytical_solution_first_dif_for_graph[row]);
+                    ImGui::TableSetColumnIndex(6);
+                    ImGui::Text("%lf", y_of_numerical_solution_first_dif[row * separate_n]);
+                    ImGui::TableSetColumnIndex(7);
+                    ImGui::Text("%lf", abs(y_of_analytical_solution_first_dif[row] - y_of_numerical_solution_first_dif[row * separate_n]));
+
+                    ImGui::TableSetColumnIndex(8);
+                    ImGui::Text("%lf", y_of_analytical_solution_second_dif_for_graph[row]);
+                    ImGui::TableSetColumnIndex(9);
+                    ImGui::Text("%lf", y_of_numerical_solution_second_dif[row * separate_n]);
+                    ImGui::TableSetColumnIndex(10);
+                    ImGui::Text("%lf", abs(y_of_analytical_solution_second_dif_for_graph[row] - y_of_numerical_solution_second_dif[row * separate_n]));
+                }
+                ImGui::EndTable();
+            }
+
+        }
+
+
+        ImGui::End(); // РЈРґР°Р»СЏРµРј РѕРєРЅРѕ
 
     }
 
@@ -322,12 +400,74 @@ public:
 
 private:
     
-    // Аналитическое решение для тестовой задачи
+    void create_data_for_analytical_solution_for_graph() {
+
+        y_of_analytical_solution_for_graph.clear();
+        y_of_analytical_solution_first_dif_for_graph.clear();
+        y_of_analytical_solution_second_dif_for_graph.clear();
+
+        y_of_analytical_solution_for_graph.resize(cs.get_n());
+        y_of_analytical_solution_first_dif_for_graph.resize(cs.get_n());
+        y_of_analytical_solution_second_dif_for_graph.resize(cs.get_n());
+
+        for (size_t count = 0; count < cs.get_n(); ++count) {
+            if (item_current_idx == 0) {
+                if (x_of_numerical_solution[count * separate_n] >= -1 && x_of_numerical_solution[count * separate_n] <= 0) {
+                    y_of_analytical_solution_for_graph[count] = x_of_numerical_solution[count * separate_n] *
+                        x_of_numerical_solution[count * separate_n] * x_of_numerical_solution[count * separate_n] + 3 * x_of_numerical_solution[count * separate_n] *
+                        x_of_numerical_solution[count * separate_n];
+                    y_of_analytical_solution_first_dif_for_graph[count] = 3 * x_of_numerical_solution[count * separate_n] * x_of_numerical_solution[count * separate_n]
+                        + 6 * x_of_numerical_solution[count * separate_n];
+                    y_of_analytical_solution_second_dif_for_graph[count] = 6 * x_of_numerical_solution[count * separate_n] + 6;
+                }
+                else if (x_of_numerical_solution[count * separate_n] <= 1 && x_of_numerical_solution[count * separate_n] > 0) {
+                    y_of_analytical_solution_for_graph[count] = -x_of_numerical_solution[count * separate_n] * x_of_numerical_solution[count * separate_n] *
+                        x_of_numerical_solution[count * separate_n] + 3 * x_of_numerical_solution[count * separate_n] * x_of_numerical_solution[count * separate_n];
+                    y_of_analytical_solution_first_dif_for_graph[count] = -3 * x_of_numerical_solution[count * separate_n] * x_of_numerical_solution[count * separate_n]
+                        + 6 * x_of_numerical_solution[count * separate_n];
+                    y_of_analytical_solution_second_dif_for_graph[count] = -6 * x_of_numerical_solution[count * separate_n] + 6;
+                }
+            }
+            else if (item_current_idx == 1) {
+                y_of_analytical_solution_for_graph[count] = (double)log(x_of_numerical_solution[count * separate_n] + 1)
+                    / (x_of_numerical_solution[count * separate_n]);
+                y_of_analytical_solution_first_dif_for_graph[count] = ((double)1 / (x_of_numerical_solution[count * separate_n] *
+                    x_of_numerical_solution[count * separate_n] +
+                    x_of_numerical_solution[count * separate_n])) - (log(x_of_numerical_solution[count * separate_n] + 1) /
+                        (x_of_numerical_solution[count * separate_n] *
+                            x_of_numerical_solution[count * separate_n]));
+                y_of_analytical_solution_second_dif_for_graph[count] = ((2 * log(x_of_numerical_solution[count * separate_n] + 1)) /
+                    (x_of_numerical_solution[count * separate_n] * x_of_numerical_solution[count * separate_n] *
+                        x_of_numerical_solution[count * separate_n])) -
+                    ((3 * x_of_numerical_solution[count * separate_n] + 2) / (x_of_numerical_solution[count * separate_n] * x_of_numerical_solution[count * separate_n]
+                        * x_of_numerical_solution[count * separate_n] *
+                        x_of_numerical_solution[count * separate_n] + 2 * x_of_numerical_solution[count * separate_n] * x_of_numerical_solution[count * separate_n] *
+                        x_of_numerical_solution[count * separate_n] +
+                        x_of_numerical_solution[count * separate_n] * x_of_numerical_solution[count * separate_n]));
+            }
+            else if (item_current_idx == 2) {
+                y_of_analytical_solution_second_dif_for_graph[count] = (double)log(x_of_numerical_solution[count * separate_n] + 1) / (x_of_numerical_solution[count * separate_n])
+                    + cos(10 * x_of_numerical_solution[count * separate_n]);
+                y_of_analytical_solution_second_dif_for_graph[count] = ((double)1 / (x_of_numerical_solution[count * separate_n] * x_of_numerical_solution[count * separate_n] +
+                    x_of_numerical_solution[count * separate_n])) - (log(x_of_numerical_solution[count * separate_n] + 1) / (x_of_numerical_solution[count * separate_n] *
+                        x_of_numerical_solution[count * separate_n])) - sin(10 * x_of_numerical_solution[count * separate_n]) * 10;
+                y_of_analytical_solution_second_dif_for_graph[count] = ((2 * log(x_of_numerical_solution[count * separate_n] + 1)) / (x_of_numerical_solution[count * separate_n] *
+                    x_of_numerical_solution[count * separate_n] *
+                    x_of_numerical_solution[count * separate_n])) -
+                    ((3 * x_of_numerical_solution[count * separate_n] + 2) / (x_of_numerical_solution[count * separate_n] * x_of_numerical_solution[count * separate_n] * x_of_numerical_solution[count * separate_n] *
+                        x_of_numerical_solution[count * separate_n] + 2 * x_of_numerical_solution[count * separate_n] * x_of_numerical_solution[count * separate_n] * x_of_numerical_solution[count * separate_n] +
+                        x_of_numerical_solution[count * separate_n] * x_of_numerical_solution[count * separate_n])) - 100 * cos(10 * x_of_numerical_solution[count * separate_n]);
+            }
+        }
+
+    }
+
+    // РђРЅР°Р»РёС‚РёС‡РµСЃРєРѕРµ СЂРµС€РµРЅРёРµ РґР»СЏ С‚РµСЃС‚РѕРІРѕР№ Р·Р°РґР°С‡Рё
     void create_x_coords_for_analytical_solution() {
 
         if (!isAnalyticalSolutionSet) {
 
-            const static size_t size_of_analytical_solution = 1000; // Получаем размер вектора точек для аналитического решения
+            const static size_t size_of_analytical_solution = 1000; // РџРѕР»СѓС‡Р°РµРј СЂР°Р·РјРµСЂ РІРµРєС‚РѕСЂР° С‚РѕС‡РµРє РґР»СЏ Р°РЅР°Р»РёС‚РёС‡РµСЃРєРѕРіРѕ СЂРµС€РµРЅРёСЏ
 
             x_of_analytical_solution.clear();
 
@@ -348,7 +488,7 @@ private:
 
         if (!isAnalyticalSolutionSet) {
 
-            const static size_t size_of_analytical_solution = 1000; // Получаем размер вектора точек для аналитического решения
+            const static size_t size_of_analytical_solution = 1000; // РџРѕР»СѓС‡Р°РµРј СЂР°Р·РјРµСЂ РІРµРєС‚РѕСЂР° С‚РѕС‡РµРє РґР»СЏ Р°РЅР°Р»РёС‚РёС‡РµСЃРєРѕРіРѕ СЂРµС€РµРЅРёСЏ
 
             y_of_analytical_solution.clear();
 
@@ -368,7 +508,7 @@ private:
 
         if (!isAnalyticalSolutionFirstDifSet) {
 
-            const static size_t size_of_analytical_solution = 1000; // Получаем размер вектора точек для аналитического решения
+            const static size_t size_of_analytical_solution = 1000; // РџРѕР»СѓС‡Р°РµРј СЂР°Р·РјРµСЂ РІРµРєС‚РѕСЂР° С‚РѕС‡РµРє РґР»СЏ Р°РЅР°Р»РёС‚РёС‡РµСЃРєРѕРіРѕ СЂРµС€РµРЅРёСЏ
 
             y_of_analytical_solution_first_dif.clear();
 
@@ -388,7 +528,7 @@ private:
 
         if (!isAnalyticalSolutionSecondDifSet) {
 
-            const static size_t size_of_analytical_solution = 1000; // Получаем размер вектора точек для аналитического решения
+            const static size_t size_of_analytical_solution = 1000; // РџРѕР»СѓС‡Р°РµРј СЂР°Р·РјРµСЂ РІРµРєС‚РѕСЂР° С‚РѕС‡РµРє РґР»СЏ Р°РЅР°Р»РёС‚РёС‡РµСЃРєРѕРіРѕ СЂРµС€РµРЅРёСЏ
 
             y_of_analytical_solution_second_dif.clear();
 
@@ -406,11 +546,11 @@ private:
     }
     /////////
     
-    // Аналитическое решение для первой задачи
+    // РђРЅР°Р»РёС‚РёС‡РµСЃРєРѕРµ СЂРµС€РµРЅРёРµ РґР»СЏ РїРµСЂРІРѕР№ Р·Р°РґР°С‡Рё
     void create_x_coords_for_analytical_solution_for_first_task() {
         if (!isAnalyticalSolutionSet) {
 
-            const static size_t size_of_analytical_solution = 1000; // Получаем размер вектора точек для аналитического решения
+            const static size_t size_of_analytical_solution = 1000; // РџРѕР»СѓС‡Р°РµРј СЂР°Р·РјРµСЂ РІРµРєС‚РѕСЂР° С‚РѕС‡РµРє РґР»СЏ Р°РЅР°Р»РёС‚РёС‡РµСЃРєРѕРіРѕ СЂРµС€РµРЅРёСЏ
 
             x_of_analytical_solution.clear();
 
@@ -428,7 +568,7 @@ private:
 
         if (!isAnalyticalSolutionSet) {
 
-            const static size_t size_of_analytical_solution = 1000; // Получаем размер вектора точек для аналитического решения
+            const static size_t size_of_analytical_solution = 1000; // РџРѕР»СѓС‡Р°РµРј СЂР°Р·РјРµСЂ РІРµРєС‚РѕСЂР° С‚РѕС‡РµРє РґР»СЏ Р°РЅР°Р»РёС‚РёС‡РµСЃРєРѕРіРѕ СЂРµС€РµРЅРёСЏ
 
             y_of_analytical_solution.clear();
 
@@ -446,7 +586,7 @@ private:
 
         if (!isAnalyticalSolutionFirstDifSet) {
 
-            const static size_t size_of_analytical_solution = 1000; // Получаем размер вектора точек для аналитического решения
+            const static size_t size_of_analytical_solution = 1000; // РџРѕР»СѓС‡Р°РµРј СЂР°Р·РјРµСЂ РІРµРєС‚РѕСЂР° С‚РѕС‡РµРє РґР»СЏ Р°РЅР°Р»РёС‚РёС‡РµСЃРєРѕРіРѕ СЂРµС€РµРЅРёСЏ
 
             y_of_analytical_solution_first_dif.clear();
 
@@ -465,7 +605,7 @@ private:
 
         if (!isAnalyticalSolutionSecondDifSet) {
 
-            const static size_t size_of_analytical_solution = 1000; // Получаем размер вектора точек для аналитического решения
+            const static size_t size_of_analytical_solution = 1000; // РџРѕР»СѓС‡Р°РµРј СЂР°Р·РјРµСЂ РІРµРєС‚РѕСЂР° С‚РѕС‡РµРє РґР»СЏ Р°РЅР°Р»РёС‚РёС‡РµСЃРєРѕРіРѕ СЂРµС€РµРЅРёСЏ
 
             y_of_analytical_solution_second_dif.clear();
 
@@ -484,11 +624,11 @@ private:
     }
     /////////
 
-    // Аналитическое решение для второй задачи
+    // РђРЅР°Р»РёС‚РёС‡РµСЃРєРѕРµ СЂРµС€РµРЅРёРµ РґР»СЏ РІС‚РѕСЂРѕР№ Р·Р°РґР°С‡Рё
     void create_x_coords_for_analytical_solution_for_second_task() {
         if (!isAnalyticalSolutionSet) {
 
-            const static size_t size_of_analytical_solution = 1000; // Получаем размер вектора точек для аналитического решения
+            const static size_t size_of_analytical_solution = 1000; // РџРѕР»СѓС‡Р°РµРј СЂР°Р·РјРµСЂ РІРµРєС‚РѕСЂР° С‚РѕС‡РµРє РґР»СЏ Р°РЅР°Р»РёС‚РёС‡РµСЃРєРѕРіРѕ СЂРµС€РµРЅРёСЏ
 
             x_of_analytical_solution.clear();
 
@@ -506,7 +646,7 @@ private:
 
         if (!isAnalyticalSolutionSet) {
 
-            const static size_t size_of_analytical_solution = 1000; // Получаем размер вектора точек для аналитического решения
+            const static size_t size_of_analytical_solution = 1000; // РџРѕР»СѓС‡Р°РµРј СЂР°Р·РјРµСЂ РІРµРєС‚РѕСЂР° С‚РѕС‡РµРє РґР»СЏ Р°РЅР°Р»РёС‚РёС‡РµСЃРєРѕРіРѕ СЂРµС€РµРЅРёСЏ
 
             y_of_analytical_solution.clear();
 
@@ -525,7 +665,7 @@ private:
 
         if (!isAnalyticalSolutionFirstDifSet) {
 
-            const static size_t size_of_analytical_solution = 1000; // Получаем размер вектора точек для аналитического решения
+            const static size_t size_of_analytical_solution = 1000; // РџРѕР»СѓС‡Р°РµРј СЂР°Р·РјРµСЂ РІРµРєС‚РѕСЂР° С‚РѕС‡РµРє РґР»СЏ Р°РЅР°Р»РёС‚РёС‡РµСЃРєРѕРіРѕ СЂРµС€РµРЅРёСЏ
 
             y_of_analytical_solution_first_dif.clear();
 
@@ -544,7 +684,7 @@ private:
 
         if (!isAnalyticalSolutionSecondDifSet) {
 
-            const static size_t size_of_analytical_solution = 1000; // Получаем размер вектора точек для аналитического решения
+            const static size_t size_of_analytical_solution = 1000; // РџРѕР»СѓС‡Р°РµРј СЂР°Р·РјРµСЂ РІРµРєС‚РѕСЂР° С‚РѕС‡РµРє РґР»СЏ Р°РЅР°Р»РёС‚РёС‡РµСЃРєРѕРіРѕ СЂРµС€РµРЅРёСЏ
 
             y_of_analytical_solution_second_dif.clear();
 
@@ -563,7 +703,7 @@ private:
     }
     /////////
 
-    // Численное решение для тестовой задачи
+    // Р§РёСЃР»РµРЅРЅРѕРµ СЂРµС€РµРЅРёРµ РґР»СЏ С‚РµСЃС‚РѕРІРѕР№ Р·Р°РґР°С‡Рё
     void get_data_for_test_task() {
 
         if (!isNumericalSolutionSet) {
@@ -580,12 +720,28 @@ private:
             create_data_for_numerical_solution_first_dif();
             create_data_for_numerical_solution_second_dif();
 
+            cs.set_n(cs.get_n() * 2);
+
+            cs.set_phi_for_test();
+            cs.set_c();
+
+            cs.set_a(item_current_idx);
+            cs.set_b(item_current_idx);
+            cs.set_d();
+
+            create_x_coords_for_numerical_solution_with_multiple_n();
+            create_data_for_numerical_solution_with_multiple_n();
+            create_data_for_numerical_solution_first_dif_with_multiple_n();
+            create_data_for_numerical_solution_second_dif_with_multiple_n();
+
+            cs.set_n(cs.get_n() / 2);
+
             isNumericalSolutionSet = true;
         }
     }
     /////////
 
-    // Численное решение для первой основной задачи
+    // Р§РёСЃР»РµРЅРЅРѕРµ СЂРµС€РµРЅРёРµ РґР»СЏ РїРµСЂРІРѕР№ РѕСЃРЅРѕРІРЅРѕР№ Р·Р°РґР°С‡Рё
     void get_data_for_first_task() {
 
         if (!isNumericalSolutionSet) {
@@ -602,12 +758,28 @@ private:
             create_data_for_numerical_solution_first_dif();
             create_data_for_numerical_solution_second_dif();
 
+            cs.set_n(cs.get_n() * 2);
+
+            cs.set_phi_for_test();
+            cs.set_c();
+
+            cs.set_a(item_current_idx);
+            cs.set_b(item_current_idx);
+            cs.set_d();
+
+            create_x_coords_for_numerical_solution_with_multiple_n();
+            create_data_for_numerical_solution_with_multiple_n();
+            create_data_for_numerical_solution_first_dif_with_multiple_n();
+            create_data_for_numerical_solution_second_dif_with_multiple_n();
+
+            cs.set_n(cs.get_n() / 2);
+
             isNumericalSolutionSet = true;
         }
     }
     /////////
 
-    // Численное решение для второй основной задачи
+    // Р§РёСЃР»РµРЅРЅРѕРµ СЂРµС€РµРЅРёРµ РґР»СЏ РІС‚РѕСЂРѕР№ РѕСЃРЅРѕРІРЅРѕР№ Р·Р°РґР°С‡Рё
     void get_data_for_second_task() {
 
         if (!isNumericalSolutionSet) {
@@ -624,12 +796,28 @@ private:
             create_data_for_numerical_solution_first_dif();
             create_data_for_numerical_solution_second_dif();
 
+            cs.set_n(cs.get_n() * 2);
+
+            cs.set_phi_for_test();
+            cs.set_c();
+
+            cs.set_a(item_current_idx);
+            cs.set_b(item_current_idx);
+            cs.set_d();
+
+            create_x_coords_for_numerical_solution_with_multiple_n();
+            create_data_for_numerical_solution_with_multiple_n();
+            create_data_for_numerical_solution_first_dif_with_multiple_n();
+            create_data_for_numerical_solution_second_dif_with_multiple_n();
+
+            cs.set_n(cs.get_n() / 2);
+
             isNumericalSolutionSet = true;
         }
     }
     /////////
 
-    // Численное решение для любой задачи
+    // Р§РёСЃР»РµРЅРЅРѕРµ СЂРµС€РµРЅРёРµ РґР»СЏ Р»СЋР±РѕР№ Р·Р°РґР°С‡Рё СЃ n
     void create_x_coords_for_numerical_solution() {
 
         x_of_numerical_solution.clear();
@@ -641,7 +829,7 @@ private:
             double h = (double)(abs((cs.get_border().first + count * (abs(cs.get_border().second -
                 cs.get_border().first) / cs.get_n())) -
                 (cs.get_border().first + (count + 1) * (abs(cs.get_border().second - cs.get_border().first)
-                    / cs.get_n()))) / separate_n); // шаг в интервале для S_i(x)
+                    / cs.get_n()))) / separate_n); // С€Р°Рі РІ РёРЅС‚РµСЂРІР°Р»Рµ РґР»СЏ S_i(x)
 
             for (size_t i = 0; i <= separate_n; ++i)
                 x_of_numerical_solution[count * separate_n + i] = (cs.get_border().first + count * 
@@ -700,6 +888,81 @@ private:
             for (size_t i = 0; i <= separate_n; ++i)
                 y_of_numerical_solution_second_dif[count * separate_n + i] = cs.get_c()[count + 1] +
                 cs.get_d()[count] * (x_of_numerical_solution[count * separate_n + i] - x_current);
+        }
+    }
+    /////////
+
+    // Р§РёСЃР»РµРЅРЅРѕРµ СЂРµС€РµРЅРёРµ РґР»СЏ Р»СЋР±РѕР№ Р·Р°РґР°С‡Рё СЃ N
+    void create_x_coords_for_numerical_solution_with_multiple_n() {
+
+        x_of_numerical_solution_with_multiple_n.clear();
+
+        x_of_numerical_solution_with_multiple_n.resize(cs.get_n() * separate_n + 1);
+
+        for (size_t count = 0; count < cs.get_n(); ++count) {
+
+            double h = (double)(abs((cs.get_border().first + count * (abs(cs.get_border().second -
+                cs.get_border().first) / cs.get_n())) -
+                (cs.get_border().first + (count + 1) * (abs(cs.get_border().second - cs.get_border().first)
+                    / cs.get_n()))) / separate_n); // С€Р°Рі РІ РёРЅС‚РµСЂРІР°Р»Рµ РґР»СЏ S_i(x)
+
+            for (size_t i = 0; i <= separate_n; ++i)
+                x_of_numerical_solution_with_multiple_n[count * separate_n + i] = (cs.get_border().first + count *
+                    (abs(cs.get_border().second - cs.get_border().first) / cs.get_n()) + i * h);
+
+        }
+    }
+    void create_data_for_numerical_solution_with_multiple_n() {
+
+        y_of_numerical_solution_with_multiple_n.clear();
+
+        y_of_numerical_solution_with_multiple_n.resize(cs.get_n() * separate_n + 1);
+
+        for (size_t count = 0; count < cs.get_n(); ++count) {
+
+            double x_current = (cs.get_border().first + (count + 1) * (abs(cs.get_border().second - cs.get_border().first) / cs.get_n()));
+
+            for (size_t i = 0; i <= separate_n; ++i) {
+                y_of_numerical_solution_with_multiple_n[count * separate_n + i] = cs.get_a()[count] + cs.get_b()[count] *
+                    (x_of_numerical_solution_with_multiple_n[count * separate_n + i] - x_current) + cs.get_c()[count + 1] / 2 *
+                    (x_of_numerical_solution_with_multiple_n[count * separate_n + i] - x_current) *
+                    (x_of_numerical_solution_with_multiple_n[count * separate_n + i] - x_current) +
+                    cs.get_d()[count] / 6 * (x_of_numerical_solution_with_multiple_n[count * separate_n + i] - x_current) *
+                    (x_of_numerical_solution_with_multiple_n[count * separate_n + i] - x_current) *
+                    (x_of_numerical_solution_with_multiple_n[count * separate_n + i] - x_current);
+            }
+        }
+    }
+    void create_data_for_numerical_solution_first_dif_with_multiple_n() {
+
+        y_of_numerical_solution_first_dif_with_multiple_n.clear();
+
+        y_of_numerical_solution_first_dif_with_multiple_n.resize(cs.get_n() * separate_n + 1);
+
+        for (size_t count = 0; count < cs.get_n(); ++count) {
+
+            double x_current = (cs.get_border().first + (count + 1) * (abs(cs.get_border().second - cs.get_border().first) / cs.get_n()));
+
+            for (size_t i = 0; i <= separate_n; ++i)
+                y_of_numerical_solution_first_dif_with_multiple_n[count * separate_n + i] = cs.get_b()[count] +
+                cs.get_c()[count + 1] * (x_of_numerical_solution_with_multiple_n[count * separate_n + i] - x_current) +
+                cs.get_d()[count] / 2 * (x_of_numerical_solution_with_multiple_n[count * separate_n + i] - x_current) *
+                (x_of_numerical_solution_with_multiple_n[count * separate_n + i] - x_current);
+        }
+    }
+    void create_data_for_numerical_solution_second_dif_with_multiple_n() {
+
+        y_of_numerical_solution_second_dif_with_multiple_n.clear();
+
+        y_of_numerical_solution_second_dif_with_multiple_n.resize(cs.get_n() * separate_n + 1);
+
+        for (size_t count = 0; count < cs.get_n(); ++count) {
+
+            double x_current = (cs.get_border().first + (count + 1) * (abs(cs.get_border().second - cs.get_border().first) / cs.get_n()));
+
+            for (size_t i = 0; i <= separate_n; ++i)
+                y_of_numerical_solution_second_dif_with_multiple_n[count * separate_n + i] = cs.get_c()[count + 1] +
+                cs.get_d()[count] * (x_of_numerical_solution_with_multiple_n[count * separate_n + i] - x_current);
         }
     }
     /////////
