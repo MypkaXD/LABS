@@ -440,13 +440,16 @@ private:
                 }
             }
             else if (item_current_idx == 1) {
+
                 y_of_analytical_solution_for_graph[count] = (double)log(x_of_numerical_solution_with_multiple_n[count * separate_n] + 1)
                     / (x_of_numerical_solution_with_multiple_n[count * separate_n]);
+
                 y_of_analytical_solution_first_dif_for_graph[count] = ((double)1 / (x_of_numerical_solution_with_multiple_n[count * separate_n] *
                     x_of_numerical_solution_with_multiple_n[count * separate_n] +
                     x_of_numerical_solution_with_multiple_n[count * separate_n])) - (log(x_of_numerical_solution_with_multiple_n[count * separate_n] + 1) /
                         (x_of_numerical_solution_with_multiple_n[count * separate_n] *
                             x_of_numerical_solution_with_multiple_n[count * separate_n]));
+
                 y_of_analytical_solution_second_dif_for_graph[count] = ((2 * log(x_of_numerical_solution_with_multiple_n[count * separate_n] + 1)) /
                     (x_of_numerical_solution_with_multiple_n[count * separate_n] * x_of_numerical_solution_with_multiple_n[count * separate_n] *
                         x_of_numerical_solution_with_multiple_n[count * separate_n])) -
@@ -455,19 +458,24 @@ private:
                         x_of_numerical_solution_with_multiple_n[count * separate_n] + 2 * x_of_numerical_solution_with_multiple_n[count * separate_n] * x_of_numerical_solution_with_multiple_n[count * separate_n] *
                         x_of_numerical_solution_with_multiple_n[count * separate_n] +
                         x_of_numerical_solution_with_multiple_n[count * separate_n] * x_of_numerical_solution_with_multiple_n[count * separate_n]));
+
             }
             else if (item_current_idx == 2) {
-                y_of_analytical_solution_second_dif_for_graph[count] = (double)log(x_of_numerical_solution_with_multiple_n[count * separate_n] + 1) / (x_of_numerical_solution_with_multiple_n[count * separate_n])
+
+                y_of_analytical_solution_for_graph[count] = (double)log(x_of_numerical_solution_with_multiple_n[count * separate_n] + 1) / (x_of_numerical_solution_with_multiple_n[count * separate_n])
                     + cos(10 * x_of_numerical_solution_with_multiple_n[count * separate_n]);
-                y_of_analytical_solution_second_dif_for_graph[count] = ((double)1 / (x_of_numerical_solution_with_multiple_n[count * separate_n] * x_of_numerical_solution_with_multiple_n[count * separate_n] +
+
+                y_of_analytical_solution_first_dif_for_graph[count] = ((double)1 / (x_of_numerical_solution_with_multiple_n[count * separate_n] * x_of_numerical_solution_with_multiple_n[count * separate_n] +
                     x_of_numerical_solution_with_multiple_n[count * separate_n])) - (log(x_of_numerical_solution_with_multiple_n[count * separate_n] + 1) / (x_of_numerical_solution_with_multiple_n[count * separate_n] *
                         x_of_numerical_solution_with_multiple_n[count * separate_n])) - sin(10 * x_of_numerical_solution_with_multiple_n[count * separate_n]) * 10;
+
                 y_of_analytical_solution_second_dif_for_graph[count] = ((2 * log(x_of_numerical_solution_with_multiple_n[count * separate_n] + 1)) / (x_of_numerical_solution_with_multiple_n[count * separate_n] *
                     x_of_numerical_solution_with_multiple_n[count * separate_n] *
                     x_of_numerical_solution_with_multiple_n[count * separate_n])) -
                     ((3 * x_of_numerical_solution_with_multiple_n[count * separate_n] + 2) / (x_of_numerical_solution_with_multiple_n[count * separate_n] * x_of_numerical_solution_with_multiple_n[count * separate_n] * x_of_numerical_solution_with_multiple_n[count * separate_n] *
                         x_of_numerical_solution_with_multiple_n[count * separate_n] + 2 * x_of_numerical_solution_with_multiple_n[count * separate_n] * x_of_numerical_solution_with_multiple_n[count * separate_n] * x_of_numerical_solution_with_multiple_n[count * separate_n] +
                         x_of_numerical_solution_with_multiple_n[count * separate_n] * x_of_numerical_solution_with_multiple_n[count * separate_n])) - 100 * cos(10 * x_of_numerical_solution_with_multiple_n[count * separate_n]);
+            
             }
         }
 
