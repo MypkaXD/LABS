@@ -73,6 +73,10 @@ private:
     std::vector<double> y_of_analytical_solution_first_dif_for_graph;
     std::vector<double> y_of_analytical_solution_second_dif_for_graph;
 
+    std::vector<double> y_max;
+    std::vector<double> y_max_first;
+    std::vector<double> y_max_second;
+
     ImGuiWindowFlags flags_for_window = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse;
 
     Construction_of_an_interpolating_cubic_spline cs;
@@ -394,26 +398,26 @@ public:
                     ImGui::Text("%lf", x_of_numerical_solution_with_multiple_n[row * separate_n]);
 
                     ImGui::TableSetColumnIndex(2);
-                    ImGui::Text("%lf", y_of_analytical_solution_for_graph[row]);
+                    ImGui::Text("%lf", y_of_analytical_solution_for_graph[row * separate_n]);
                     ImGui::TableSetColumnIndex(3);
                     ImGui::Text("%lf", y_of_numerical_solution_with_multiple_n[row * separate_n]);
                     ImGui::TableSetColumnIndex(4);
-                    ImGui::Text("%.12lf", abs(y_of_analytical_solution_for_graph[row] - y_of_numerical_solution_with_multiple_n[row * separate_n]));
+                    ImGui::Text("%.12lf", y_max[row]);
 
 
                     ImGui::TableSetColumnIndex(5);
-                    ImGui::Text("%lf", y_of_analytical_solution_first_dif_for_graph[row]);
+                    ImGui::Text("%lf", y_of_analytical_solution_first_dif_for_graph[row * separate_n]);
                     ImGui::TableSetColumnIndex(6);
                     ImGui::Text("%lf", y_of_numerical_solution_first_dif_with_multiple_n[row * separate_n]);
                     ImGui::TableSetColumnIndex(7);
-                    ImGui::Text("%.12lf", abs(y_of_analytical_solution_first_dif_for_graph[row] - y_of_numerical_solution_first_dif_with_multiple_n[row * separate_n]));
+                    ImGui::Text("%.12lf", y_max_first[row]);
 
                     ImGui::TableSetColumnIndex(8);
-                    ImGui::Text("%lf", y_of_analytical_solution_second_dif_for_graph[row]);
+                    ImGui::Text("%lf", y_of_analytical_solution_second_dif_for_graph[row * separate_n]);
                     ImGui::TableSetColumnIndex(9);
                     ImGui::Text("%lf", y_of_numerical_solution_second_dif_with_multiple_n[row * separate_n]);
                     ImGui::TableSetColumnIndex(10);
-                    ImGui::Text("%.12lf", abs(y_of_analytical_solution_second_dif_for_graph[row] - y_of_numerical_solution_second_dif_with_multiple_n[row * separate_n]));
+                    ImGui::Text("%.12lf", y_max_second[row]);
                 }
                 ImGui::EndTable();
             }
@@ -438,75 +442,75 @@ private:
         y_of_analytical_solution_first_dif_for_graph.clear();
         y_of_analytical_solution_second_dif_for_graph.clear();
 
-        y_of_analytical_solution_for_graph.resize(N);
-        y_of_analytical_solution_first_dif_for_graph.resize(N);
-        y_of_analytical_solution_second_dif_for_graph.resize(N);
+        y_of_analytical_solution_for_graph.resize(x_of_numerical_solution_with_multiple_n.size());
+        y_of_analytical_solution_first_dif_for_graph.resize(x_of_numerical_solution_with_multiple_n.size());
+        y_of_analytical_solution_second_dif_for_graph.resize(x_of_numerical_solution_with_multiple_n.size());
 
-        for (size_t count = 0; count <= N; ++count) {
+        for (size_t count = 0; count < x_of_numerical_solution_with_multiple_n.size(); ++count) {
             if (item_current_idx == 0) {
 
                 //std::cout << x_of_numerical_solution_with_multiple_n[count * separate_n] << std::endl;
                 
-                if (x_of_numerical_solution_with_multiple_n[count * separate_n] >= -1 && x_of_numerical_solution_with_multiple_n[count * separate_n] <= 0) {
+                if (x_of_numerical_solution_with_multiple_n[count] >= -1 && x_of_numerical_solution_with_multiple_n[count] <= 0) {
 
-                    y_of_analytical_solution_for_graph[count] = x_of_numerical_solution_with_multiple_n[count * separate_n] *
-                        x_of_numerical_solution_with_multiple_n[count * separate_n] * x_of_numerical_solution_with_multiple_n[count * separate_n] + 3 * x_of_numerical_solution_with_multiple_n[count * separate_n] *
-                        x_of_numerical_solution_with_multiple_n[count * separate_n];
+                    y_of_analytical_solution_for_graph[count] = x_of_numerical_solution_with_multiple_n[count] *
+                        x_of_numerical_solution_with_multiple_n[count] * x_of_numerical_solution_with_multiple_n[count] + 3 * x_of_numerical_solution_with_multiple_n[count] *
+                        x_of_numerical_solution_with_multiple_n[count];
 
-                    y_of_analytical_solution_first_dif_for_graph[count] = 3 * x_of_numerical_solution_with_multiple_n[count * separate_n] * x_of_numerical_solution_with_multiple_n[count * separate_n]
-                        + 6 * x_of_numerical_solution_with_multiple_n[count * separate_n];
+                    y_of_analytical_solution_first_dif_for_graph[count] = 3 * x_of_numerical_solution_with_multiple_n[count] * x_of_numerical_solution_with_multiple_n[count]
+                        + 6 * x_of_numerical_solution_with_multiple_n[count];
 
-                    y_of_analytical_solution_second_dif_for_graph[count] = 6 * x_of_numerical_solution_with_multiple_n[count * separate_n] + 6;
+                    y_of_analytical_solution_second_dif_for_graph[count] = 6 * x_of_numerical_solution_with_multiple_n[count] + 6;
 
                 }
-                else if (x_of_numerical_solution_with_multiple_n[count * separate_n] <= 1 && x_of_numerical_solution_with_multiple_n[count * separate_n] > 0) {
+                else if (x_of_numerical_solution_with_multiple_n[count] <= 1 && x_of_numerical_solution_with_multiple_n[count] > 0) {
 
-                    y_of_analytical_solution_for_graph[count] = -x_of_numerical_solution_with_multiple_n[count * separate_n] * x_of_numerical_solution_with_multiple_n[count * separate_n] *
-                        x_of_numerical_solution_with_multiple_n[count * separate_n] + 3 * x_of_numerical_solution_with_multiple_n[count * separate_n] * x_of_numerical_solution_with_multiple_n[count * separate_n];
+                    y_of_analytical_solution_for_graph[count] = -x_of_numerical_solution_with_multiple_n[count] * x_of_numerical_solution_with_multiple_n[count] *
+                        x_of_numerical_solution_with_multiple_n[count] + 3 * x_of_numerical_solution_with_multiple_n[count] * x_of_numerical_solution_with_multiple_n[count];
 
-                    y_of_analytical_solution_first_dif_for_graph[count] = -3 * x_of_numerical_solution_with_multiple_n[count * separate_n] * x_of_numerical_solution_with_multiple_n[count * separate_n]
-                        + 6 * x_of_numerical_solution_with_multiple_n[count * separate_n];
+                    y_of_analytical_solution_first_dif_for_graph[count] = -3 * x_of_numerical_solution_with_multiple_n[count] * x_of_numerical_solution_with_multiple_n[count]
+                        + 6 * x_of_numerical_solution_with_multiple_n[count];
 
-                    y_of_analytical_solution_second_dif_for_graph[count] = -6 * x_of_numerical_solution_with_multiple_n[count * separate_n] + 6;
+                    y_of_analytical_solution_second_dif_for_graph[count] = -6 * x_of_numerical_solution_with_multiple_n[count] + 6;
 
                 }
             }
             else if (item_current_idx == 1) {
 
-                y_of_analytical_solution_for_graph[count] = (double)log(x_of_numerical_solution_with_multiple_n[count * separate_n] + 1)
-                    / (x_of_numerical_solution_with_multiple_n[count * separate_n]);
+                y_of_analytical_solution_for_graph[count] = (double)log(x_of_numerical_solution_with_multiple_n[count] + 1)
+                    / (x_of_numerical_solution_with_multiple_n[count]);
 
-                y_of_analytical_solution_first_dif_for_graph[count] = ((double)1 / (x_of_numerical_solution_with_multiple_n[count * separate_n] *
-                    x_of_numerical_solution_with_multiple_n[count * separate_n] +
-                    x_of_numerical_solution_with_multiple_n[count * separate_n])) - (log(x_of_numerical_solution_with_multiple_n[count * separate_n] + 1) /
-                        (x_of_numerical_solution_with_multiple_n[count * separate_n] *
-                            x_of_numerical_solution_with_multiple_n[count * separate_n]));
+                y_of_analytical_solution_first_dif_for_graph[count] = ((double)1 / (x_of_numerical_solution_with_multiple_n[count] *
+                    x_of_numerical_solution_with_multiple_n[count] +
+                    x_of_numerical_solution_with_multiple_n[count])) - (log(x_of_numerical_solution_with_multiple_n[count] + 1) /
+                        (x_of_numerical_solution_with_multiple_n[count] *
+                            x_of_numerical_solution_with_multiple_n[count]));
 
-                y_of_analytical_solution_second_dif_for_graph[count] = ((2 * log(x_of_numerical_solution_with_multiple_n[count * separate_n] + 1)) /
-                    (x_of_numerical_solution_with_multiple_n[count * separate_n] * x_of_numerical_solution_with_multiple_n[count * separate_n] *
-                        x_of_numerical_solution_with_multiple_n[count * separate_n])) -
-                    ((3 * x_of_numerical_solution_with_multiple_n[count * separate_n] + 2) / (x_of_numerical_solution_with_multiple_n[count * separate_n] * x_of_numerical_solution_with_multiple_n[count * separate_n]
-                        * x_of_numerical_solution_with_multiple_n[count * separate_n] *
-                        x_of_numerical_solution_with_multiple_n[count * separate_n] + 2 * x_of_numerical_solution_with_multiple_n[count * separate_n] * x_of_numerical_solution_with_multiple_n[count * separate_n] *
-                        x_of_numerical_solution_with_multiple_n[count * separate_n] +
-                        x_of_numerical_solution_with_multiple_n[count * separate_n] * x_of_numerical_solution_with_multiple_n[count * separate_n]));
+                y_of_analytical_solution_second_dif_for_graph[count] = ((2 * log(x_of_numerical_solution_with_multiple_n[count] + 1)) /
+                    (x_of_numerical_solution_with_multiple_n[count] * x_of_numerical_solution_with_multiple_n[count] *
+                        x_of_numerical_solution_with_multiple_n[count])) -
+                    ((3 * x_of_numerical_solution_with_multiple_n[count] + 2) / (x_of_numerical_solution_with_multiple_n[count] * x_of_numerical_solution_with_multiple_n[count]
+                        * x_of_numerical_solution_with_multiple_n[count] *
+                        x_of_numerical_solution_with_multiple_n[count] + 2 * x_of_numerical_solution_with_multiple_n[count] * x_of_numerical_solution_with_multiple_n[count] *
+                        x_of_numerical_solution_with_multiple_n[count] +
+                        x_of_numerical_solution_with_multiple_n[count] * x_of_numerical_solution_with_multiple_n[count]));
 
             }
             else if (item_current_idx == 2) {
 
-                y_of_analytical_solution_for_graph[count] = (double)log(x_of_numerical_solution_with_multiple_n[count * separate_n] + 1) / (x_of_numerical_solution_with_multiple_n[count * separate_n])
-                    + cos(10 * x_of_numerical_solution_with_multiple_n[count * separate_n]);
+                y_of_analytical_solution_for_graph[count] = (double)log(x_of_numerical_solution_with_multiple_n[count] + 1) / (x_of_numerical_solution_with_multiple_n[count])
+                    + cos(10 * x_of_numerical_solution_with_multiple_n[count]);
 
-                y_of_analytical_solution_first_dif_for_graph[count] = ((double)1 / (x_of_numerical_solution_with_multiple_n[count * separate_n] * x_of_numerical_solution_with_multiple_n[count * separate_n] +
-                    x_of_numerical_solution_with_multiple_n[count * separate_n])) - (log(x_of_numerical_solution_with_multiple_n[count * separate_n] + 1) / (x_of_numerical_solution_with_multiple_n[count * separate_n] *
-                        x_of_numerical_solution_with_multiple_n[count * separate_n])) - sin(10 * x_of_numerical_solution_with_multiple_n[count * separate_n]) * 10;
+                y_of_analytical_solution_first_dif_for_graph[count] = ((double)1 / (x_of_numerical_solution_with_multiple_n[count] * x_of_numerical_solution_with_multiple_n[count] +
+                    x_of_numerical_solution_with_multiple_n[count])) - (log(x_of_numerical_solution_with_multiple_n[count] + 1) / (x_of_numerical_solution_with_multiple_n[count] *
+                        x_of_numerical_solution_with_multiple_n[count])) - sin(10 * x_of_numerical_solution_with_multiple_n[count]) * 10;
 
-                y_of_analytical_solution_second_dif_for_graph[count] = ((2 * log(x_of_numerical_solution_with_multiple_n[count * separate_n] + 1)) / (x_of_numerical_solution_with_multiple_n[count * separate_n] *
-                    x_of_numerical_solution_with_multiple_n[count * separate_n] *
-                    x_of_numerical_solution_with_multiple_n[count * separate_n])) -
-                    ((3 * x_of_numerical_solution_with_multiple_n[count * separate_n] + 2) / (x_of_numerical_solution_with_multiple_n[count * separate_n] * x_of_numerical_solution_with_multiple_n[count * separate_n] * x_of_numerical_solution_with_multiple_n[count * separate_n] *
-                        x_of_numerical_solution_with_multiple_n[count * separate_n] + 2 * x_of_numerical_solution_with_multiple_n[count * separate_n] * x_of_numerical_solution_with_multiple_n[count * separate_n] * x_of_numerical_solution_with_multiple_n[count * separate_n] +
-                        x_of_numerical_solution_with_multiple_n[count * separate_n] * x_of_numerical_solution_with_multiple_n[count * separate_n])) - 100 * cos(10 * x_of_numerical_solution_with_multiple_n[count * separate_n]);
+                y_of_analytical_solution_second_dif_for_graph[count] = ((2 * log(x_of_numerical_solution_with_multiple_n[count] + 1)) / (x_of_numerical_solution_with_multiple_n[count] *
+                    x_of_numerical_solution_with_multiple_n[count] *
+                    x_of_numerical_solution_with_multiple_n[count])) -
+                    ((3 * x_of_numerical_solution_with_multiple_n[count] + 2) / (x_of_numerical_solution_with_multiple_n[count] * x_of_numerical_solution_with_multiple_n[count] * x_of_numerical_solution_with_multiple_n[count] *
+                        x_of_numerical_solution_with_multiple_n[count] + 2 * x_of_numerical_solution_with_multiple_n[count] * x_of_numerical_solution_with_multiple_n[count] * x_of_numerical_solution_with_multiple_n[count] +
+                        x_of_numerical_solution_with_multiple_n[count] * x_of_numerical_solution_with_multiple_n[count])) - 100 * cos(10 * x_of_numerical_solution_with_multiple_n[count]);
             
             }
         }
@@ -528,6 +532,13 @@ private:
     }
     void find_max() {
 
+        y_max.clear();
+        y_max.resize(N, 0);
+        y_max_first.clear();
+        y_max_first.resize(N, 0);
+        y_max_second.clear();
+        y_max_second.resize(N, 0);
+
         max = 0;
         index_max = -1;
 
@@ -537,18 +548,28 @@ private:
         max_second = 0;
         index_max_second = -1;
 
-        for (size_t count = 0; count < N; ++count) {
-            if (abs(y_of_analytical_solution_for_graph[count] - y_of_numerical_solution_with_multiple_n[count * separate_n]) >= max) {
-                index_max = x_of_numerical_solution_with_multiple_n[count * separate_n];
-                max = abs(y_of_analytical_solution_for_graph[count] - y_of_numerical_solution_with_multiple_n[count * separate_n]);
-            }
-            if (abs(y_of_analytical_solution_first_dif_for_graph[count] - y_of_numerical_solution_first_dif_with_multiple_n[count * separate_n]) >= max_first) {
-                index_max_first = x_of_numerical_solution_with_multiple_n[count * separate_n];
-                max_first = abs(y_of_analytical_solution_first_dif_for_graph[count] - y_of_numerical_solution_first_dif_with_multiple_n[count * separate_n]);
-            }
-            if (abs(y_of_analytical_solution_second_dif_for_graph[count] - y_of_numerical_solution_second_dif_with_multiple_n[count * separate_n]) >= max_second) {
-                index_max_second = x_of_numerical_solution_with_multiple_n[count * separate_n];
-                max_second = abs(y_of_analytical_solution_second_dif_for_graph[count] - y_of_numerical_solution_second_dif_with_multiple_n[count * separate_n]);
+        for (size_t i = 0; i < N; ++i) {
+            for (size_t j = 0; j <= separate_n; ++j) {
+
+                if (abs(y_of_analytical_solution_for_graph[i * separate_n + j] - y_of_numerical_solution_with_multiple_n[i * separate_n + j]) >= y_max[i])
+                    y_max[i] = abs(y_of_analytical_solution_for_graph[i * separate_n + j] - y_of_numerical_solution_with_multiple_n[i * separate_n + j]);
+                if (abs(y_of_analytical_solution_first_dif_for_graph[i * separate_n + j] - y_of_numerical_solution_first_dif_with_multiple_n[i * separate_n + j]) >= y_max_first[i])
+                    y_max_first[i] = abs(y_of_analytical_solution_first_dif_for_graph[i * separate_n + j] - y_of_numerical_solution_first_dif_with_multiple_n[i * separate_n + j]);
+                if (abs(y_of_analytical_solution_second_dif_for_graph[i * separate_n + j] - y_of_numerical_solution_second_dif_with_multiple_n[i * separate_n + j]) >= y_max_second[i])
+                    y_max_second[i] = max_second;
+
+                if (abs(y_of_analytical_solution_for_graph[i*separate_n + j] - y_of_numerical_solution_with_multiple_n[i * separate_n + j]) >= max) {
+                    index_max = x_of_numerical_solution_with_multiple_n[i * separate_n + j];
+                    max = abs(y_of_analytical_solution_for_graph[i * separate_n + j] - y_of_numerical_solution_with_multiple_n[i * separate_n + j]);
+                }
+                if (abs(y_of_analytical_solution_first_dif_for_graph[i * separate_n + j] - y_of_numerical_solution_first_dif_with_multiple_n[i * separate_n + j]) >= max_first) {
+                    index_max_first = x_of_numerical_solution_with_multiple_n[i * separate_n + j];
+                    max_first = abs(y_of_analytical_solution_first_dif_for_graph[i * separate_n + j] - y_of_numerical_solution_first_dif_with_multiple_n[i * separate_n + j]);
+                }
+                if (abs(y_of_analytical_solution_second_dif_for_graph[i * separate_n + j] - y_of_numerical_solution_second_dif_with_multiple_n[i * separate_n + j]) >= max_second) {
+                    index_max_second = x_of_numerical_solution_with_multiple_n[i * separate_n + j];
+                    max_second = abs(y_of_analytical_solution_second_dif_for_graph[i * separate_n + j] - y_of_numerical_solution_second_dif_with_multiple_n[i * separate_n + j]);
+                }
             }
         }
     }
