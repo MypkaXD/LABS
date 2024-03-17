@@ -387,7 +387,7 @@ public:
                     ImGui::TableHeadersRow();
                 }
 
-                for (int row = 0; row <= N; row++)
+                for (int row = 0; row < N; row++)
                 {
                     ImGui::TableNextRow();
 
@@ -549,7 +549,7 @@ private:
         index_max_second = -1;
 
         for (size_t i = 0; i < N; ++i) {
-            for (size_t j = 0; j <= separate_n; ++j) {
+            for (size_t j = 0; j < separate_n; ++j) {
 
                 if (abs(y_of_analytical_solution_for_graph[i * separate_n + j] - y_of_numerical_solution_with_multiple_n[i * separate_n + j]) >= y_max[i])
                     y_max[i] = abs(y_of_analytical_solution_for_graph[i * separate_n + j] - y_of_numerical_solution_with_multiple_n[i * separate_n + j]);
@@ -559,15 +559,15 @@ private:
                     y_max_second[i] = max_second;
 
                 if (abs(y_of_analytical_solution_for_graph[i*separate_n + j] - y_of_numerical_solution_with_multiple_n[i * separate_n + j]) >= max) {
-                    index_max = x_of_numerical_solution_with_multiple_n[i * separate_n + j];
+                    index_max = i * separate_n + j;
                     max = abs(y_of_analytical_solution_for_graph[i * separate_n + j] - y_of_numerical_solution_with_multiple_n[i * separate_n + j]);
                 }
                 if (abs(y_of_analytical_solution_first_dif_for_graph[i * separate_n + j] - y_of_numerical_solution_first_dif_with_multiple_n[i * separate_n + j]) >= max_first) {
-                    index_max_first = x_of_numerical_solution_with_multiple_n[i * separate_n + j];
+                    index_max_first = i * separate_n + j;
                     max_first = abs(y_of_analytical_solution_first_dif_for_graph[i * separate_n + j] - y_of_numerical_solution_first_dif_with_multiple_n[i * separate_n + j]);
                 }
                 if (abs(y_of_analytical_solution_second_dif_for_graph[i * separate_n + j] - y_of_numerical_solution_second_dif_with_multiple_n[i * separate_n + j]) >= max_second) {
-                    index_max_second = x_of_numerical_solution_with_multiple_n[i * separate_n + j];
+                    index_max_second = i * separate_n + j;
                     max_second = abs(y_of_analytical_solution_second_dif_for_graph[i * separate_n + j] - y_of_numerical_solution_second_dif_with_multiple_n[i * separate_n + j]);
                 }
             }
