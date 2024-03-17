@@ -64,6 +64,11 @@ private:
     std::vector<double> y_of_analytical_solution_first_dif_for_graph;
     std::vector<double> y_of_analytical_solution_second_dif_for_graph;
 
+    std::vector<double> a;
+    std::vector<double> b;
+    std::vector<double> c;
+    std::vector<double> d;
+
     ImGuiWindowFlags flags_for_window = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse;
 
     Construction_of_an_interpolating_cubic_spline cs;
@@ -306,13 +311,13 @@ public:
                     else
                         ImGui::Text("%lf", x_of_numerical_solution[(row+1) * separate_n]);
                     ImGui::TableSetColumnIndex(3);
-                    ImGui::Text("%lf", cs.get_a()[row]);
+                    ImGui::Text("%lf", a[row]);
                     ImGui::TableSetColumnIndex(4);
-                    ImGui::Text("%lf", cs.get_b()[row]);
+                    ImGui::Text("%lf", b[row]);
                     ImGui::TableSetColumnIndex(5);
-                    ImGui::Text("%lf", cs.get_c()[row+1]);
+                    ImGui::Text("%lf", c[row+1]);
                     ImGui::TableSetColumnIndex(6);
-                    ImGui::Text("%lf", cs.get_d()[row]);
+                    ImGui::Text("%lf", d[row]);
                 }
                 ImGui::EndTable();
             }
@@ -739,6 +744,19 @@ private:
             create_data_for_numerical_solution_first_dif();
             create_data_for_numerical_solution_second_dif();
 
+            a.clear();
+            a.resize(cs.get_n());
+            a = cs.get_a();
+            b.clear();
+            b.resize(cs.get_n());
+            b = cs.get_b();
+            c.clear();
+            c.resize(cs.get_n()+1);
+            c = cs.get_c();
+            d.clear();
+            d.resize(cs.get_n());
+            d = cs.get_d();
+
             int n = cs.get_n();
 
             cs.set_n(N);
@@ -782,6 +800,19 @@ private:
             create_data_for_numerical_solution_first_dif();
             create_data_for_numerical_solution_second_dif();
 
+            a.clear();
+            a.resize(cs.get_n());
+            a = cs.get_a();
+            b.clear();
+            b.resize(cs.get_n());
+            b = cs.get_b();
+            c.clear();
+            c.resize(cs.get_n() + 1);
+            c = cs.get_c();
+            d.clear();
+            d.resize(cs.get_n());
+            d = cs.get_d();
+
             int n = cs.get_n();
 
             cs.set_n(N);
@@ -824,6 +855,19 @@ private:
             create_data_for_numerical_solution();
             create_data_for_numerical_solution_first_dif();
             create_data_for_numerical_solution_second_dif();
+
+            a.clear();
+            a.resize(cs.get_n());
+            a = cs.get_a();
+            b.clear();
+            b.resize(cs.get_n());
+            b = cs.get_b();
+            c.clear();
+            c.resize(cs.get_n() + 1);
+            c = cs.get_c();
+            d.clear();
+            d.resize(cs.get_n());
+            d = cs.get_d();
 
             int n = cs.get_n();
 
