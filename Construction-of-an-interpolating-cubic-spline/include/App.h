@@ -387,7 +387,7 @@ public:
                     ImGui::TableHeadersRow();
                 }
 
-                for (int row = 0; row < N; row++)
+                for (int row = 0; row <= N; row++)
                 {
                     ImGui::TableNextRow();
 
@@ -533,11 +533,11 @@ private:
     void find_max() {
 
         y_max.clear();
-        y_max.resize(N, 0);
+        y_max.resize(N+1, 0);
         y_max_first.clear();
-        y_max_first.resize(N, 0);
+        y_max_first.resize(N+1, 0);
         y_max_second.clear();
-        y_max_second.resize(N, 0);
+        y_max_second.resize(N+1, 0);
 
         max = 0;
         index_max = -1;
@@ -548,13 +548,15 @@ private:
         max_second = 0;
         index_max_second = -1;
 
-        for (size_t i = 0; i < N; ++i) {
-            for (size_t j = 0; j < separate_n; ++j) {
+        for (size_t i = 0; i <= N; ++i) {
+            for (size_t j = 0; j <= separate_n; ++j) {
 
                 if (abs(y_of_analytical_solution_for_graph[i * separate_n + j] - y_of_numerical_solution_with_multiple_n[i * separate_n + j]) >= y_max[i])
                     y_max[i] = abs(y_of_analytical_solution_for_graph[i * separate_n + j] - y_of_numerical_solution_with_multiple_n[i * separate_n + j]);
+
                 if (abs(y_of_analytical_solution_first_dif_for_graph[i * separate_n + j] - y_of_numerical_solution_first_dif_with_multiple_n[i * separate_n + j]) >= y_max_first[i])
                     y_max_first[i] = abs(y_of_analytical_solution_first_dif_for_graph[i * separate_n + j] - y_of_numerical_solution_first_dif_with_multiple_n[i * separate_n + j]);
+
                 if (abs(y_of_analytical_solution_second_dif_for_graph[i * separate_n + j] - y_of_numerical_solution_second_dif_with_multiple_n[i * separate_n + j]) >= y_max_second[i])
                     y_max_second[i] = max_second;
 
