@@ -86,6 +86,10 @@ public:
 			double f_current = get_f_i_for_test(a_border + count * h);
 			double f_next = get_f_i_for_test(a_border + (count + 1) * h);
 
+			//std::cout << "f_prev: " << f_prev << std::endl;
+			//std::cout << "f_current: " << f_current << std::endl;
+			//std::cout << "f_next: " << f_next << std::endl;
+
 			phi[count] = 6 * ((f_next - f_current) / h - (f_current - f_prev) / h);
 		}
 	}
@@ -152,11 +156,22 @@ public:
 		sm.set_N(this->n);
 		sm.init();
 		sm.set_phi(this->phi);
+		//std::cout << "set_c H: " << this->h << std::endl;
 		sm.set_ABC(this->h, this->h);
 		sm.straight_stroke();
 		sm.reverse_stroke();
 
 		c = sm.get_V();
+
+		//sm.print();
+		//sm.print_v();
+		//
+		//std::cout << "C:::" << std::endl;
+		//
+		//print_c();
+		//
+		//std::cout << "=============" << std::endl;
+
 	}
 
 	void set_a(const int& index) {
@@ -189,6 +204,9 @@ public:
 		b.resize(n);
 
 		for (size_t count = 0; count < n; ++count) {
+			
+			//std::cout << "h in spline: " << h << std::endl;
+
 			if (index == 0)
 				b[count] = (get_f_i_for_test(a_border + (count + 1) * h) - get_f_i_for_test(a_border + count * h)) / h +
 				c[count + 1] * h / 3 + c[count] * h / 6;

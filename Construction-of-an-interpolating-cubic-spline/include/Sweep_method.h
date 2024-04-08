@@ -67,7 +67,8 @@ public:
 		m1 = phi[0];
 		m2 = phi[N];
 
-		this->phi = phi; // мб тут лучше даже swap
+		for (size_t count = 1; count < N; ++count)
+			this->phi[count] = -phi[count];
 	}
 
 	void set_ABC(const double& h_current, const double& h_next) {
@@ -83,7 +84,7 @@ public:
 		for (size_t count = 1; count < N; ++count) {
 			A[count] = h_current;
 			B[count] = h_next;
-			C[count] = 2 * (h_current + h_next);
+			C[count] = -2 * (h_current + h_next);
 		}
 
 	}
