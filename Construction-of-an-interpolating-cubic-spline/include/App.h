@@ -42,6 +42,8 @@ private:
     bool isShowFirstDifDif = false;
     bool isShowSecondDifDif = false;
 
+    bool isDifDifSet = false;
+
     int separate_n = 10; // число разбиений для S_i(x)
     int item_current_idx = 0;
     int N = 20;
@@ -66,6 +68,12 @@ private:
     std::vector<double> y_of_numerical_solution;
     std::vector<double> y_of_numerical_solution_first_dif;
     std::vector<double> y_of_numerical_solution_second_dif;
+
+    std::vector<double> x_of_points_of_numerical_solution;
+
+    std::vector<double> y_of_points_of_numerical_solution;
+    std::vector<double> y_of_points_of_numerical_solution_first_dif;
+    std::vector<double> y_of_points_of_numerical_solution_second_dif;
 
     std::vector<double> x_of_numerical_solution_with_multiple_n;
 
@@ -200,26 +208,31 @@ public:
 
     void create_data_for_difference_of_solutions() {
 
-        zero_dif.clear();
-        first_dif.clear();
-        second_dif.clear();
+        if (!isDifDifSet) {
 
-        zero_dif.resize(x_of_numerical_solution.size());
-        first_dif.resize(x_of_numerical_solution.size());
-        second_dif.resize(x_of_numerical_solution.size());
+            zero_dif.clear();
+            first_dif.clear();
+            second_dif.clear();
 
-        //std::cout << "y_of_analytical_solution: " << y_of_analytical_solution.size() << std::endl;
-        //std::cout << "y_of_analytical_solution_first_dif: " << y_of_analytical_solution_first_dif.size() << std::endl;
-        //std::cout << "y_of_analytical_solution_second_dif: " << y_of_analytical_solution_second_dif.size() << std::endl;
+            zero_dif.resize(x_of_numerical_solution.size());
+            first_dif.resize(x_of_numerical_solution.size());
+            second_dif.resize(x_of_numerical_solution.size());
 
-        //std::cout << x_of_numerical_solution.size() << std::endl;
+            //std::cout << "y_of_analytical_solution: " << y_of_analytical_solution.size() << std::endl;
+            //std::cout << "y_of_analytical_solution_first_dif: " << y_of_analytical_solution_first_dif.size() << std::endl;
+            //std::cout << "y_of_analytical_solution_second_dif: " << y_of_analytical_solution_second_dif.size() << std::endl;
 
-        for (size_t count = 0; count < x_of_numerical_solution.size(); ++count) {
-            zero_dif[count] = y_of_analytical_solution[count] - y_of_numerical_solution[count];
-            first_dif[count] = y_of_analytical_solution_first_dif[count] - y_of_numerical_solution_first_dif[count];
-            second_dif[count] = y_of_analytical_solution_second_dif[count] - y_of_numerical_solution_second_dif[count];
+            //std::cout << x_of_numerical_solution.size() << std::endl;
 
-            //std::cout << count << std::endl;
+            for (size_t count = 0; count < x_of_numerical_solution.size(); ++count) {
+                zero_dif[count] = y_of_analytical_solution[count] - y_of_numerical_solution[count];
+                first_dif[count] = y_of_analytical_solution_first_dif[count] - y_of_numerical_solution_first_dif[count];
+                second_dif[count] = y_of_analytical_solution_second_dif[count] - y_of_numerical_solution_second_dif[count];
+
+                //std::cout << count << std::endl;
+            }
+
+            isDifDifSet = true;
         }
     }
 
@@ -241,11 +254,11 @@ public:
                 if (ImGui::Selectable(items[n], is_selected)) { // устанавливаем индекс n для item_current_idx, если выбрана задача n
                     item_current_idx = n;
 
+                    isNumericalSolutionSet = false;
                     isAnalyticalSolutionSet = false;
                     isAnalyticalSolutionFirstDifSet = false;
                     isAnalyticalSolutionSecondDifSet = false;
-                    
-                    isNumericalSolutionSet = false;
+                    isDifDifSet = false;
                 }
                 if (is_selected) // если is_selected
                     ImGui::SetItemDefaultFocus(); // устанавливаем фокус на выбранную задачу
@@ -290,6 +303,7 @@ public:
             isAnalyticalSolutionSet = false;
             isAnalyticalSolutionFirstDifSet = false;
             isAnalyticalSolutionSecondDifSet = false;
+            isDifDifSet = false;
         }
 
         ImGui::End();
@@ -326,7 +340,7 @@ public:
         ImGui::Begin("Graph", 0, flags_for_window);
 
         if (ImPlot::BeginPlot(u8"График", "x", "y", { 930,1000})) { // Отрисовываем график
-            
+
             // Аналитическое решение
             if (isAnalyticalSolutionSet && isShowAnalyticalSolution)
                 ImPlot::PlotLine("F(x)", x_of_analytical_solution.data(), y_of_analytical_solution.data(), x_of_analytical_solution.size()); // Отрисовываем линию
@@ -336,13 +350,20 @@ public:
                 ImPlot::PlotLine("F''(x)", x_of_analytical_solution.data(), y_of_analytical_solution_second_dif.data(), x_of_analytical_solution.size()); // Отрисовываем линию
             
             // Численное решение
-            if (isNumericalSolutionSet && isShowNumericalSolution)
+            if (isNumericalSolutionSet && isShowNumericalSolution) {
+                ImPlot::PlotScatter("Points S(x)", x_of_points_of_numerical_solution.data(), y_of_points_of_numerical_solution.data(), x_of_points_of_numerical_solution.size()); // Рисование точек на графике
                 ImPlot::PlotLine("S(x)", x_of_numerical_solution.data(), y_of_numerical_solution.data(), x_of_numerical_solution.size()); // Отрисовываем линию
-            if (isNumericalSolutionSet && isShowNumericalSolutionFirstDif)
+            }
+            if (isNumericalSolutionSet && isShowNumericalSolutionFirstDif) {
+                ImPlot::PlotScatter("Points S'(x)", x_of_points_of_numerical_solution.data(), y_of_points_of_numerical_solution_first_dif.data(), x_of_points_of_numerical_solution.size()); // Рисование точек на графике
                 ImPlot::PlotLine("S'(x)", x_of_numerical_solution.data(), y_of_numerical_solution_first_dif.data(), x_of_numerical_solution.size()); // Отрисовываем линию
-            if (isNumericalSolutionSet && isShowNumericalSolutionSecondDif)
+            }
+            if (isNumericalSolutionSet && isShowNumericalSolutionSecondDif) {
+                ImPlot::PlotScatter("Points S''(x)", x_of_points_of_numerical_solution.data(), y_of_points_of_numerical_solution_second_dif.data(), x_of_points_of_numerical_solution.size()); // Рисование точек на графике
                 ImPlot::PlotLine("S''(x)", x_of_numerical_solution.data(), y_of_numerical_solution_second_dif.data(), x_of_numerical_solution.size()); // Отрисовываем линию
-            
+            }
+            ImPlot::GetStyle().Marker = ImPlotMarker_None;
+
             // Разность решений
             if (isShowZeroDifDif)
                 ImPlot::PlotLine("F(x) - S(x)", x_of_numerical_solution.data(), zero_dif.data(), x_of_numerical_solution.size()); // Отрисовываем линию
@@ -909,17 +930,28 @@ private:
 
         x_of_numerical_solution.resize(cs.get_n() * separate_n + 1);
 
+        x_of_points_of_numerical_solution.clear();
+
+        x_of_points_of_numerical_solution.resize(cs.get_n() + 1);
+
         //std::cout << "BORDERS: " << cs.get_border().first << "\t" << cs.get_border().second << std::endl;
         //std::cout << "cs.get_n(): " << cs.get_n() << std::endl;
         //std::cout << abs(cs.get_border().second - cs.get_border().first) / cs.get_n() / separate_n << std::endl;
 
         double h = abs(cs.get_border().second - cs.get_border().first) / cs.get_n() / separate_n;
 
+        double h_for_points = abs(cs.get_border().second - cs.get_border().first) / cs.get_n();
+
         for (size_t count = 0; count < cs.get_n(); ++count) {
+            
             for (size_t i = 0; i <= separate_n; ++i)
-                x_of_numerical_solution[count * separate_n + i] = (cs.get_border().first + count * 
-                    (abs(cs.get_border().second - cs.get_border().first) / cs.get_n()) + i * h);
+                x_of_numerical_solution[count * separate_n + i] = (cs.get_border().first + count * h_for_points + i * h);
+            
+            x_of_points_of_numerical_solution[count] = x_of_numerical_solution[count * separate_n];
+            
         }
+
+        x_of_points_of_numerical_solution.back() = x_of_numerical_solution.back();
 
         //for (size_t count = 0; count < x_of_numerical_solution.size(); ++count) {
         //    std::cout << x_of_numerical_solution[count] << std::endl;
@@ -932,6 +964,10 @@ private:
         y_of_numerical_solution.clear();
 
         y_of_numerical_solution.resize(cs.get_n() * separate_n + 1);
+
+        y_of_points_of_numerical_solution.clear();
+        
+        y_of_points_of_numerical_solution.resize(cs.get_n() + 1);
 
         for (size_t count = 0; count < cs.get_n(); ++count) {
 
@@ -948,13 +984,22 @@ private:
                 y_of_numerical_solution[count * separate_n + i] = cs.get_a()[count] + cs.get_b()[count] * delta
                     + cs.get_c()[count + 1] / 2 * delta * delta + cs.get_d()[count] / 6 * delta * delta * delta;
             }
+
+            y_of_points_of_numerical_solution[count] = y_of_numerical_solution[count * separate_n];
         }
+
+        y_of_points_of_numerical_solution.back() = y_of_numerical_solution.back();
+
     }
     void create_data_for_numerical_solution_first_dif() {
 
         y_of_numerical_solution_first_dif.clear();
 
         y_of_numerical_solution_first_dif.resize(cs.get_n() * separate_n + 1);
+
+        y_of_points_of_numerical_solution_first_dif.clear();
+
+        y_of_points_of_numerical_solution_first_dif.resize(cs.get_n() + 1);
 
         for (size_t count = 0; count < cs.get_n(); ++count) {
 
@@ -968,13 +1013,20 @@ private:
                 cs.get_c()[count + 1] * delta + cs.get_d()[count] / 2 * delta * delta;
 
             }
+            y_of_points_of_numerical_solution_first_dif[count] = y_of_numerical_solution_first_dif[count * separate_n];
         }
+
+        y_of_points_of_numerical_solution_first_dif.back() = y_of_numerical_solution_first_dif.back();
     }
     void create_data_for_numerical_solution_second_dif() {
 
         y_of_numerical_solution_second_dif.clear();
 
         y_of_numerical_solution_second_dif.resize(cs.get_n() * separate_n + 1);
+
+        y_of_points_of_numerical_solution_second_dif.clear();
+
+        y_of_points_of_numerical_solution_second_dif.resize(cs.get_n() + 1);
 
         for (size_t count = 0; count < cs.get_n(); ++count) {
 
@@ -986,7 +1038,10 @@ private:
 
                 y_of_numerical_solution_second_dif[count * separate_n + i] = cs.get_c()[count + 1] + cs.get_d()[count] * delta;
             }
+            y_of_points_of_numerical_solution_second_dif[count] = y_of_numerical_solution_second_dif[count * separate_n];
         }
+
+        y_of_points_of_numerical_solution_second_dif.back() = y_of_numerical_solution_second_dif.back();
     }
     /////////
 
