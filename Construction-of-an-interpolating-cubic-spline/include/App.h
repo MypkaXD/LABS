@@ -322,11 +322,11 @@ public:
             ImGui::Text(u8"Сетка сплайна: n = %d", cs.get_n());
             ImGui::Text(u8"Конрольная сетка: N = %d", N);
             ImGui::Text(u8"Погрешность сплайна на контрольной сетке:");
-            ImGui::Text(u8"max|F(x_j)-S(x_j)| = %.12lf \tпри x = %lf", max, x_of_numerical_solution_with_multiple_n[index_max]);
+            ImGui::Text(u8"max|F(x_j)-S(x_j)| = %.12e \tпри x = %lf", max, x_of_numerical_solution_with_multiple_n[index_max]);
             ImGui::Text(u8"Погрешность производной на контрольной сетке:");
-            ImGui::Text(u8"max|F'(x_j)-S'(x_j)| = %.12lf \tпри x = %lf", max_first, x_of_numerical_solution_with_multiple_n[index_max_first]);
+            ImGui::Text(u8"max|F'(x_j)-S'(x_j)| = %.12e \tпри x = %lf", max_first, x_of_numerical_solution_with_multiple_n[index_max_first]);
             ImGui::Text(u8"Погрешность второй производной на контрольной сетке (опция):");
-            ImGui::Text(u8"max|F''(x_j)-S''(x_j)| = %.12lf \tпри x = %lf", max_second, x_of_numerical_solution_with_multiple_n[index_max_second]);
+            ImGui::Text(u8"max|F''(x_j)-S''(x_j)| = %.12e \tпри x = %lf", max_second, x_of_numerical_solution_with_multiple_n[index_max_second]);
         }
 
         ImGui::End;
@@ -494,7 +494,7 @@ public:
                     ImGui::TableSetColumnIndex(3);
                     ImGui::Text("%lf", y_of_numerical_solution_with_multiple_n[row * separate_n]);
                     ImGui::TableSetColumnIndex(4);
-                    ImGui::Text("%.12lf", y_max[row]);
+                    ImGui::Text("%.12e", y_max[row]);
 
                     //std::cout << "2" << std::endl;
 
@@ -503,7 +503,7 @@ public:
                     ImGui::TableSetColumnIndex(6);
                     ImGui::Text("%lf", y_of_numerical_solution_first_dif_with_multiple_n[row * separate_n]);
                     ImGui::TableSetColumnIndex(7);
-                    ImGui::Text("%.12lf", y_max_first[row]);
+                    ImGui::Text("%.12e", y_max_first[row]);
 
                     //std::cout << "3" << std::endl;
 
@@ -512,7 +512,7 @@ public:
                     ImGui::TableSetColumnIndex(9);
                     ImGui::Text("%lf", y_of_numerical_solution_second_dif_with_multiple_n[row * separate_n]);
                     ImGui::TableSetColumnIndex(10);
-                    ImGui::Text("%.12lf", y_max_second[row]);
+                    ImGui::Text("%.12e", y_max_second[row]);
 
                     //std::cout << "4" << std::endl;
                 }
