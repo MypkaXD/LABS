@@ -23,6 +23,25 @@ private:
     sf::RenderWindow m_window;
     ImGuiIO io;
 
+    double sample_mean = 0; // выборочное среднее
+    double sample_variance = 0; // выборочная дисперсия
+    double expected_value = 0; // ожидаемое значение (математическое ожидание)
+    
+    double p = 0.3; // вероятность правильного ответа на билет
+
+    bool isOpened = false; // открыта ли программа
+    bool isUpdated = false; // обновить ли данные
+
+    int count_of_students = 10; // кол-во попыток
+
+    std::vector<int> count_of_answered_tickets;
+
+    std::map<int, int> different_answered_tickets; // мапа с 
+
+    ImGuiWindowFlags flagsForWindows = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse;
+
+    bool isDebug = false;
+
 public:
     App()
     {
@@ -32,6 +51,7 @@ public:
     }
 
     void init() {
+
         m_window.create(sf::VideoMode(1920, 1080, 32), "Te");
         m_window.setFramerateLimit(60);
         ImGui::SFML::Init(m_window);
@@ -51,8 +71,7 @@ public:
         style.Colors[ImGuiCol_TableHeaderBg] = ImVec4(255, 255, 255, 1.0f);
 
         ImPlotStyle& plotStyle = ImPlot::GetStyle();
-        //plotStyle.Colors[ImPlotCol_Line] = ImVec4(255, 0.0f, 0.0f, 1.0f);  // ������� ����
-        plotStyle.LineWeight = 3;  // ������� �����
+        plotStyle.LineWeight = 3;
 
     }
 
@@ -71,28 +90,13 @@ public:
             }
             ImGui::SFML::Update(m_window, deltaClock.restart());
 
-            static ImGuiWindowFlags flagsForWindows = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse;
+            input_count_of_students();
+            input_p();
 
-            static bool isOpened = false;
-            static bool isUpdated = false;
-
-            static int count_of_students = 10;
-
-            static double p = 0.3;
-
-            static std::vector<int> count_of_answered_tickets;
-
-            static std::map<int, int> counter;
-
-            input_count_of_students(flagsForWindows, count_of_students, count_of_answered_tickets, isOpened);
-            input_p(flagsForWindows, p, isOpened);
-
-            create_button_for_start_calc(flagsForWindows, count_of_students, count_of_answered_tickets, p, isOpened, isUpdated);
+            create_button_for_start_calc();
 
             if (isOpened) {
-                if (isUpdated)
-                    create_data_for_table(count_of_answered_tickets, counter, isUpdated);
-                createTable(flagsForWindows, count_of_answered_tickets, count_of_students, counter);
+                createTable();
             }
 
             m_window.clear({ 255,255,255,100 });
@@ -101,28 +105,7 @@ public:
         }
     }
 
-    void create_data_for_table(std::vector<int>& count_of_answered_tickets, std::map<int, int>& counter, bool& isUpdated) {
-
-        counter.clear();
-
-        for (size_t count = 0; count < count_of_answered_tickets.size(); ++count) {
-            std::cout << "Student " << count + 1 << " anserewed on " << count_of_answered_tickets[count] << " tickets!" << std::endl;
-        }
-
-        for (size_t count = 0; count < count_of_answered_tickets.size(); ++count) {
-            if (counter.find(count_of_answered_tickets[count]) != counter.end()) {
-                counter[count_of_answered_tickets[count]] += 1;
-            }
-            else {
-                counter.insert({count_of_answered_tickets[count],1});
-            }
-        }
-
-        isUpdated = false;
-    }
-
-    void create_button_for_start_calc(ImGuiWindowFlags& flagsForWindows, int& count_of_students, std::vector<int>& count_of_answered_tickets, double& p, bool& isOpened
-        , bool& isUpdated) {
+    void create_button_for_start_calc() {
 
         ImGui::SetNextWindowPos({ 0,0 }); // устанавливаем позицию для создаваемого окна
         ImGui::SetNextWindowSize({ 350,80 }); // устанавливаем размер для создаваемого окна
@@ -130,28 +113,11 @@ public:
         ImGui::Begin("Button", 0, flagsForWindows); // Создаем окно с заданными параметрами
 
         if (ImGui::Button("START", { 100,20 })) { // создаем кнопку с размерами 100*20
-
-            count_of_answered_tickets.clear();
-
-            isOpened = true;
-            isUpdated = true;
-
-            double t = 0.0;
-
-            for (size_t count = 0; count < count_of_students; ++count) {
-                int i = 0;
-                while (true) {
-
-                    t = ((double)rand()) / RAND_MAX;
-                    if (t <= p) {
-                        ++i;
-                    }
-                    else {
-                        count_of_answered_tickets.push_back(i);
-                        break;
-                    }
-                }
-            }
+            get_data();
+            get_different_answered_ticets();
+            get_sample_mean();
+            get_sample_variance();
+            get_expected_value();
         }
 
         ImGui::SameLine();
@@ -161,7 +127,151 @@ public:
 
     }
 
-    void input_p(ImGuiWindowFlags& flagsForWindows, double& p, bool& isOpened) {
+    void createTable() {
+
+        static ImGuiTableFlags flags = ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg; // настройки для таблицы
+
+        ImGui::SetNextWindowPos({ 0,81 }); // устанавливаем позицию для создаваемого окна для таблицы
+        ImGui::SetNextWindowSize({ 1920,1080 }); // устанавливаем размер для создаваемого окна для таблицы
+
+        ImGui::Begin("Table", 0, flagsForWindows); // создаем окно с заданными настройками
+
+        if (ImGui::BeginTable("table1", different_answered_tickets.size(), flags)) // создаем таблицу с заданными настройками
+        {
+            if (true)
+            {
+                for (const auto& [count_ansewered, count] : different_answered_tickets)
+                    ImGui::TableSetupColumn(std::to_string(count_ansewered).c_str(), ImGuiTableColumnFlags_WidthFixed);
+                ImGui::TableHeadersRow();
+            }
+
+            ImGui::TableNextRow();
+            size_t i = 0;
+            for (const auto& [count_ansewered, count] : different_answered_tickets) {
+                ImGui::TableSetColumnIndex(i);
+                ImGui::Text("%d", count);
+                ++i;
+            }
+            i = 0;
+            ImGui::TableNextRow();
+            for (const auto& [count_ansewered, count] : different_answered_tickets) {
+                ImGui::TableSetColumnIndex(i);
+                ImGui::Text("%lf", (double)count / count_of_students);
+                ++i;
+            }
+            ImGui::EndTable();
+        }
+
+        if (ImGui::BeginTable("table2", 4, flags)) // создаем таблицу с заданными настройками
+        {
+            ImGui::TableSetupColumn("x_bar", ImGuiTableColumnFlags_WidthFixed);
+            ImGui::TableSetupColumn("S^2", ImGuiTableColumnFlags_WidthFixed);
+            ImGui::TableSetupColumn("D", ImGuiTableColumnFlags_WidthFixed);
+            ImGui::TableSetupColumn("|D - x_bar|", ImGuiTableColumnFlags_WidthFixed);
+            ImGui::TableHeadersRow();
+
+            ImGui::TableNextRow();
+            ImGui::TableSetColumnIndex(0);
+            ImGui::Text((std::to_string(sample_mean)).c_str());
+            ImGui::TableSetColumnIndex(1);
+            ImGui::Text((std::to_string(sample_variance)).c_str());
+            ImGui::TableSetColumnIndex(2);
+            ImGui::Text((std::to_string(expected_value)).c_str());
+            ImGui::TableSetColumnIndex(3);
+            ImGui::Text((std::to_string(abs(expected_value - sample_mean))).c_str());
+
+            ImGui::EndTable();
+        }
+
+        ImGui::End();
+    }
+
+    void render() {
+        ImGui::SFML::Render(m_window);
+        m_window.display();
+    }
+
+private:
+
+    void get_sample_mean() { // функция для получения выборочного среднего
+
+        sample_mean = 0; // обнуляем переменную
+
+        for (size_t count = 0; count < count_of_answered_tickets.size(); ++count)
+            sample_mean += (double)count_of_answered_tickets[count];
+
+        sample_mean /= count_of_students;
+        
+    }
+    void get_sample_variance() { // функция для получения выборочной дисперсии
+
+        sample_variance = 0; // обнуляем переменную
+
+        for (size_t count = 0; count < count_of_answered_tickets.size(); ++count)
+            sample_variance += (count_of_answered_tickets[count] - sample_mean) * (count_of_answered_tickets[count] - sample_mean);
+
+        sample_variance /= count_of_students;
+
+    }
+    void get_expected_value() { // функция для получения мат. ожидания
+        
+        expected_value = 0;
+
+        for (size_t count = 0; count < different_answered_tickets.size(); ++count) {
+            expected_value += ((double)different_answered_tickets[count] / count_of_students * count) * different_answered_tickets[count];
+        }
+
+    }
+
+    void get_different_answered_ticets() { // функция для получения мапы с различным числом правильно отвеченных билетов
+
+        different_answered_tickets.clear();
+
+        if (isDebug) { // если ведем отладку
+            for (size_t count = 0; count < count_of_answered_tickets.size(); ++count) {
+                std::cout << "Student " << count + 1 << " anserewed on " << count_of_answered_tickets[count] << " tickets!" << std::endl;
+            }
+        }
+
+        for (size_t count = 0; count < count_of_answered_tickets.size(); ++count) { // проходим по всем попыткам студента (данный вектор содержит кол-во правильно отвченных билетов в каждой попытке)
+           
+            if (different_answered_tickets.find(count_of_answered_tickets[count]) != different_answered_tickets.end()) // если мы нашли вариант с таким же кол-во верно отвеченных билетов
+                different_answered_tickets[count_of_answered_tickets[count]] += 1; // то увеличиваем счетчик на 1
+            else // иначе
+                different_answered_tickets.insert({ count_of_answered_tickets[count],1 }); // сохраняем число правильных ответов и кол-во таких попыток (при вставке число попыток = 1)
+
+        }
+
+    }
+    void get_data() { // функция для получения числа правильно отвеченных билетов
+
+        count_of_answered_tickets.clear(); // очищаем вектор с числом отвеченных билетов
+
+        isOpened = true; // открыты ли данные = да
+        isUpdated = true; // обновлены ли данные = да
+
+        double t = 0.0; // рандомное число
+
+        for (size_t count = 0; count < count_of_students; ++count) { // проходим циклом по кол-ву попыток
+
+            int i = 0; // число билетов на который дали правильный ответ (для текущей попытки)
+           
+            while (true) {
+
+                t = ((double)rand()) / RAND_MAX; // получаем рандомное число
+
+                if (t <= p) // если это число меньше вероятности правильного ответа
+                    ++i; // то увеличиваем счетчик на +1
+                else { // иначе
+                    count_of_answered_tickets.push_back(i); // сохраняем кол-во верно отвеченных билетов
+                    break; // выходим из цикла
+                }
+            }
+        }
+
+    }
+
+    void input_p() { // функция для ввода вероятности
 
         ImGui::SetNextWindowPos({ 351,0 }); // устанавливаем позицию для создаваемого окна
         ImGui::SetNextWindowSize({ 350,80 }); // устанавливаем размер для создаваемого окна
@@ -170,76 +280,37 @@ public:
 
         ImGui::SeparatorText("Input p"); // дополнительный текст в окне
 
-        if (ImGui::InputDouble(" ", &p, 0.01f, 1.0f, "%.8f")) {
-            if (p < 0 || p > 1)
-                p = 1;
+        if (ImGui::InputDouble(" ", &p, 0.01f, 1.0f, "%.8f")) { // ввод вероятности
 
-            isOpened = false;
+            if (p < 0 || p > 1) // если вероятность больше 1 или меньше 0, то изменяем на 0.3 (дефолтное значение)
+                p = 0.3;
+
+            isOpened = false; // булева переменная на закрыть данные
+        
         }
 
         ImGui::End();
     }
-
-    void input_count_of_students(ImGuiWindowFlags& flagsForWindows, int& count_of_students, std::vector<int> count_of_answered_tickets, bool& isOpened) {
+    void input_count_of_students() { // функция для ввода кол-ва попыток
 
         ImGui::SetNextWindowPos({ 702,0 }); // устанавливаем позицию для создаваемого окна
-        ImGui::SetNextWindowSize({ 350,80}); // устанавливаем размер для создаваемого окна
+        ImGui::SetNextWindowSize({ 350,80 }); // устанавливаем размер для создаваемого окна
 
-        ImGui::Begin("input_count_of_stidents", 0, flagsForWindows);
+        ImGui::Begin("input_count_of_stidents", 0, flagsForWindows); // создаем окно
 
         ImGui::SeparatorText("Input count of students"); // дополнительный текст в окне
 
-        if (ImGui::InputInt(" ", &count_of_students, 1, 100)) {
-            if (count_of_students <= 0)
+        if (ImGui::InputInt(" ", &count_of_students, 1, 100)) { // ввод данных
+            if (count_of_students <= 0) // если число попыток меньше или равно 0, то заменяем значение на 1
                 count_of_students = 1;
 
-            count_of_answered_tickets.clear();
-            count_of_answered_tickets.resize(count_of_students);
+            count_of_answered_tickets.clear(); // очищаем вектор с кол-вом правильных ответов
+            count_of_answered_tickets.resize(count_of_students); // изменяем размер на кол-во попыток
 
-            isOpened = false;
+            isOpened = false; // булева переменная на закрыть данные
         }
 
         ImGui::End();
     }
 
-    void createTable(ImGuiWindowFlags& flagsForWindows, std::vector<int>& count_of_answered_tickets, int& count_of_students, std::map<int, int>& counter) {
-
-        static ImGuiTableFlags flags = ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg; // настройки для таблицы
-
-        ImGui::SetNextWindowPos({ 0,81 }); // устанавливаем позицию для создаваемого окна для таблицы
-        ImGui::SetNextWindowSize({ 1920,1080 }); // устанавливаем размер для создаваемого окна для таблицы
-        ImGui::Begin("Table", 0, flagsForWindows); // создаем окно с заданными настройками
-
-        if (ImGui::BeginTable("table1", counter.size(), flags)) // создаем таблицу с заданными настройками
-        {
-            if (true)
-            {
-                for (const auto& [count_ansewered, count] : counter)
-                    ImGui::TableSetupColumn(std::to_string(count_ansewered).c_str(), ImGuiTableColumnFlags_WidthFixed);
-                ImGui::TableHeadersRow();
-            }
-
-            ImGui::TableNextRow();
-            size_t i = 0;
-            for (const auto& [count_ansewered, count] : counter) {
-                ImGui::TableSetColumnIndex(i);
-                ImGui::Text("%d", count);
-                ++i;
-            }
-            i = 0;
-            ImGui::TableNextRow();
-            for (const auto& [count_ansewered, count] : counter) {
-                ImGui::TableSetColumnIndex(i);
-                ImGui::Text("%lf", (double)count / count_of_students);
-                ++i;
-            }
-            ImGui::EndTable();
-        }
-        ImGui::End();
-    }
-
-    void render() {
-        ImGui::SFML::Render(m_window);
-        m_window.display();
-    }
 };
