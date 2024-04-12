@@ -26,6 +26,9 @@ private:
     double sample_mean = 0; // выборочное среднее
     double sample_variance = 0; // выборочная дисперсия
     double expected_value = 0; // ожидаемое значение (математическое ожидание)
+    double dispersion = 0; // дисперсия
+    double sample_median = 0; // выборочная медиана
+    double sample_range = 0; // размах выборки
     
     double p = 0.3; // вероятность правильного ответа на билет
 
@@ -36,7 +39,7 @@ private:
 
     std::vector<int> count_of_answered_tickets;
 
-    std::map<int, int> different_answered_tickets; // мапа с 
+    std::vector<std::pair<int, int>> different_answered_tickets;
 
     ImGuiWindowFlags flagsForWindows = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse;
 
@@ -52,7 +55,7 @@ public:
 
     void init() {
 
-        m_window.create(sf::VideoMode(1920, 1080, 32), "Te");
+        m_window.create(sf::VideoMode(1920, 1080, 32), "TerVer");
         m_window.setFramerateLimit(60);
         ImGui::SFML::Init(m_window);
         io = ImGui::GetIO();
@@ -97,6 +100,7 @@ public:
 
             if (isOpened) {
                 createTable();
+                createGraph();
             }
 
             m_window.clear({ 255,255,255,100 });
@@ -118,6 +122,9 @@ public:
             get_sample_mean();
             get_sample_variance();
             get_expected_value();
+            get_dispersion();
+            get_sample_median();
+            get_sample_range();
         }
 
         ImGui::SameLine();
@@ -132,18 +139,15 @@ public:
         static ImGuiTableFlags flags = ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg; // настройки для таблицы
 
         ImGui::SetNextWindowPos({ 0,81 }); // устанавливаем позицию для создаваемого окна для таблицы
-        ImGui::SetNextWindowSize({ 1920,1080 }); // устанавливаем размер для создаваемого окна для таблицы
+        ImGui::SetNextWindowSize({ 500,500}); // устанавливаем размер для создаваемого окна для таблицы
 
         ImGui::Begin("Table", 0, flagsForWindows); // создаем окно с заданными настройками
 
         if (ImGui::BeginTable("table1", different_answered_tickets.size(), flags)) // создаем таблицу с заданными настройками
         {
-            if (true)
-            {
-                for (const auto& [count_ansewered, count] : different_answered_tickets)
-                    ImGui::TableSetupColumn(std::to_string(count_ansewered).c_str(), ImGuiTableColumnFlags_WidthFixed);
-                ImGui::TableHeadersRow();
-            }
+            for (size_t count = 0; count < different_answered_tickets.size(); ++count)
+                ImGui::TableSetupColumn(std::to_string(different_answered_tickets[count].first).c_str(), ImGuiTableColumnFlags_WidthFixed);
+            ImGui::TableHeadersRow();
 
             ImGui::TableNextRow();
             size_t i = 0;
@@ -162,12 +166,16 @@ public:
             ImGui::EndTable();
         }
 
-        if (ImGui::BeginTable("table2", 4, flags)) // создаем таблицу с заданными настройками
+        if (ImGui::BeginTable("table2", 8, flags)) // создаем таблицу с заданными настройками
         {
             ImGui::TableSetupColumn("x_bar", ImGuiTableColumnFlags_WidthFixed);
             ImGui::TableSetupColumn("S^2", ImGuiTableColumnFlags_WidthFixed);
+            ImGui::TableSetupColumn("M", ImGuiTableColumnFlags_WidthFixed);
+            ImGui::TableSetupColumn("|M - x_bar|", ImGuiTableColumnFlags_WidthFixed);
             ImGui::TableSetupColumn("D", ImGuiTableColumnFlags_WidthFixed);
-            ImGui::TableSetupColumn("|D - x_bar|", ImGuiTableColumnFlags_WidthFixed);
+            ImGui::TableSetupColumn("|D - S^2|", ImGuiTableColumnFlags_WidthFixed);
+            ImGui::TableSetupColumn("Me", ImGuiTableColumnFlags_WidthFixed);
+            ImGui::TableSetupColumn("R", ImGuiTableColumnFlags_WidthFixed);
             ImGui::TableHeadersRow();
 
             ImGui::TableNextRow();
@@ -179,12 +187,39 @@ public:
             ImGui::Text((std::to_string(expected_value)).c_str());
             ImGui::TableSetColumnIndex(3);
             ImGui::Text((std::to_string(abs(expected_value - sample_mean))).c_str());
+            ImGui::TableSetColumnIndex(4);
+            ImGui::Text((std::to_string(dispersion).c_str()));
+            ImGui::TableSetColumnIndex(5);
+            ImGui::Text((std::to_string(abs(dispersion - sample_variance)).c_str()));
+            ImGui::TableSetColumnIndex(6);
+            ImGui::Text((std::to_string(sample_median).c_str()));
+            ImGui::TableSetColumnIndex(7);
+            ImGui::Text((std::to_string(sample_range).c_str()));
+
 
             ImGui::EndTable();
         }
 
         ImGui::End();
     }
+    void createGraph() {
+        
+        ImGui::SetNextWindowPos({ 961, 0 });
+        ImGui::SetNextWindowSize({ 940,1080 });
+
+        ImGui::Begin("Graph", 0, flagsForWindows);
+
+        if (ImPlot::BeginPlot(u8"График", "x", "y", { 930,1000 })) { // Отрисовываем график
+
+            double x_data[] = { 1, 2, 3, 4, 5 };
+            double y_data[] = { 2, 3, 4, 5, 6 };
+            ImPlot::PlotStairs("Stairs", x_data, y_data, 5);
+            ImPlot::EndPlot(); // Заканчиваем отрисовку графика
+        }
+
+        ImGui::End(); // Удаляем окно
+    }
+
 
     void render() {
         ImGui::SFML::Render(m_window);
@@ -193,6 +228,13 @@ public:
 
 private:
 
+    void get_dispersion() {
+
+        double q = 1 - p;
+
+        dispersion = q / (p * p);
+
+    }
     void get_sample_mean() { // функция для получения выборочного среднего
 
         sample_mean = 0; // обнуляем переменную
@@ -215,31 +257,55 @@ private:
     }
     void get_expected_value() { // функция для получения мат. ожидания
         
-        expected_value = 0;
+        expected_value = (double)1 / p;
 
-        for (size_t count = 0; count < different_answered_tickets.size(); ++count) {
-            expected_value += ((double)different_answered_tickets[count] / count_of_students * count) * different_answered_tickets[count];
+    }
+    void get_sample_median() {
+
+        sample_median = 0;
+
+        if (count_of_students % 2 == 0) {
+            size_t k = count_of_students / 2;
+
+            sample_median = (count_of_answered_tickets[k - 1] + count_of_answered_tickets[k]) / 2;
+
+        }
+        else {
+            size_t k = count_of_students / 2 + 1;
+
+            sample_median = count_of_answered_tickets[k - 1];
         }
 
+    }
+    void get_sample_range() {
+
+        sample_range = 0;
+        
+        sample_range = count_of_answered_tickets.front() + count_of_answered_tickets.back();
     }
 
     void get_different_answered_ticets() { // функция для получения мапы с различным числом правильно отвеченных билетов
 
         different_answered_tickets.clear();
 
-        if (isDebug) { // если ведем отладку
+        std::vector<std::pair<int, int>> temp(count_of_students, { -1, 0 });
+
+        if (!isDebug) { // если ведем отладку
             for (size_t count = 0; count < count_of_answered_tickets.size(); ++count) {
                 std::cout << "Student " << count + 1 << " anserewed on " << count_of_answered_tickets[count] << " tickets!" << std::endl;
             }
         }
 
         for (size_t count = 0; count < count_of_answered_tickets.size(); ++count) { // проходим по всем попыткам студента (данный вектор содержит кол-во правильно отвченных билетов в каждой попытке)
-           
-            if (different_answered_tickets.find(count_of_answered_tickets[count]) != different_answered_tickets.end()) // если мы нашли вариант с таким же кол-во верно отвеченных билетов
-                different_answered_tickets[count_of_answered_tickets[count]] += 1; // то увеличиваем счетчик на 1
-            else // иначе
-                different_answered_tickets.insert({ count_of_answered_tickets[count],1 }); // сохраняем число правильных ответов и кол-во таких попыток (при вставке число попыток = 1)
 
+            temp[count_of_answered_tickets[count]].first = count_of_answered_tickets[count];
+            temp[count_of_answered_tickets[count]].second += 1;
+
+        }
+
+        for (size_t count = 0; count < temp.size(); ++count) {
+            if (temp[count].first != -1)
+                different_answered_tickets.push_back(temp[count]);
         }
 
     }
@@ -267,6 +333,30 @@ private:
                     break; // выходим из цикла
                 }
             }
+        }
+
+        bubble_sort();
+    }
+
+    void bubble_sort() {
+
+        for (size_t i = 0; i < count_of_answered_tickets.size(); ++i) {
+
+            bool flag = true;
+
+            for (size_t j = 0; j < count_of_answered_tickets.size() - (i + 1); ++j) {
+                if (count_of_answered_tickets[j] > count_of_answered_tickets[j + 1]) {
+                    
+                    flag = false;
+                    
+                    std::swap(count_of_answered_tickets[j], count_of_answered_tickets[j + 1]);
+                
+                }
+            }
+
+            if (flag)
+                break;
+
         }
 
     }
