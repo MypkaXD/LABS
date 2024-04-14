@@ -29,7 +29,8 @@ private:
     double dispersion = 0; // дисперсия
     double sample_median = 0; // выборочная медиана
     double sample_range = 0; // размах выборки
-    
+    double max_deviation = 0; // максимальное отклонение
+
     double p = 0.3; // вероятность правильного ответа на билет
 
     bool isOpened = false; // открыта ли программа
@@ -40,6 +41,12 @@ private:
     std::vector<int> count_of_answered_tickets;
 
     std::vector<std::pair<int, int>> different_answered_tickets;
+
+    std::vector<double> x_coords_of_sample_function;
+    std::vector<double> y_coords_of_sample_function;
+    
+    std::vector<double> x_coords_of_teor_function;
+    std::vector<double> y_coords_of_teor_function;
 
     ImGuiWindowFlags flagsForWindows = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse;
 
@@ -101,6 +108,7 @@ public:
             if (isOpened) {
                 createTable();
                 createGraph();
+                createInfo();
             }
 
             m_window.clear({ 255,255,255,100 });
@@ -112,7 +120,7 @@ public:
     void create_button_for_start_calc() {
 
         ImGui::SetNextWindowPos({ 0,0 }); // устанавливаем позицию для создаваемого окна
-        ImGui::SetNextWindowSize({ 350,80 }); // устанавливаем размер для создаваемого окна
+        ImGui::SetNextWindowSize({ 318,80 }); // устанавливаем размер для создаваемого окна
 
         ImGui::Begin("Button", 0, flagsForWindows); // Создаем окно с заданными параметрами
 
@@ -125,10 +133,15 @@ public:
             get_dispersion();
             get_sample_median();
             get_sample_range();
+
+            get_data_of_sample_function_for_graph();
+            get_data_of_teor_function_for_graph();
+
+            get_max_deviation();
         }
 
         ImGui::SameLine();
-        ImGui::Text("Start Calc");
+        ImGui::Text(u8"Вычислить");
 
         ImGui::End();
 
@@ -138,8 +151,8 @@ public:
 
         static ImGuiTableFlags flags = ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg; // настройки для таблицы
 
-        ImGui::SetNextWindowPos({ 0,81 }); // устанавливаем позицию для создаваемого окна для таблицы
-        ImGui::SetNextWindowSize({ 500,500}); // устанавливаем размер для создаваемого окна для таблицы
+        ImGui::SetNextWindowPos({ 0,382 }); // устанавливаем позицию для создаваемого окна для таблицы
+        ImGui::SetNextWindowSize({ 960,998 }); // устанавливаем размер для создаваемого окна для таблицы
 
         ImGui::Begin("Table", 0, flagsForWindows); // создаем окно с заданными настройками
 
@@ -200,10 +213,33 @@ public:
             ImGui::EndTable();
         }
 
+        if (ImGui::BeginTable("table3", different_answered_tickets.size(), flags)) // создаем таблицу с заданными настройками
+        {
+            for (size_t count = 0; count < different_answered_tickets.size(); ++count)
+                ImGui::TableSetupColumn(std::to_string(different_answered_tickets[count].first).c_str(), ImGuiTableColumnFlags_WidthFixed);
+            ImGui::TableHeadersRow();
+
+            ImGui::TableNextRow();
+
+            for (size_t count = 0; count < different_answered_tickets.size(); ++count) {
+                ImGui::TableSetColumnIndex(count);
+                ImGui::Text(std::to_string(y_coords_of_teor_function[different_answered_tickets[count].first + 1]).c_str());
+            }
+
+            ImGui::TableNextRow();
+
+            for (size_t count = 0; count < different_answered_tickets.size(); ++count) {
+                ImGui::TableSetColumnIndex(count);
+                ImGui::Text(std::to_string(y_coords_of_sample_function[count + 1]).c_str());
+            }
+
+            ImGui::EndTable();
+        }
+
         ImGui::End();
     }
     void createGraph() {
-        
+
         ImGui::SetNextWindowPos({ 961, 0 });
         ImGui::SetNextWindowSize({ 940,1080 });
 
@@ -211,15 +247,30 @@ public:
 
         if (ImPlot::BeginPlot(u8"График", "x", "y", { 930,1000 })) { // Отрисовываем график
 
-            double x_data[] = { 1, 2, 3, 4, 5 };
-            double y_data[] = { 2, 3, 4, 5, 6 };
-            ImPlot::PlotStairs("Stairs", x_data, y_data, 5);
+            ImPlot::PlotStairs(u8"Выборочная Fn(x)", x_coords_of_sample_function.data(), y_coords_of_sample_function.data(), x_coords_of_sample_function.size());
+            ImPlot::PlotStairs(u8"Теоретическая Fn(x)", x_coords_of_teor_function.data(), y_coords_of_teor_function.data(), x_coords_of_teor_function.size());
             ImPlot::EndPlot(); // Заканчиваем отрисовку графика
         }
 
         ImGui::End(); // Удаляем окно
     }
+    void createInfo() {
 
+        ImGui::SetNextWindowPos({ 0, 81 });
+        ImGui::SetNextWindowSize({ 960,300 });
+
+        ImGui::Begin("Info", 0, flagsForWindows);
+
+        ImGui::Text(u8"Вариант 14");
+        ImGui::Text(u8"Студенту на зачёте задаются вопросы, которые прекращаются, если студент на заданный вопрос не ответит. Вероятность ответа на каждый вопрос\nнезависимо от других равна p. C.в. x - число полученных ответов.");
+        ImGui::Text(u8"Геометрическое распределение");
+        ImGui::Text(u8"Вероятность правильного ответа p = %lf", p);
+        ImGui::Text(u8"Вероятность неправильного ответа q = 1 - p = %lf", 1 - p);
+        ImGui::Text(u8"Максимальное отклонение: %lf", max_deviation);
+
+        ImGui::End();
+
+    }
 
     void render() {
         ImGui::SFML::Render(m_window);
@@ -243,7 +294,7 @@ private:
             sample_mean += (double)count_of_answered_tickets[count];
 
         sample_mean /= count_of_students;
-        
+
     }
     void get_sample_variance() { // функция для получения выборочной дисперсии
 
@@ -256,7 +307,7 @@ private:
 
     }
     void get_expected_value() { // функция для получения мат. ожидания
-        
+
         expected_value = (double)1 / p;
 
     }
@@ -280,8 +331,22 @@ private:
     void get_sample_range() {
 
         sample_range = 0;
-        
+
         sample_range = count_of_answered_tickets.front() + count_of_answered_tickets.back();
+    }
+    void get_max_deviation() {
+
+        max_deviation = 0;
+
+        for (size_t count = 0; count < different_answered_tickets.size(); ++count) {
+            
+            double current_deviation = abs(y_coords_of_teor_function[different_answered_tickets[count].first + 1] - y_coords_of_sample_function[count + 1]);
+            
+            if (current_deviation >= max_deviation)
+                max_deviation = current_deviation;
+
+        }
+
     }
 
     void get_different_answered_ticets() { // функция для получения мапы с различным числом правильно отвеченных билетов
@@ -290,7 +355,7 @@ private:
 
         std::vector<std::pair<int, int>> temp(count_of_students, { -1, 0 });
 
-        if (!isDebug) { // если ведем отладку
+        if (isDebug) { // если ведем отладку
             for (size_t count = 0; count < count_of_answered_tickets.size(); ++count) {
                 std::cout << "Student " << count + 1 << " anserewed on " << count_of_answered_tickets[count] << " tickets!" << std::endl;
             }
@@ -321,7 +386,7 @@ private:
         for (size_t count = 0; count < count_of_students; ++count) { // проходим циклом по кол-ву попыток
 
             int i = 0; // число билетов на который дали правильный ответ (для текущей попытки)
-           
+
             while (true) {
 
                 t = ((double)rand()) / RAND_MAX; // получаем рандомное число
@@ -336,6 +401,46 @@ private:
         }
 
         bubble_sort();
+    }
+    void get_data_of_sample_function_for_graph() {
+
+        size_t size = different_answered_tickets.size() + 2;
+
+        x_coords_of_sample_function.clear();
+        x_coords_of_sample_function.resize(size);
+
+        y_coords_of_sample_function.clear();
+        y_coords_of_sample_function.resize(size);
+
+        x_coords_of_sample_function[0] = 0;
+        y_coords_of_sample_function[0] = 0;
+
+        x_coords_of_sample_function[size - 1] = different_answered_tickets.back().first + 1;
+        y_coords_of_sample_function[size - 1] = 1;
+
+        for (size_t count = 1; count < size - 1; ++count) {
+            x_coords_of_sample_function[count] = different_answered_tickets[count - 1].first;
+            y_coords_of_sample_function[count] = (double)different_answered_tickets[count-1].second / count_of_students + y_coords_of_sample_function[count - 1];
+        }
+    }
+    void get_data_of_teor_function_for_graph() {
+
+        x_coords_of_teor_function.clear();
+        x_coords_of_teor_function.resize(different_answered_tickets.back().first + 3);
+
+        y_coords_of_teor_function.clear();
+        y_coords_of_teor_function.resize(different_answered_tickets.back().first + 3);
+
+        x_coords_of_teor_function[0] = 0;
+        y_coords_of_teor_function[0] = 0;
+
+        for (size_t count = 1; count < y_coords_of_teor_function.size() - 1; ++count) {
+            x_coords_of_teor_function[count] = count-1;
+            y_coords_of_teor_function[count] = std::pow(p, count - 1) * (1 - p) + y_coords_of_teor_function[count-1];
+        }
+
+        x_coords_of_teor_function[x_coords_of_teor_function.size() - 1] = x_coords_of_teor_function[x_coords_of_teor_function.size() - 2] + 1;
+        y_coords_of_teor_function[x_coords_of_teor_function.size() - 1] = y_coords_of_teor_function[x_coords_of_teor_function.size() - 2];
     }
 
     void bubble_sort() {
@@ -363,12 +468,12 @@ private:
 
     void input_p() { // функция для ввода вероятности
 
-        ImGui::SetNextWindowPos({ 351,0 }); // устанавливаем позицию для создаваемого окна
-        ImGui::SetNextWindowSize({ 350,80 }); // устанавливаем размер для создаваемого окна
+        ImGui::SetNextWindowPos({ 319,0 }); // устанавливаем позицию для создаваемого окна
+        ImGui::SetNextWindowSize({ 320,80 }); // устанавливаем размер для создаваемого окна
 
         ImGui::Begin("input_p", 0, flagsForWindows);
 
-        ImGui::SeparatorText("Input p"); // дополнительный текст в окне
+        ImGui::SeparatorText(u8"Введите вероятность"); // дополнительный текст в окне
 
         if (ImGui::InputDouble(" ", &p, 0.01f, 1.0f, "%.8f")) { // ввод вероятности
 
@@ -383,12 +488,12 @@ private:
     }
     void input_count_of_students() { // функция для ввода кол-ва попыток
 
-        ImGui::SetNextWindowPos({ 702,0 }); // устанавливаем позицию для создаваемого окна
-        ImGui::SetNextWindowSize({ 350,80 }); // устанавливаем размер для создаваемого окна
+        ImGui::SetNextWindowPos({ 640,0 }); // устанавливаем позицию для создаваемого окна
+        ImGui::SetNextWindowSize({ 320,80 }); // устанавливаем размер для создаваемого окна
 
         ImGui::Begin("input_count_of_stidents", 0, flagsForWindows); // создаем окно
 
-        ImGui::SeparatorText("Input count of students"); // дополнительный текст в окне
+        ImGui::SeparatorText(u8"Кол-во попыток"); // дополнительный текст в окне
 
         if (ImGui::InputInt(" ", &count_of_students, 1, 100)) { // ввод данных
             if (count_of_students <= 0) // если число попыток меньше или равно 0, то заменяем значение на 1
