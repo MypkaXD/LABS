@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\dev\\Source\\LABS\\GMCG_LAB3\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E6AA579F-7223-4E88-8E59-2A3231FE64E8}|GMCG_LAB3\\GMCG_LAB3.vcxproj|C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\GMCG_LAB3.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E6AA579F-7223-4E88-8E59-2A3231FE64E8}|GMCG_LAB3\\GMCG_LAB3.vcxproj|solutionrelative:GMCG_LAB3\\GMCG_LAB3.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "GMCG_LAB3.cpp",
+              "DocumentMoniker": "C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\GMCG_LAB3.cpp",
+              "RelativeDocumentMoniker": "GMCG_LAB3\\GMCG_LAB3.cpp",
+              "ToolTip": "C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\GMCG_LAB3.cpp",
+              "RelativeToolTip": "GMCG_LAB3\\GMCG_LAB3.cpp",
+              "ViewState": "AQIAADAAAAAAAAAAAAAAAEkAAAAhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-04-21T08:03:10.347Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -283,7 +283,7 @@ private:
 
         double q = 1 - p;
 
-        dispersion = q / (p * p);
+        dispersion = p / (q * q);
 
     }
     void get_sample_mean() { // функция для получения выборочного среднего
@@ -308,7 +308,9 @@ private:
     }
     void get_expected_value() { // функция для получения мат. ожидания
 
-        expected_value = (double)1 / p;
+        double q = 1 - p;
+
+        expected_value = p / q;
 
     }
     void get_sample_median() {
@@ -318,7 +320,7 @@ private:
         if (count_of_students % 2 == 0) {
             size_t k = count_of_students / 2;
 
-            sample_median = (count_of_answered_tickets[k - 1] + count_of_answered_tickets[k]) / 2;
+            sample_median = (double)(count_of_answered_tickets[k - 1] + count_of_answered_tickets[k]) / 2;
 
         }
         else {
@@ -340,7 +342,7 @@ private:
 
         for (size_t count = 0; count < different_answered_tickets.size(); ++count) {
             
-            double current_deviation = abs(y_coords_of_teor_function[different_answered_tickets[count].first + 1] - y_coords_of_sample_function[count + 1]);
+            double current_deviation = abs( - y_coords_of_sample_function[count + 1]);
             
             if (current_deviation >= max_deviation)
                 max_deviation = current_deviation;
@@ -353,7 +355,7 @@ private:
 
         different_answered_tickets.clear();
 
-        std::vector<std::pair<int, int>> temp(count_of_students, { -1, 0 });
+        std::vector<std::pair<int, int>> temp(*std::max_element(count_of_answered_tickets.begin(), count_of_answered_tickets.end()) + 1, {-1, 0});
 
         if (isDebug) { // если ведем отладку
             for (size_t count = 0; count < count_of_answered_tickets.size(); ++count) {

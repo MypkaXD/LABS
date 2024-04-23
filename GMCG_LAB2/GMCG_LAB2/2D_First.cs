@@ -142,7 +142,7 @@ namespace GMCG_LAB2
             user_Graphicsfor_Trimetric_Projection = Graphics.FromImage(canvasfor_Trimetric_Projection);
 
             x0_for_Trimetric_Projection = (int)(pictureBoxTrimetricProjection.Width / 2);
-            y0_for_Trimetric_Projection = (int)(pictureBoxTrimetricProjection.Height / 2);
+            y0_for_Trimetric_Projection = (int)(pictureBoxTrimetricProjection.Height / 2 + 100);
 
             user_GraphicsForSecondTab.FillRectangle(Brushes.White, 0, 0, pictureBoxTrimetricProjection.Width, pictureBoxTrimetricProjection.Height);
             user_GraphicsForSecondTab.DrawLine(Pens.Gray, (float)x0_for_Trimetric_Projection, 2, (float)x0_for_Trimetric_Projection, pictureBoxTrimetricProjection.Height - 2);
@@ -152,14 +152,16 @@ namespace GMCG_LAB2
 
             pictureBoxTrimetricProjection.Image = canvasfor_Trimetric_Projection;
 
-            basis.Add(new Coord3D(0, 0, 0, 0));
-            basis.Add(new Coord3D(100, 0, 0, 1));
-            basis.Add(new Coord3D(0, 100, 0, 2));
-            basis.Add(new Coord3D(0, 0, 100, 3));
+            basis.Add(new Coord3D(0, 0, 0));
+            basis.Add(new Coord3D(100, 0, 0));
+            basis.Add(new Coord3D(0, 100, 0));
+            basis.Add(new Coord3D(0, 0, 100));
 
-            basis_line.Add(Tuple.Create(basis[0], basis[1]));
-            basis_line.Add(Tuple.Create(basis[0], basis[2]));
-            basis_line.Add(Tuple.Create(basis[0], basis[3]));
+            basis_line.Add(Tuple.Create(0, 1));
+            basis_line.Add(Tuple.Create(0, 2));
+            basis_line.Add(Tuple.Create(0, 3));
+
+            init_object();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -353,6 +355,11 @@ namespace GMCG_LAB2
 
                 coords2Ds[count] = temp;
             }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
 
         private void printPoints()

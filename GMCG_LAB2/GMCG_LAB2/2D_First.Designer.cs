@@ -87,8 +87,9 @@
             this.AddPoint3D = new System.Windows.Forms.Button();
             this.pictureBox_3d = new System.Windows.Forms.PictureBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.trackBar2 = new System.Windows.Forms.TrackBar();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.label30 = new System.Windows.Forms.Label();
-            this.textBoxTrimetricProjectionPhi = new System.Windows.Forms.TextBox();
             this.buttonTrimetricProjection = new System.Windows.Forms.Button();
             this.pictureBoxTrimetricProjection = new System.Windows.Forms.PictureBox();
             this.textBoxNuFor3D = new System.Windows.Forms.TextBox();
@@ -114,26 +115,18 @@
             this.textBoxResizeY3D = new System.Windows.Forms.TextBox();
             this.textBoxResizeX3D = new System.Windows.Forms.TextBox();
             this.button_for_draw_3D_points = new System.Windows.Forms.Button();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.textBox_for_add_Z_3D = new System.Windows.Forms.TextBox();
-            this.textBox_for_add_Y_3D = new System.Windows.Forms.TextBox();
-            this.textBox_for_add_X_3D = new System.Windows.Forms.TextBox();
-            this.button_for_adding_point_in_3d = new System.Windows.Forms.Button();
             this.pictureBoxOXY = new System.Windows.Forms.PictureBox();
             this.pictureBoxOXZ = new System.Windows.Forms.PictureBox();
             this.pictureBoxOYZ = new System.Windows.Forms.PictureBox();
-            this.textBoxTrimetricProjectionTetta = new System.Windows.Forms.TextBox();
-            this.textBox8 = new System.Windows.Forms.TextBox();
-            this.textBox9 = new System.Windows.Forms.TextBox();
-            this.button8 = new System.Windows.Forms.Button();
+            this.label20 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_2d)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_3d)).BeginInit();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTrimetricProjection)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOXY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOXZ)).BeginInit();
@@ -371,7 +364,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1614, 700);
+            this.tabControl1.Size = new System.Drawing.Size(1811, 788);
             this.tabControl1.TabIndex = 24;
             // 
             // tabPage1
@@ -403,7 +396,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1606, 674);
+            this.tabPage1.Size = new System.Drawing.Size(1803, 762);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -444,7 +437,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1606, 674);
+            this.tabPage2.Size = new System.Drawing.Size(1803, 762);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -734,12 +727,10 @@
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.button8);
-            this.tabPage3.Controls.Add(this.textBox9);
-            this.tabPage3.Controls.Add(this.textBox8);
-            this.tabPage3.Controls.Add(this.textBoxTrimetricProjectionTetta);
+            this.tabPage3.Controls.Add(this.label20);
+            this.tabPage3.Controls.Add(this.trackBar2);
+            this.tabPage3.Controls.Add(this.trackBar1);
             this.tabPage3.Controls.Add(this.label30);
-            this.tabPage3.Controls.Add(this.textBoxTrimetricProjectionPhi);
             this.tabPage3.Controls.Add(this.buttonTrimetricProjection);
             this.tabPage3.Controls.Add(this.pictureBoxTrimetricProjection);
             this.tabPage3.Controls.Add(this.textBoxNuFor3D);
@@ -765,47 +756,55 @@
             this.tabPage3.Controls.Add(this.textBoxResizeY3D);
             this.tabPage3.Controls.Add(this.textBoxResizeX3D);
             this.tabPage3.Controls.Add(this.button_for_draw_3D_points);
-            this.tabPage3.Controls.Add(this.label22);
-            this.tabPage3.Controls.Add(this.label20);
-            this.tabPage3.Controls.Add(this.label21);
-            this.tabPage3.Controls.Add(this.textBox_for_add_Z_3D);
-            this.tabPage3.Controls.Add(this.textBox_for_add_Y_3D);
-            this.tabPage3.Controls.Add(this.textBox_for_add_X_3D);
-            this.tabPage3.Controls.Add(this.button_for_adding_point_in_3d);
             this.tabPage3.Controls.Add(this.pictureBoxOXY);
             this.tabPage3.Controls.Add(this.pictureBoxOXZ);
             this.tabPage3.Controls.Add(this.pictureBoxOYZ);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1606, 674);
+            this.tabPage3.Size = new System.Drawing.Size(1803, 762);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "tabPage3";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // trackBar2
+            // 
+            this.trackBar2.AutoSize = false;
+            this.trackBar2.Location = new System.Drawing.Point(522, 76);
+            this.trackBar2.Minimum = -90;
+            this.trackBar2.Name = "trackBar2";
+            this.trackBar2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.trackBar2.Size = new System.Drawing.Size(107, 10);
+            this.trackBar2.SmallChange = 90;
+            this.trackBar2.TabIndex = 54;
+            this.trackBar2.Scroll += new System.EventHandler(this.trackBar2_Scroll);
+            // 
+            // trackBar1
+            // 
+            this.trackBar1.AutoSize = false;
+            this.trackBar1.Location = new System.Drawing.Point(522, 102);
+            this.trackBar1.Maximum = 90;
+            this.trackBar1.Minimum = -90;
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(104, 10);
+            this.trackBar1.TabIndex = 53;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
             // label30
             // 
             this.label30.AutoSize = true;
             this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
-            this.label30.Location = new System.Drawing.Point(1211, 579);
+            this.label30.Location = new System.Drawing.Point(455, 76);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(46, 15);
             this.label30.TabIndex = 51;
             this.label30.Text = "Угол φ";
             // 
-            // textBoxTrimetricProjectionPhi
-            // 
-            this.textBoxTrimetricProjectionPhi.Location = new System.Drawing.Point(1263, 579);
-            this.textBoxTrimetricProjectionPhi.Name = "textBoxTrimetricProjectionPhi";
-            this.textBoxTrimetricProjectionPhi.Size = new System.Drawing.Size(100, 20);
-            this.textBoxTrimetricProjectionPhi.TabIndex = 50;
-            this.textBoxTrimetricProjectionPhi.Text = "0";
-            // 
             // buttonTrimetricProjection
             // 
-            this.buttonTrimetricProjection.Location = new System.Drawing.Point(1050, 577);
+            this.buttonTrimetricProjection.Location = new System.Drawing.Point(446, 47);
             this.buttonTrimetricProjection.Name = "buttonTrimetricProjection";
-            this.buttonTrimetricProjection.Size = new System.Drawing.Size(155, 23);
+            this.buttonTrimetricProjection.Size = new System.Drawing.Size(183, 23);
             this.buttonTrimetricProjection.TabIndex = 49;
             this.buttonTrimetricProjection.Text = "Trimetric projection Z=0";
             this.buttonTrimetricProjection.UseVisualStyleBackColor = true;
@@ -813,15 +812,15 @@
             // 
             // pictureBoxTrimetricProjection
             // 
-            this.pictureBoxTrimetricProjection.Location = new System.Drawing.Point(1050, 307);
+            this.pictureBoxTrimetricProjection.Location = new System.Drawing.Point(446, 134);
             this.pictureBoxTrimetricProjection.Name = "pictureBoxTrimetricProjection";
-            this.pictureBoxTrimetricProjection.Size = new System.Drawing.Size(519, 259);
+            this.pictureBoxTrimetricProjection.Size = new System.Drawing.Size(1351, 622);
             this.pictureBoxTrimetricProjection.TabIndex = 48;
             this.pictureBoxTrimetricProjection.TabStop = false;
             // 
             // textBoxNuFor3D
             // 
-            this.textBoxNuFor3D.Location = new System.Drawing.Point(379, 507);
+            this.textBoxNuFor3D.Location = new System.Drawing.Point(756, 107);
             this.textBoxNuFor3D.Name = "textBoxNuFor3D";
             this.textBoxNuFor3D.Size = new System.Drawing.Size(100, 20);
             this.textBoxNuFor3D.TabIndex = 47;
@@ -831,7 +830,7 @@
             // 
             this.label29.AutoSize = true;
             this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
-            this.label29.Location = new System.Drawing.Point(271, 512);
+            this.label29.Location = new System.Drawing.Point(648, 112);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(102, 15);
             this.label29.TabIndex = 46;
@@ -841,7 +840,7 @@
             // 
             this.label27.AutoSize = true;
             this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
-            this.label27.Location = new System.Drawing.Point(272, 455);
+            this.label27.Location = new System.Drawing.Point(649, 55);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(101, 15);
             this.label27.TabIndex = 45;
@@ -851,7 +850,7 @@
             // 
             this.label28.AutoSize = true;
             this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
-            this.label28.Location = new System.Drawing.Point(272, 481);
+            this.label28.Location = new System.Drawing.Point(649, 81);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(102, 15);
             this.label28.TabIndex = 44;
@@ -859,7 +858,7 @@
             // 
             // textBoxMuFor3D
             // 
-            this.textBoxMuFor3D.Location = new System.Drawing.Point(379, 478);
+            this.textBoxMuFor3D.Location = new System.Drawing.Point(756, 78);
             this.textBoxMuFor3D.Name = "textBoxMuFor3D";
             this.textBoxMuFor3D.Size = new System.Drawing.Size(100, 20);
             this.textBoxMuFor3D.TabIndex = 43;
@@ -867,7 +866,7 @@
             // 
             // textBoxLambdaFor3D
             // 
-            this.textBoxLambdaFor3D.Location = new System.Drawing.Point(379, 452);
+            this.textBoxLambdaFor3D.Location = new System.Drawing.Point(756, 52);
             this.textBoxLambdaFor3D.Name = "textBoxLambdaFor3D";
             this.textBoxLambdaFor3D.Size = new System.Drawing.Size(100, 20);
             this.textBoxLambdaFor3D.TabIndex = 42;
@@ -875,7 +874,7 @@
             // 
             // buttonMove3D
             // 
-            this.buttonMove3D.Location = new System.Drawing.Point(262, 423);
+            this.buttonMove3D.Location = new System.Drawing.Point(642, 18);
             this.buttonMove3D.Name = "buttonMove3D";
             this.buttonMove3D.Size = new System.Drawing.Size(217, 23);
             this.buttonMove3D.TabIndex = 41;
@@ -885,7 +884,7 @@
             // 
             // textBox_angle_for_rotation_3D
             // 
-            this.textBox_angle_for_rotation_3D.Location = new System.Drawing.Point(379, 397);
+            this.textBox_angle_for_rotation_3D.Location = new System.Drawing.Point(982, 108);
             this.textBox_angle_for_rotation_3D.Name = "textBox_angle_for_rotation_3D";
             this.textBox_angle_for_rotation_3D.Size = new System.Drawing.Size(100, 20);
             this.textBox_angle_for_rotation_3D.TabIndex = 40;
@@ -893,7 +892,7 @@
             // 
             // button_rotation_3D_OZ
             // 
-            this.button_rotation_3D_OZ.Location = new System.Drawing.Point(262, 368);
+            this.button_rotation_3D_OZ.Location = new System.Drawing.Point(865, 79);
             this.button_rotation_3D_OZ.Name = "button_rotation_3D_OZ";
             this.button_rotation_3D_OZ.Size = new System.Drawing.Size(217, 23);
             this.button_rotation_3D_OZ.TabIndex = 39;
@@ -903,7 +902,7 @@
             // 
             // button_rotation_3D_OY
             // 
-            this.button_rotation_3D_OY.Location = new System.Drawing.Point(262, 336);
+            this.button_rotation_3D_OY.Location = new System.Drawing.Point(865, 47);
             this.button_rotation_3D_OY.Name = "button_rotation_3D_OY";
             this.button_rotation_3D_OY.Size = new System.Drawing.Size(217, 23);
             this.button_rotation_3D_OY.TabIndex = 38;
@@ -913,7 +912,7 @@
             // 
             // button_rotation_3D_OX
             // 
-            this.button_rotation_3D_OX.Location = new System.Drawing.Point(262, 307);
+            this.button_rotation_3D_OX.Location = new System.Drawing.Point(865, 18);
             this.button_rotation_3D_OX.Name = "button_rotation_3D_OX";
             this.button_rotation_3D_OX.Size = new System.Drawing.Size(217, 23);
             this.button_rotation_3D_OX.TabIndex = 37;
@@ -925,7 +924,7 @@
             // 
             this.label26.AutoSize = true;
             this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
-            this.label26.Location = new System.Drawing.Point(327, 400);
+            this.label26.Location = new System.Drawing.Point(930, 111);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(46, 15);
             this.label26.TabIndex = 36;
@@ -933,7 +932,7 @@
             // 
             // buttonMirror3DOYZ
             // 
-            this.buttonMirror3DOYZ.Location = new System.Drawing.Point(8, 603);
+            this.buttonMirror3DOYZ.Location = new System.Drawing.Point(1088, 76);
             this.buttonMirror3DOYZ.Name = "buttonMirror3DOYZ";
             this.buttonMirror3DOYZ.Size = new System.Drawing.Size(233, 23);
             this.buttonMirror3DOYZ.TabIndex = 35;
@@ -943,7 +942,7 @@
             // 
             // buttonMirror3DOXZ
             // 
-            this.buttonMirror3DOXZ.Location = new System.Drawing.Point(8, 574);
+            this.buttonMirror3DOXZ.Location = new System.Drawing.Point(1088, 47);
             this.buttonMirror3DOXZ.Name = "buttonMirror3DOXZ";
             this.buttonMirror3DOXZ.Size = new System.Drawing.Size(233, 23);
             this.buttonMirror3DOXZ.TabIndex = 34;
@@ -953,7 +952,7 @@
             // 
             // buttonMirror3DOXY
             // 
-            this.buttonMirror3DOXY.Location = new System.Drawing.Point(8, 545);
+            this.buttonMirror3DOXY.Location = new System.Drawing.Point(1088, 18);
             this.buttonMirror3DOXY.Name = "buttonMirror3DOXY";
             this.buttonMirror3DOXY.Size = new System.Drawing.Size(233, 23);
             this.buttonMirror3DOXY.TabIndex = 33;
@@ -963,7 +962,7 @@
             // 
             // textBoxResizeZ3D
             // 
-            this.textBoxResizeZ3D.Location = new System.Drawing.Point(141, 519);
+            this.textBoxResizeZ3D.Location = new System.Drawing.Point(1472, 97);
             this.textBoxResizeZ3D.Name = "textBoxResizeZ3D";
             this.textBoxResizeZ3D.Size = new System.Drawing.Size(100, 20);
             this.textBoxResizeZ3D.TabIndex = 32;
@@ -973,7 +972,7 @@
             // 
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
-            this.label25.Location = new System.Drawing.Point(33, 524);
+            this.label25.Location = new System.Drawing.Point(1113, 14);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(102, 15);
             this.label25.TabIndex = 31;
@@ -981,7 +980,7 @@
             // 
             // ButtonResize3D
             // 
-            this.ButtonResize3D.Location = new System.Drawing.Point(8, 440);
+            this.ButtonResize3D.Location = new System.Drawing.Point(1339, 18);
             this.ButtonResize3D.Name = "ButtonResize3D";
             this.ButtonResize3D.Size = new System.Drawing.Size(233, 23);
             this.ButtonResize3D.TabIndex = 30;
@@ -993,7 +992,7 @@
             // 
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
-            this.label23.Location = new System.Drawing.Point(33, 495);
+            this.label23.Location = new System.Drawing.Point(1364, 90);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(102, 15);
             this.label23.TabIndex = 29;
@@ -1003,7 +1002,7 @@
             // 
             this.label24.AutoSize = true;
             this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
-            this.label24.Location = new System.Drawing.Point(33, 469);
+            this.label24.Location = new System.Drawing.Point(1364, 64);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(102, 15);
             this.label24.TabIndex = 28;
@@ -1011,7 +1010,7 @@
             // 
             // textBoxResizeY3D
             // 
-            this.textBoxResizeY3D.Location = new System.Drawing.Point(141, 495);
+            this.textBoxResizeY3D.Location = new System.Drawing.Point(1472, 73);
             this.textBoxResizeY3D.Name = "textBoxResizeY3D";
             this.textBoxResizeY3D.Size = new System.Drawing.Size(100, 20);
             this.textBoxResizeY3D.TabIndex = 27;
@@ -1019,7 +1018,7 @@
             // 
             // textBoxResizeX3D
             // 
-            this.textBoxResizeX3D.Location = new System.Drawing.Point(141, 469);
+            this.textBoxResizeX3D.Location = new System.Drawing.Point(1472, 47);
             this.textBoxResizeX3D.Name = "textBoxResizeX3D";
             this.textBoxResizeX3D.Size = new System.Drawing.Size(100, 20);
             this.textBoxResizeX3D.TabIndex = 26;
@@ -1027,139 +1026,57 @@
             // 
             // button_for_draw_3D_points
             // 
-            this.button_for_draw_3D_points.Location = new System.Drawing.Point(8, 307);
+            this.button_for_draw_3D_points.Location = new System.Drawing.Point(446, 18);
             this.button_for_draw_3D_points.Name = "button_for_draw_3D_points";
-            this.button_for_draw_3D_points.Size = new System.Drawing.Size(234, 23);
+            this.button_for_draw_3D_points.Size = new System.Drawing.Size(183, 23);
             this.button_for_draw_3D_points.TabIndex = 25;
             this.button_for_draw_3D_points.Text = "Отрисовать";
             this.button_for_draw_3D_points.UseVisualStyleBackColor = true;
             this.button_for_draw_3D_points.Click += new System.EventHandler(this.button_for_draw_3D_points_Click);
             // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
-            this.label22.Location = new System.Drawing.Point(49, 422);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(87, 15);
-            this.label22.TabIndex = 24;
-            this.label22.Text = "Координата z";
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
-            this.label20.Location = new System.Drawing.Point(49, 395);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(86, 15);
-            this.label20.TabIndex = 23;
-            this.label20.Text = "Координата y";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
-            this.label21.Location = new System.Drawing.Point(49, 368);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(87, 15);
-            this.label21.TabIndex = 22;
-            this.label21.Text = "Координата x";
-            // 
-            // textBox_for_add_Z_3D
-            // 
-            this.textBox_for_add_Z_3D.Location = new System.Drawing.Point(142, 417);
-            this.textBox_for_add_Z_3D.Name = "textBox_for_add_Z_3D";
-            this.textBox_for_add_Z_3D.Size = new System.Drawing.Size(100, 20);
-            this.textBox_for_add_Z_3D.TabIndex = 8;
-            // 
-            // textBox_for_add_Y_3D
-            // 
-            this.textBox_for_add_Y_3D.Location = new System.Drawing.Point(142, 391);
-            this.textBox_for_add_Y_3D.Name = "textBox_for_add_Y_3D";
-            this.textBox_for_add_Y_3D.Size = new System.Drawing.Size(100, 20);
-            this.textBox_for_add_Y_3D.TabIndex = 7;
-            // 
-            // textBox_for_add_X_3D
-            // 
-            this.textBox_for_add_X_3D.Location = new System.Drawing.Point(142, 365);
-            this.textBox_for_add_X_3D.Name = "textBox_for_add_X_3D";
-            this.textBox_for_add_X_3D.Size = new System.Drawing.Size(100, 20);
-            this.textBox_for_add_X_3D.TabIndex = 6;
-            // 
-            // button_for_adding_point_in_3d
-            // 
-            this.button_for_adding_point_in_3d.Location = new System.Drawing.Point(8, 336);
-            this.button_for_adding_point_in_3d.Name = "button_for_adding_point_in_3d";
-            this.button_for_adding_point_in_3d.Size = new System.Drawing.Size(234, 23);
-            this.button_for_adding_point_in_3d.TabIndex = 5;
-            this.button_for_adding_point_in_3d.Text = "Добавить точку";
-            this.button_for_adding_point_in_3d.UseVisualStyleBackColor = true;
-            this.button_for_adding_point_in_3d.Click += new System.EventHandler(this.button_for_adding_point_in_3d_Click);
-            // 
             // pictureBoxOXY
             // 
-            this.pictureBoxOXY.Location = new System.Drawing.Point(0, 6);
+            this.pictureBoxOXY.Location = new System.Drawing.Point(0, 3);
             this.pictureBoxOXY.Name = "pictureBoxOXY";
-            this.pictureBoxOXY.Size = new System.Drawing.Size(519, 291);
+            this.pictureBoxOXY.Size = new System.Drawing.Size(440, 238);
             this.pictureBoxOXY.TabIndex = 4;
             this.pictureBoxOXY.TabStop = false;
             // 
             // pictureBoxOXZ
             // 
-            this.pictureBoxOXZ.Location = new System.Drawing.Point(525, 6);
+            this.pictureBoxOXZ.Location = new System.Drawing.Point(0, 247);
             this.pictureBoxOXZ.Name = "pictureBoxOXZ";
-            this.pictureBoxOXZ.Size = new System.Drawing.Size(519, 291);
+            this.pictureBoxOXZ.Size = new System.Drawing.Size(440, 245);
             this.pictureBoxOXZ.TabIndex = 3;
             this.pictureBoxOXZ.TabStop = false;
             // 
             // pictureBoxOYZ
             // 
-            this.pictureBoxOYZ.Location = new System.Drawing.Point(1050, 6);
+            this.pictureBoxOYZ.Location = new System.Drawing.Point(0, 498);
             this.pictureBoxOYZ.Name = "pictureBoxOYZ";
-            this.pictureBoxOYZ.Size = new System.Drawing.Size(519, 291);
+            this.pictureBoxOYZ.Size = new System.Drawing.Size(440, 258);
             this.pictureBoxOYZ.TabIndex = 2;
             this.pictureBoxOYZ.TabStop = false;
             // 
-            // textBoxTrimetricProjectionTetta
+            // label20
             // 
-            this.textBoxTrimetricProjectionTetta.Location = new System.Drawing.Point(1263, 605);
-            this.textBoxTrimetricProjectionTetta.Name = "textBoxTrimetricProjectionTetta";
-            this.textBoxTrimetricProjectionTetta.Size = new System.Drawing.Size(100, 20);
-            this.textBoxTrimetricProjectionTetta.TabIndex = 52;
-            this.textBoxTrimetricProjectionTetta.Text = "0";
-            // 
-            // textBox8
-            // 
-            this.textBox8.Location = new System.Drawing.Point(809, 339);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(100, 20);
-            this.textBox8.TabIndex = 53;
-            // 
-            // textBox9
-            // 
-            this.textBox9.Location = new System.Drawing.Point(809, 365);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(100, 20);
-            this.textBox9.TabIndex = 54;
-            // 
-            // button8
-            // 
-            this.button8.Location = new System.Drawing.Point(728, 339);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(75, 23);
-            this.button8.TabIndex = 55;
-            this.button8.Text = "button8";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F);
+            this.label20.Location = new System.Drawing.Point(455, 97);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(44, 15);
+            this.label20.TabIndex = 55;
+            this.label20.Text = "Угол θ";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1703, 790);
+            this.ClientSize = new System.Drawing.Size(1823, 790);
             this.Controls.Add(this.tabControl1);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_2d)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -1169,6 +1086,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_3d)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTrimetricProjection)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOXY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOXZ)).EndInit();
@@ -1241,13 +1160,6 @@
         private System.Windows.Forms.PictureBox pictureBoxOXY;
         private System.Windows.Forms.PictureBox pictureBoxOXZ;
         private System.Windows.Forms.PictureBox pictureBoxOYZ;
-        private System.Windows.Forms.Button button_for_adding_point_in_3d;
-        private System.Windows.Forms.TextBox textBox_for_add_Z_3D;
-        private System.Windows.Forms.TextBox textBox_for_add_Y_3D;
-        private System.Windows.Forms.TextBox textBox_for_add_X_3D;
-        private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Button button_for_draw_3D_points;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label24;
@@ -1272,13 +1184,11 @@
         private System.Windows.Forms.TextBox textBoxNuFor3D;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.PictureBox pictureBoxTrimetricProjection;
-        private System.Windows.Forms.TextBox textBoxTrimetricProjectionPhi;
         private System.Windows.Forms.Button buttonTrimetricProjection;
         private System.Windows.Forms.Label label30;
-        private System.Windows.Forms.TextBox textBoxTrimetricProjectionTetta;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.TextBox textBox9;
-        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.TrackBar trackBar2;
+        private System.Windows.Forms.Label label20;
     }
 }
 
