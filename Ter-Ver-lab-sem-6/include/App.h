@@ -340,16 +340,29 @@ private:
 
         max_deviation = 0;
 
-        for (size_t count = 0; count < different_answered_tickets.size(); ++count) {
-            
-            double current_deviation = abs( - y_coords_of_sample_function[count + 1]);
-            
-            if (current_deviation >= max_deviation)
-                max_deviation = current_deviation;
+       
+        for (size_t count = 1; count < x_coords_of_sample_function.size() - 1; ++count) {
+
+            double current_deviation_first = 0;
+            double current_deviation_second = 0;
+
+            current_deviation_first = abs(y_coords_of_teor_function[count] - y_coords_of_sample_function[count]);
+            current_deviation_second = abs(y_coords_of_teor_function[count] - y_coords_of_sample_function[count]);
+
+            if (current_deviation_first >= max_deviation || current_deviation_second >= max_deviation)
+                max_deviation = std::max(current_deviation_first, current_deviation_second);
 
         }
 
     }
+    /*
+    int babunbubunbubz()
+    {
+        int salo = 8.9;
+        return salo;
+    }
+    // squazimabzabza
+    */
 
     void get_different_answered_ticets() { // функция для получения мапы с различным числом правильно отвеченных билетов
 
@@ -406,8 +419,8 @@ private:
     }
     void get_data_of_sample_function_for_graph() {
 
-        size_t size = different_answered_tickets.size() + 2;
-
+        size_t size = different_answered_tickets.back().first + 3;
+        
         x_coords_of_sample_function.clear();
         x_coords_of_sample_function.resize(size);
 
@@ -417,21 +430,37 @@ private:
         x_coords_of_sample_function[0] = 0;
         y_coords_of_sample_function[0] = 0;
 
-        x_coords_of_sample_function[size - 1] = different_answered_tickets.back().first + 1;
+        x_coords_of_sample_function[size - 1] = different_answered_tickets.back().first + 2;
         y_coords_of_sample_function[size - 1] = 1;
 
+        size_t i = 1;
+
         for (size_t count = 1; count < size - 1; ++count) {
-            x_coords_of_sample_function[count] = different_answered_tickets[count - 1].first;
-            y_coords_of_sample_function[count] = (double)different_answered_tickets[count-1].second / count_of_students + y_coords_of_sample_function[count - 1];
+            
+            x_coords_of_sample_function[count] = count - 1;
+
+            if (different_answered_tickets[i - 1].first == count - 1) {
+                y_coords_of_sample_function[count] = (double)different_answered_tickets[i-1].second / count_of_students + y_coords_of_sample_function[count - 1];
+                ++i;
+            }
+            else    
+                y_coords_of_sample_function[count] = y_coords_of_sample_function[count - 1];
+
         }
     }
     void get_data_of_teor_function_for_graph() {
 
+        int n = log(0.005) / log(p);
+
+        if (n <= different_answered_tickets.back().first) {
+            n = different_answered_tickets.back().first;
+        }
+
         x_coords_of_teor_function.clear();
-        x_coords_of_teor_function.resize(different_answered_tickets.back().first + 3);
+        x_coords_of_teor_function.resize(n + 3);
 
         y_coords_of_teor_function.clear();
-        y_coords_of_teor_function.resize(different_answered_tickets.back().first + 3);
+        y_coords_of_teor_function.resize(n + 3);
 
         x_coords_of_teor_function[0] = 0;
         y_coords_of_teor_function[0] = 0;

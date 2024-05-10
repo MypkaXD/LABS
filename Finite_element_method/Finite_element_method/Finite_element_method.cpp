@@ -153,6 +153,12 @@ public:
 
 	}
 
+	void gauss_method() {
+
+
+
+	}
+
 
 };
 
@@ -182,7 +188,7 @@ int main() {
 
 	lr.print_sigma();
 
-	std::cout << "Result of method trap: " << lr.simpson_method() << std::endl;
+	std::cout << "Result of method trap: " << lr.trapezoid_method() << std::endl;
 
 	return 0;
 }
