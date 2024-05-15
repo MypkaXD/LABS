@@ -1,111 +1,76 @@
-#include <stdlib.h>
+#ifndef GAME_H
+#define GAME_H
+
 #include <glut.h>
-#include <iostream>
 
-#define _USE_MATH_DEFINES
-
-#include <math.h>
-
-#pragma once
+#include "Scene.h"
+#include "Move.h"
 
 class Game {
-
 private:
-
-	static GLuint VBO; // Объявление переменной VBO;
-
-	// angle of rotation for the camera direction
-	static float angle, yAngle;
-	// actual vector representing the camera's direction
-	static float lx, ly, lz;
-	// XZ position of the camera
-	static float x , z ;
-	static float roll ;
+    static int m_I_Width;
+    static int m_I_Height;
+    static Moveming move;
 
 public:
+    Game(int& argc, char** argv, int width, int height) {
+        m_I_Width = width;
+        m_I_Height = height;
 
-	Game(int argc, char** argv, const int& width, const int& height) {
+        move.setWindowSize(m_I_Width, m_I_Height);
 
-		glutInit(&argc, argv); // инициализация системы GLUT перед использованием других функций GLUT
+        glutInit(&argc, argv);
+        set_settings();
+        glutCreateWindow("LAB_3");
 
-		glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH); // устанавливает режим отображения для окна GLUT
-		
-		/*
-			GLUT_RGB указывает, что окно будет использовать RGB цветовую модель (красный, зеленый, синий) для отображения.
-			GLUT_DOUBLE указывает, что будет использоваться двойная буферизация. Это означает, что в окне будет использоваться два буфера: передний (отображаемый пользователю) и задний (в который происходит рисование). После завершения рисования на заднем буфере, он будет автоматически сменен с передним буфером, что позволяет избежать эффекта мерцания.
-			GLUT_DEPTH указывает, что будет использоваться буфер глубины (depth buffer) для реализации эффекта глубины (задает порядок, в котором детали будут
-		*/
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glFrustum(-1, 1, -1, 1, 2, 80);
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+        glEnable(GL_DEPTH_TEST);
 
-		glutInitWindowSize(width, height); // устанавливает начальный размер окна GLUT.
-		glutInitWindowPosition(150, 150); // устанавливает начальное положение окна GLUT на экране
-		
-		glutCreateWindow("Our first GLUT application!"); // создает окно GLUT с указанным заголовком
+        set_callback();
+        glutMainLoop();
+    }
 
-		initializeGlutCallbacks();
+    void set_settings() {
+        glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+        glutInitWindowSize(m_I_Width, m_I_Height);
+        glutInitWindowPosition(100, 100);
+    }
 
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    static void set_callback() {
+        glutDisplayFunc(display);
+        glutKeyboardFunc(handleKeyPress);
+        glutIdleFunc(display);
+        glutPassiveMotionFunc(handleKeyMove);
+    }
 
-		glEnable(GL_DEPTH_TEST);
+    static void display() {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glPushMatrix();
+        move.MoveCamera();
+        Scene sc;
+        sc.draw_floor();
+        glPopMatrix();
+        glutSwapBuffers();
+    }
 
-		glutMainLoop(); // основной цикл программы
-	}
+    static void handleKeyPress(unsigned char key, int x, int y) {
+        move.handleKeyPress(key, x, y);
+    }
 
-	static void display();
+    static void handleKeyMove(int x, int y) {
+        move.handleKeyMove(x, y);
+    }
 
-	static void changeSize(int w, int h);
-
-	static void initializeGlutCallbacks();
-
-	static void processNormalKeys(unsigned char key, int xx, int yy) {
-		float fraction = 0.1f;
-		if (key == 'w') {
-			x += lx * fraction;
-			z += lz * fraction;
-		}
-		else if (key == 'a') {
-			x += sin(angle - M_PI / 2.0) * fraction;
-			z += -cos(angle - M_PI / 2.0) * fraction;
-		}
-		else if (key == 's') {
-			x -= lx * fraction;
-			z -= lz * fraction;
-		}
-		else if (key == 'd') {
-			x += sin(M_PI / 2.0 + angle) * fraction;
-			z += -cos(M_PI / 2.0 + angle) * fraction;
-		}
-		else if (key == 'x') {
-			roll += 0.5f;
-		}
-		else if (key == 'z') {
-			roll -= 0.5f;
-		}
-
-		if (key == 27)
-			exit(0);
-	}
-
-	static void processSpecialKeys(int key, int xx, int yy) {
-
-		float fraction = 0.1f;
-
-		switch (key) {
-		case GLUT_KEY_LEFT:
-			x += sin(angle - M_PI / 2.0) * fraction;
-			z += -cos(angle - M_PI / 2.0) * fraction;
-			break;
-		case GLUT_KEY_RIGHT:
-			x += sin(M_PI / 2.0 + angle) * fraction;
-			z += -cos(M_PI / 2.0 + angle) * fraction;
-			break;
-		case GLUT_KEY_UP:
-			x += lx * fraction;
-			z += lz * fraction;
-			break;
-		case GLUT_KEY_DOWN:
-			x -= lx * fraction;
-			z -= lz * fraction;
-			break;
-		}
-	}
+    static int getWindowWidth() { return m_I_Width; }
+    static int getWindowHeight() { return m_I_Height; }
 };
+
+int Game::m_I_Width = 100;
+int Game::m_I_Height = 100;
+Moveming Game::move;
+
+#endif // GAME_H

@@ -151,9 +151,9 @@
   <ItemGroup>
     <ClInclude Include="..\stb-master\stb_image.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="math_3d.h" />
+    <ClInclude Include="Types.h" />
     <ClInclude Include="Move.h" />
-    <ClInclude Include="Room.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="Saper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
