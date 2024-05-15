@@ -1,0 +1,15 @@
+h = 0.00000001 ;
+x1 = 2; x2 = -2;
+[f,g] = feval(@grad,[x1 x2]);
+f1 = feval(@grad,[x1+h x2]);
+f2 = feval(@grad,[x1 x2+h]);
+disp(strcat('Точное значение производной по х1=',num2str(g(1))));
+g1 = (f1-f)/h;
+disp(strcat('Приближенное значение производной по х1=',num2str(g1)));
+disp(strcat('Абсолютная погрешность=',num2str(abs(g1-g(1)))));
+disp(strcat('Относительная погрешность=',num2str(abs((g1-g(1))/g1))));
+disp(strcat('Точное значение производной по х2=',num2str(g(2))));
+g2 = (f2-f)/h;
+disp(strcat('Приближенное значение производной по х2=',num2str(g2)));
+disp(strcat('Абсолютная погрешность=',num2str(abs(g2-g(2)))));
+disp(strcat('Относительная погрешность=',num2str(abs((g2-g(2))/g2))));

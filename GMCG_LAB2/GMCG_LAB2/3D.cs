@@ -168,6 +168,7 @@ namespace GMCG_LAB2
             create_parallelepiped(new Coord3D(0, 3, 0), 6, 8, 2, 25, 10);
             create_parallelepiped(new Coord3D(0, 1, 2), 3, 9, 11, 25, 10);
             create_parallelepiped(new Coord3D(3, 4, 9), 2, 5, 1, 25, 10);
+            create_parallelepiped(new Coord3D(1,4,2), 2, 5, 6, 25, 10);
 
             create_frustum(new Coord3D(5, 1.5, 3), 3, 1, 2, new List<int> { 0, 0, 1 }, 25, 10);
         }

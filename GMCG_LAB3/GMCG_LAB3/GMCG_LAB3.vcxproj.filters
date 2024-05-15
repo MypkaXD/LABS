@@ -32,5 +32,14 @@
     <ClInclude Include="math_3d.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Saper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Move.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\stb-master\stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
