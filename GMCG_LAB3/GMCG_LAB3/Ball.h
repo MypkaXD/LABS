@@ -39,36 +39,34 @@ public:
 
 	void updatePos(float deltaTime) {
 
-		center.m_F_X += velocityX*deltaTime;
-		center.m_F_Y += velocityY*deltaTime;
-		center.m_F_Z += velocityZ*deltaTime;
+		//velocityZ -= g * deltaTime;
 
-		std::cout << center.m_F_Z << std::endl;	
+		center.m_F_X += velocityX * deltaTime;
+		center.m_F_Y += velocityY * deltaTime;
+		center.m_F_Z += velocityZ * deltaTime;
 
-		reflect(velocityZ, center.m_F_Z, radius, (center.m_F_Z < radius));
-		reflect(velocityZ, center.m_F_Z, 5 - radius, (center.m_F_Z > 5 - radius));
-		
-		reflect(velocityX, center.m_F_X, radius, (center.m_F_X < radius));
-		reflect(velocityX, center.m_F_X, 5 - radius, (center.m_F_X > 5 - radius));
-		
-		reflect(velocityY, center.m_F_Y, radius, (center.m_F_Y < radius));
-		reflect(velocityY, center.m_F_Y, 5 - radius, (center.m_F_Y > 5 - radius));
+		collisionsWithWalls(velocityX, center.m_F_X, 5 - radius, center.m_F_X > 5 - radius);
+		collisionsWithWalls(velocityX, center.m_F_X, -5 + radius, center.m_F_X < -5 + radius);
 
-		//velocityX -= 0.00002;
-		//velocityY -= 0.00002;
-		velocityZ -= g * deltaTime;
+		collisionsWithWalls(velocityY, center.m_F_Y, 5 - radius, center.m_F_Y > 5 - radius);
+		collisionsWithWalls(velocityY, center.m_F_Y, -5 + radius, center.m_F_Y < -5 + radius);
+
+		collisionsWithWalls(velocityZ, center.m_F_Z, 10 - radius, center.m_F_Z > 10 - radius);
+		collisionsWithWalls(velocityZ, center.m_F_Z, 0 + radius, center.m_F_Z < 0 + radius);
+
 
 	}
 
-	void reflect(float& speed, float& centerCoord, float wall, bool cond) {
+	void collisionsWithWalls(float& velocity, float& center, float wall, bool condition) {
 
-		if (!cond)
+		if (!condition)
 			return;
-
-		speed *= -0.85;
-		centerCoord = wall;
+		
+		velocity *= -1;
+		center = wall;
 
 	}
+
 
 	Point3D& getCoordsOfCenter() {
 		return center;
