@@ -3,24 +3,28 @@
   "WorkspaceRootPath": "C:\\dev\\Source\\LABS\\GMCG_LAB3\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E6AA579F-7223-4E88-8E59-2A3231FE64E8}|GMCG_LAB3\\GMCG_LAB3.vcxproj|C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\Move.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{E6AA579F-7223-4E88-8E59-2A3231FE64E8}|GMCG_LAB3\\GMCG_LAB3.vcxproj|solutionrelative:GMCG_LAB3\\Move.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{E6AA579F-7223-4E88-8E59-2A3231FE64E8}|GMCG_LAB3\\GMCG_LAB3.vcxproj|C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\Scene.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E6AA579F-7223-4E88-8E59-2A3231FE64E8}|GMCG_LAB3\\GMCG_LAB3.vcxproj|solutionrelative:GMCG_LAB3\\Scene.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E6AA579F-7223-4E88-8E59-2A3231FE64E8}|GMCG_LAB3\\GMCG_LAB3.vcxproj|C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\Game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{E6AA579F-7223-4E88-8E59-2A3231FE64E8}|GMCG_LAB3\\GMCG_LAB3.vcxproj|solutionrelative:GMCG_LAB3\\Game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{E6AA579F-7223-4E88-8E59-2A3231FE64E8}|GMCG_LAB3\\GMCG_LAB3.vcxproj|C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\Ball.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E6AA579F-7223-4E88-8E59-2A3231FE64E8}|GMCG_LAB3\\GMCG_LAB3.vcxproj|solutionrelative:GMCG_LAB3\\Ball.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E6AA579F-7223-4E88-8E59-2A3231FE64E8}|GMCG_LAB3\\GMCG_LAB3.vcxproj|C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{E6AA579F-7223-4E88-8E59-2A3231FE64E8}|GMCG_LAB3\\GMCG_LAB3.vcxproj|solutionrelative:GMCG_LAB3\\Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{E6AA579F-7223-4E88-8E59-2A3231FE64E8}|GMCG_LAB3\\GMCG_LAB3.vcxproj|C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\Balls.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E6AA579F-7223-4E88-8E59-2A3231FE64E8}|GMCG_LAB3\\GMCG_LAB3.vcxproj|solutionrelative:GMCG_LAB3\\Balls.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E6AA579F-7223-4E88-8E59-2A3231FE64E8}|GMCG_LAB3\\GMCG_LAB3.vcxproj|C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\Types.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{E6AA579F-7223-4E88-8E59-2A3231FE64E8}|GMCG_LAB3\\GMCG_LAB3.vcxproj|solutionrelative:GMCG_LAB3\\Types.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E6AA579F-7223-4E88-8E59-2A3231FE64E8}|GMCG_LAB3\\GMCG_LAB3.vcxproj|C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\Scene.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{E6AA579F-7223-4E88-8E59-2A3231FE64E8}|GMCG_LAB3\\GMCG_LAB3.vcxproj|solutionrelative:GMCG_LAB3\\Scene.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{E6AA579F-7223-4E88-8E59-2A3231FE64E8}|GMCG_LAB3\\GMCG_LAB3.vcxproj|C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\Move.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E6AA579F-7223-4E88-8E59-2A3231FE64E8}|GMCG_LAB3\\GMCG_LAB3.vcxproj|solutionrelative:GMCG_LAB3\\Move.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E6AA579F-7223-4E88-8E59-2A3231FE64E8}|GMCG_LAB3\\GMCG_LAB3.vcxproj|C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\Game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E6AA579F-7223-4E88-8E59-2A3231FE64E8}|GMCG_LAB3\\GMCG_LAB3.vcxproj|solutionrelative:GMCG_LAB3\\Game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E6AA579F-7223-4E88-8E59-2A3231FE64E8}|GMCG_LAB3\\GMCG_LAB3.vcxproj|C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\GMCG_LAB3.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -34,17 +38,76 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Game.h",
+              "DocumentMoniker": "C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\Game.h",
+              "RelativeDocumentMoniker": "GMCG_LAB3\\Game.h",
+              "ToolTip": "C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\Game.h",
+              "RelativeToolTip": "GMCG_LAB3\\Game.h",
+              "ViewState": "AQIAADMAAAAAAAAAAAAAAEAAAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-05-17T16:29:44.62Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Scene.h",
+              "DocumentMoniker": "C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\Scene.h",
+              "RelativeDocumentMoniker": "GMCG_LAB3\\Scene.h",
+              "ToolTip": "C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\Scene.h",
+              "RelativeToolTip": "GMCG_LAB3\\Scene.h",
+              "ViewState": "AQIAABsAAAAAAAAAAAAAADUAAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-05-04T08:53:23.271Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Ball.h",
+              "DocumentMoniker": "C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\Ball.h",
+              "RelativeDocumentMoniker": "GMCG_LAB3\\Ball.h",
+              "ToolTip": "C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\Ball.h",
+              "RelativeToolTip": "GMCG_LAB3\\Ball.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-05-17T17:15:51.834Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Balls.h",
+              "DocumentMoniker": "C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\Balls.h",
+              "RelativeDocumentMoniker": "GMCG_LAB3\\Balls.h",
+              "ToolTip": "C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\Balls.h",
+              "RelativeToolTip": "GMCG_LAB3\\Balls.h",
+              "ViewState": "AQIAACIAAAAAAAAAAADgv0UAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-05-18T07:42:17.296Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{90243340-bd7a-11d0-93ef-00a0c90f2734}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "Move.h",
               "DocumentMoniker": "C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\Move.h",
               "RelativeDocumentMoniker": "GMCG_LAB3\\Move.h",
               "ToolTip": "C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\Move.h",
               "RelativeToolTip": "GMCG_LAB3\\Move.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAAAAAA",
+              "ViewState": "AQIAABoAAAAAAAAAAAArwBkAAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2024-05-12T20:32:50.688Z",
               "EditorCaption": ""
@@ -57,44 +120,14 @@
               "RelativeDocumentMoniker": "GMCG_LAB3\\Types.h",
               "ToolTip": "C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\Types.h",
               "RelativeToolTip": "GMCG_LAB3\\Types.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAASAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABsAAAA+AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2024-05-15T12:14:43.997Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Game.cpp",
-              "DocumentMoniker": "C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\Game.cpp",
-              "RelativeDocumentMoniker": "GMCG_LAB3\\Game.cpp",
-              "ToolTip": "C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\Game.cpp",
-              "RelativeToolTip": "GMCG_LAB3\\Game.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-05-15T12:45:16.75Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:1:0:{90243340-bd7a-11d0-93ef-00a0c90f2734}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Game.h",
-              "DocumentMoniker": "C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\Game.h",
-              "RelativeDocumentMoniker": "GMCG_LAB3\\Game.h",
-              "ToolTip": "C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\Game.h",
-              "RelativeToolTip": "GMCG_LAB3\\Game.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-05-04T16:09:59.321Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "GMCG_LAB3.cpp",
               "DocumentMoniker": "C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\GMCG_LAB3.cpp",
               "RelativeDocumentMoniker": "GMCG_LAB3\\GMCG_LAB3.cpp",
@@ -103,19 +136,6 @@
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-04-21T08:03:10.347Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Scene.h",
-              "DocumentMoniker": "C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\Scene.h",
-              "RelativeDocumentMoniker": "GMCG_LAB3\\Scene.h",
-              "ToolTip": "C:\\dev\\Source\\LABS\\GMCG_LAB3\\GMCG_LAB3\\Scene.h",
-              "RelativeToolTip": "GMCG_LAB3\\Scene.h",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAIAAAASAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-05-04T08:53:23.271Z",
               "EditorCaption": ""
             }
           ]

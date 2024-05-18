@@ -1,6 +1,8 @@
 #include <glut.h>
+#include <vector>
 
 #include "Types.h"
+#include "Balls.h"
 
 #pragma once
 
@@ -8,6 +10,9 @@ class Scene {
 
 private:
 
+	float deltaTime = 0.01f;
+
+	Balls balls;
 
 public:
 
@@ -41,7 +46,26 @@ public:
 
 			}
 		}
+
+		glDisableClientState(GL_VERTEX_ARRAY);
 	
 	}
+
+	void update() {
+
+		balls.updateBalls(deltaTime);
+
+		draw_floor();
+		
+	}
+
+	void init_scene() {
+
+		balls.setBall(1, { 0,0,20 }, { 1,0,0 }, { 0,0,0 });
+		balls.setBall(1, { 0,0,10 }, { 0,1,0 }, { 0,0,0 });
+
+		draw_floor();
+	}
+
 
 };

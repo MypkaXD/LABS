@@ -150,6 +150,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\stb-master\stb_image.h" />
+    <ClInclude Include="Ball.h" />
+    <ClInclude Include="Balls.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="Move.h" />
