@@ -24,20 +24,75 @@ public:
 	void handleCollisionsWithBall() {
 
 		for (size_t i = 0; i < m_Vec_Balls.size(); ++i) {
-			for (size_t j = 0; j < m_Vec_Balls.size(); ++j) {
-				if (i == j)
-					continue;
-				else {
-					if (checkCollision(m_Vec_Balls[i], m_Vec_Balls[j])) {
+			for (size_t j = i + 1; j < m_Vec_Balls.size(); ++j) {
+				if (checkCollision(m_Vec_Balls[i], m_Vec_Balls[j])) {
 
-						std::cout << "connection of balls" << std::endl;
-						
+					std::cout << "connection of balls" << std::endl;
 
-						//swapVelocity(m_Vec_Balls[i], m_Vec_Balls[j]);
-					}
+					collisionsWithBalls(m_Vec_Balls[i], m_Vec_Balls[j]);
+
+					//swapVelocity(m_Vec_Balls[i], m_Vec_Balls[j]);
 				}
 			}
 		}
+
+	}
+
+	void collisionsWithBalls(Ball& first, Ball& second) {
+
+		float sumOfRadius = first.getRadius() + second.getRadius();
+
+		float dx = first.getCoordsOfCenter().m_F_X - second.getCoordsOfCenter().m_F_X;
+		float dy = first.getCoordsOfCenter().m_F_Y - second.getCoordsOfCenter().m_F_Y;
+		float dz = first.getCoordsOfCenter().m_F_Z - second.getCoordsOfCenter().m_F_Z;
+
+		float distance = sqrt(dx * dx + dy * dy + dz * dz);
+
+		float overlapX = dx * (sumOfRadius - distance) / distance;
+		float overlapY = dy * (sumOfRadius - distance) / distance;
+		float overlapZ = dz * (sumOfRadius - distance) / distance;
+
+		Point3D moveFirstBall(first.getCoordsOfCenter().m_F_X + overlapX,
+			first.getCoordsOfCenter().m_F_Y + overlapY,
+			first.getCoordsOfCenter().m_F_Z + overlapZ);
+
+		Point3D moveSecondBall(second.getCoordsOfCenter().m_F_X - overlapX,
+			second.getCoordsOfCenter().m_F_Y - overlapY,
+			second.getCoordsOfCenter().m_F_Z - overlapZ);
+
+
+		first.setCenter(moveFirstBall);
+		second.setCenter(moveSecondBall);
+
+		float velocityDx = first.getVelocity().m_F_X - second.getVelocity().m_F_X;
+		float velocityDy = first.getVelocity().m_F_Y - second.getVelocity().m_F_Y;
+		float velocityDz = first.getVelocity().m_F_Z - second.getVelocity().m_F_Z;
+		
+		float lenghtOfOverlap = sqrt(overlapX * overlapX + overlapY * overlapY + overlapZ * overlapZ);
+
+		float velocityNormal = velocityDx * (overlapX / lenghtOfOverlap) +
+			velocityDy * (overlapY / lenghtOfOverlap) +
+			velocityDz * (overlapZ / lenghtOfOverlap);
+
+		if (velocityNormal > 0)
+			return;
+
+		float th = atan((first.getCoordsOfCenter().m_F_Y - second.getCoordsOfCenter().m_F_Y) / 
+			(first.getCoordsOfCenter().m_F_X - second.getCoordsOfCenter().m_F_X));
+		float cth = cosf(th);
+		float sth = sinf(th);
+
+		float v1t = cth * second.getVelocity().m_F_X + sth * second.getVelocity().m_F_Y;
+		float v2t = v1t + (cth * (first.getVelocity().m_F_X - second.getVelocity().m_F_X) 
+			+ sth * (first.getVelocity().m_F_Y - second.getVelocity().m_F_Y));
+		float v1n = (first.getVelocity().m_F_Y * cth) - (sth * first.getVelocity().m_F_X);
+		float v2n = (cth * second.getVelocity().m_F_Y - sth * second.getVelocity().m_F_X);
+
+		Point3D newVelocityForFirst((v1t * cth) - (v1n * sth), (v1n * cth) + (v1t * sth), first.getVelocity().m_F_Z);
+		Point3D newVelocityForSecond((v2t * cth) - (v2n * sth), (v2n * cth) + (v2t * sth), second.getVelocity().m_F_Z);
+
+		first.setVelocity(newVelocityForFirst);
+		second.setVelocity(newVelocityForSecond);
 
 	}
 
@@ -50,7 +105,7 @@ public:
 		
 		float distance = sqrt(dx * dx + dy * dy + dz * dz);
 
-		return distance <= first.getRadius() + second.getRadius();
+		return distance < first.getRadius() + second.getRadius();
 	}
 
 	void updateBalls(float deltaTime) {

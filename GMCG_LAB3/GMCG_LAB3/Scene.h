@@ -62,7 +62,7 @@ public:
 	void init_scene() {
 
 		balls.setBall(1, { 0,0,20 }, { 1,0,0 }, { 5,5,5 });
-		//balls.setBall(1, { 0,0,10 }, { 0,1,0 }, { 0,0,0 });
+		balls.setBall(1, { 0,0,10 }, { 0,1,0 }, { 3,4,7 });
 
 		draw_floor();
 	}

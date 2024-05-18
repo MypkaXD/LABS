@@ -62,7 +62,7 @@ public:
 		if (!condition)
 			return;
 		
-		velocity *= -1;
+		velocity *= -1; // -0.85
 		center = wall;
 
 	}
