@@ -11,6 +11,8 @@ private:
 
 	std::vector<Ball> m_Vec_Balls;
 
+	unsigned int textureID;
+
 public:
 
 	void setBall(float radius, Point3D center, Point3D color, Point3D velocity) {
@@ -21,13 +23,17 @@ public:
 
 	}
 
+	std::vector<Ball>& getBalls() {
+		return m_Vec_Balls;
+	}
+
 	void handleCollisionsWithBall() {
 
 		for (size_t i = 0; i < m_Vec_Balls.size(); ++i) {
 			for (size_t j = i + 1; j < m_Vec_Balls.size(); ++j) {
 				if (checkCollision(m_Vec_Balls[i], m_Vec_Balls[j])) {
 
-					std::cout << "connection of balls" << std::endl;
+					//std::cout << "connection of balls" << std::endl;
 
 					collisionsWithBalls(m_Vec_Balls[i], m_Vec_Balls[j]);
 
@@ -37,6 +43,37 @@ public:
 		}
 
 	}
+
+	// Загрузка текстуры
+	void loadText() {
+		// Включаем текстурирование
+		glEnable(GL_TEXTURE_2D);
+
+		// Загружаем текстуру с помощью stb_image
+		int width, height, channels;
+		unsigned char* textureData = stbi_load("C:\\dev\\Source\\LABS\\GMCG_LAB3\\wall.png", &width, &height, &channels, 0);
+
+		if (textureData) {
+			glGenTextures(1, &textureID);
+			glBindTexture(GL_TEXTURE_2D, textureID);
+
+			glTexImage2D(GL_TEXTURE_2D, 0, channels == 4 ? GL_RGBA : GL_RGB, width, height, 0, channels == 4 ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, textureData);
+
+			stbi_image_free(textureData);
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
+		else {
+			std::cout << "Failed to load texture" << std::endl;
+			return;
+		}
+	}
+
 
 	void collisionsWithBalls(Ball& first, Ball& second) {
 
@@ -52,14 +89,16 @@ public:
 		float overlapY = dy * (sumOfRadius - distance) / distance;
 		float overlapZ = dz * (sumOfRadius - distance) / distance;
 
-		Point3D moveFirstBall(first.getCoordsOfCenter().m_F_X + overlapX,
-			first.getCoordsOfCenter().m_F_Y + overlapY,
-			first.getCoordsOfCenter().m_F_Z + overlapZ);
+		float im1 = 1 / (first.getRadius() * first.getRadius() * first.getRadius());
+		float im2 = 1 / (second.getRadius() * second.getRadius() * second.getRadius());
 
-		Point3D moveSecondBall(second.getCoordsOfCenter().m_F_X - overlapX,
-			second.getCoordsOfCenter().m_F_Y - overlapY,
-			second.getCoordsOfCenter().m_F_Z - overlapZ);
+		Point3D moveFirstBall(first.getCoordsOfCenter().m_F_X + overlapX * (im1) / (im1 + im2),
+			first.getCoordsOfCenter().m_F_Y + overlapY * (im1) / (im1 + im2),
+			first.getCoordsOfCenter().m_F_Z + overlapZ * (im1) / (im1 + im2));
 
+		Point3D moveSecondBall(second.getCoordsOfCenter().m_F_X - overlapX * (im2) / (im1 + im2),
+			second.getCoordsOfCenter().m_F_Y - overlapY * (im2) / (im1 + im2),
+			second.getCoordsOfCenter().m_F_Z - overlapZ * (im2) / (im1 + im2));
 
 		first.setCenter(moveFirstBall);
 		second.setCenter(moveSecondBall);
@@ -77,14 +116,19 @@ public:
 		if (velocityNormal > 0)
 			return;
 
+		float m1 = (float)1 / im1;
+		float m2 = (float)1 / im2;
+
 		float th = atan((first.getCoordsOfCenter().m_F_Y - second.getCoordsOfCenter().m_F_Y) / 
 			(first.getCoordsOfCenter().m_F_X - second.getCoordsOfCenter().m_F_X));
 		float cth = cosf(th);
 		float sth = sinf(th);
 
-		float v1t = cth * second.getVelocity().m_F_X + sth * second.getVelocity().m_F_Y;
-		float v2t = v1t + (cth * (first.getVelocity().m_F_X - second.getVelocity().m_F_X) 
-			+ sth * (first.getVelocity().m_F_Y - second.getVelocity().m_F_Y));
+		float v1t = (cth * ((m1 - m2) * first.getVelocity().m_F_X + 2 * m2 * second.getVelocity().m_F_X) + sth *
+			((m1 - m2) * first.getVelocity().m_F_Y + 2 * m2 * second.getVelocity().m_F_Y)) / (m1 + m2);
+		float v2t = v1t + (cth * (first.getVelocity().m_F_X - second.getVelocity().m_F_X) +
+			sth * (first.getVelocity().m_F_Y - second.getVelocity().m_F_Y));
+		
 		float v1n = (first.getVelocity().m_F_Y * cth) - (sth * first.getVelocity().m_F_X);
 		float v2n = (cth * second.getVelocity().m_F_Y - sth * second.getVelocity().m_F_X);
 
@@ -114,7 +158,7 @@ public:
 		
 		for (size_t count = 0; count < m_Vec_Balls.size(); ++count) {
 			m_Vec_Balls[count].updatePos(deltaTime);
-			m_Vec_Balls[count].update();
+			m_Vec_Balls[count].update(textureID);
 		}
 
 	}

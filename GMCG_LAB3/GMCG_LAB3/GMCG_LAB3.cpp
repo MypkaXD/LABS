@@ -6,6 +6,8 @@
 
 int main(int argc, char** argv) {
 
-	Game game(argc, argv, 1280, 720);
+	srand(time(0));
+
+	Game game(argc, argv, 1920, 1080);
 
 }

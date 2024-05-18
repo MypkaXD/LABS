@@ -1,0 +1,53 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\dev\\Source\\LABS\\MMDTT_LAB_2\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A23A8078-697D-43BF-AB9D-A4ADEB175A15}|MMDTT_LAB_2\\MMDTT_LAB_2.vcxproj|C:\\dev\\Source\\LABS\\MMDTT_LAB_2\\MMDTT_LAB_2\\MMDTT_LAB_2.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A23A8078-697D-43BF-AB9D-A4ADEB175A15}|MMDTT_LAB_2\\MMDTT_LAB_2.vcxproj|solutionrelative:MMDTT_LAB_2\\MMDTT_LAB_2.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A23A8078-697D-43BF-AB9D-A4ADEB175A15}|MMDTT_LAB_2\\MMDTT_LAB_2.vcxproj|C:\\PROGRAM FILES\\MICROSOFT VISUAL STUDIO\\2022\\COMMUNITY\\VC\\TOOLS\\MSVC\\14.39.33519\\INCLUDE\\VECTOR||{3B902123-F8A7-4915-9F01-361F908088D0}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "vector",
+              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\include\\vector",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\include\\vector",
+              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\include\\vector",
+              "RelativeToolTip": "..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\include\\vector",
+              "ViewState": "AQIAAFAHAAAAAAAAAAAMwGYHAAAkAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-05-18T23:41:02.018Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MMDTT_LAB_2.cpp",
+              "DocumentMoniker": "C:\\dev\\Source\\LABS\\MMDTT_LAB_2\\MMDTT_LAB_2\\MMDTT_LAB_2.cpp",
+              "RelativeDocumentMoniker": "MMDTT_LAB_2\\MMDTT_LAB_2.cpp",
+              "ToolTip": "C:\\dev\\Source\\LABS\\MMDTT_LAB_2\\MMDTT_LAB_2\\MMDTT_LAB_2.cpp",
+              "RelativeToolTip": "MMDTT_LAB_2\\MMDTT_LAB_2.cpp",
+              "ViewState": "AQIAALEAAAAAAAAAAAAewMsAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-05-18T21:23:44.969Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

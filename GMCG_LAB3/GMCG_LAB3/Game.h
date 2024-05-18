@@ -6,6 +6,7 @@
 #include "Scene.h"
 #include "Move.h"
 
+
 class Game {
 private:
     static int m_I_Width;
@@ -13,7 +14,10 @@ private:
     static Moveming move;
     static Scene sc;
 
+    //static GLuint texture;
+
 public:
+    
     Game(int& argc, char** argv, int width, int height) {
         m_I_Width = width;
         m_I_Height = height;
@@ -31,14 +35,55 @@ public:
         glLoadIdentity();
         glEnable(GL_DEPTH_TEST);
 
+        //loadTexture();
+        //glEnable(GL_TEXTURE_2D);
+
+        //glEnable(GL_BLEND);
+        //glBlendFunc(GL_ONE, GL_ONE);
+
+        //glEnable(GL_ALPHA_TEST);
+        //glAlphaFunc(GL_LESS, 0.4);
+
         set_callback();
         glutMainLoop();
     }
+    /*
+    void loadTexture() {
+
+        // Загрузка текстуры с помощью stb_image
+        int width, height, nrChannels;
+        unsigned char* data = stbi_load("path_to_texture_image.jpg", &width, &height, &nrChannels, 0);
+        if (data) {
+            glGenTextures(1, &texture);
+            glBindTexture(GL_TEXTURE_2D, texture);
+
+            // Настройка параметров текстуры
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+            // Загрузка текстуры в OpenGL
+            if (nrChannels == 3) {
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+            }
+            else if (nrChannels == 4) {
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+            }
+
+            stbi_image_free(data);
+        }
+        else {
+            printf("Failed to load texture\n");
+        }
+
+    }
+    */
 
     void set_settings() {
-        glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+        glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
         glutInitWindowSize(m_I_Width, m_I_Height);
-        glutInitWindowPosition(100, 100);
+        glutInitWindowPosition(0, 0);
     }
 
     static void set_callback() {
@@ -60,6 +105,7 @@ public:
 
     static void idle() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClearColor(0, 0, 0.25, 0);
         glPushMatrix();
         move.MoveCamera();
         sc.update();
@@ -124,5 +170,6 @@ int Game::m_I_Width = 100;
 int Game::m_I_Height = 100;
 Moveming Game::move;
 Scene Game::sc;
+//GLuint Game::texture;
 
 #endif // GAME_H
