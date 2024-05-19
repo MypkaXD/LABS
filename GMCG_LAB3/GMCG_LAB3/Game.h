@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include <glut.h>
+#include <vector>
 
 #include "Scene.h"
 #include "Move.h"
@@ -11,10 +12,10 @@ class Game {
 private:
     static int m_I_Width;
     static int m_I_Height;
-    static Moveming move;
-    static Scene sc;
+    static Moveming m_Moveming_move;
+    static Scene m_Scene_scene;
 
-    //static GLuint texture;
+    static std::vector<GLuint> m_Vec_textures;
 
 public:
     
@@ -22,7 +23,7 @@ public:
         m_I_Width = width;
         m_I_Height = height;
 
-        move.setWindowSize(m_I_Width, m_I_Height);
+        m_Moveming_move.setWindowSize(m_I_Width, m_I_Height);
 
         glutInit(&argc, argv);
         set_settings();
@@ -35,57 +36,64 @@ public:
         glLoadIdentity();
         glEnable(GL_DEPTH_TEST);
 
-        //loadTexture();
-        //glEnable(GL_TEXTURE_2D);
-
-        //glEnable(GL_BLEND);
-        //glBlendFunc(GL_ONE, GL_ONE);
-
-        //glEnable(GL_ALPHA_TEST);
-        //glAlphaFunc(GL_LESS, 0.4);
+        loadTextures();
+        glEnable(GL_TEXTURE_2D);
 
         set_callback();
         glutMainLoop();
     }
-    /*
-    void loadTexture() {
 
-        // Загрузка текстуры с помощью stb_image
-        int width, height, nrChannels;
-        unsigned char* data = stbi_load("path_to_texture_image.jpg", &width, &height, &nrChannels, 0);
-        if (data) {
+    void loadTextures() {
+
+        std::vector<std::string> path = {
+            "C:\\dev\\Source\\LABS\\GMCG_LAB3\\roof.png",
+            "C:\\dev\\Source\\LABS\\GMCG_LAB3\\dragStone.png",
+            "C:\\dev\\Source\\LABS\\GMCG_LAB3\\glass2.png"
+        };
+
+        for (size_t count = 0; count < path.size(); ++count) {
+            loadTexture(path[count], count);
+        }
+
+    }
+    void loadTexture(const std::string& path, const int& index) {
+
+        GLuint texture;
+
+        // Загружаем текстуру с помощью stb_image
+        int width, height, channels;
+        unsigned char* textureData = stbi_load(path.c_str(), &width, &height, &channels, 0);
+
+        if (textureData) {
+
             glGenTextures(1, &texture);
             glBindTexture(GL_TEXTURE_2D, texture);
 
-            // Настройка параметров текстуры
+            glTexImage2D(GL_TEXTURE_2D, 0, channels == 4 ? GL_RGBA : GL_RGB, width, height, 0, channels == 4 ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, textureData);
+
+            stbi_image_free(textureData);
+
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-            // Загрузка текстуры в OpenGL
-            if (nrChannels == 3) {
-                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-            }
-            else if (nrChannels == 4) {
-                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-            }
+            m_Vec_textures.push_back(texture);
 
-            stbi_image_free(data);
+            glBindTexture(GL_TEXTURE_2D, 0);
+
         }
         else {
             printf("Failed to load texture\n");
         }
 
     }
-    */
 
     void set_settings() {
         glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
         glutInitWindowSize(m_I_Width, m_I_Height);
         glutInitWindowPosition(0, 0);
     }
-
     static void set_callback() {
         glutDisplayFunc(display);
         glutKeyboardFunc(handleKeyPress);
@@ -97,28 +105,26 @@ public:
     static void display() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glPushMatrix();
-        move.MoveCamera();
-        sc.init_scene();
+        m_Moveming_move.MoveCamera();
+        m_Scene_scene.init_scene();
         glPopMatrix();
         glutSwapBuffers();
     }
-
     static void idle() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glClearColor(0, 0, 0.25, 0);
+        //glClearColor(0, 0, 0.25, 0);
         glPushMatrix();
-        move.MoveCamera();
-        sc.update();
+        m_Moveming_move.MoveCamera();
+        m_Scene_scene.update(m_Vec_textures);
+        glPopMatrix();
         glPopMatrix();
         glutSwapBuffers();
     }
-
     static void handleKeyPress(unsigned char key, int x, int y) {
-        move.handleKeyPress(key, x, y);
+        m_Moveming_move.handleKeyPress(key, x, y);
     }
-
     static void handleKeyMove(int x, int y) {
-        move.handleKeyMove(x, y);
+        m_Moveming_move.handleKeyMove(x, y);
     }
 
     static void resize(int width, int height)
@@ -132,7 +138,6 @@ public:
                 Например, квадрат должен оставаться квадратом, а не превращаться в
                 прямоугольник, когда окно изменяется.
         */
-
 
         glViewport(0, 0, width, height); // Установка области просмотра
         /*
@@ -161,15 +166,14 @@ public:
         glLoadIdentity();
     }
 
-
     static int getWindowWidth() { return m_I_Width; }
     static int getWindowHeight() { return m_I_Height; }
 };
 
 int Game::m_I_Width = 100;
 int Game::m_I_Height = 100;
-Moveming Game::move;
-Scene Game::sc;
-//GLuint Game::texture;
+Moveming Game::m_Moveming_move;
+Scene Game::m_Scene_scene;
+std::vector<GLuint> Game::m_Vec_textures;
 
 #endif // GAME_H

@@ -16,3 +16,17 @@ struct Point3D {
 		this->m_F_Z = z;
 	}
 };
+
+struct Color {
+	float m_F_r = 0.0f;
+	float m_F_g = 0.0f;
+	float m_F_b = 0.0f;
+	float m_F_alpha = 0.0f;
+
+	Color(float r, float g, float b, float alpha) {
+		this->m_F_r = r;
+		this->m_F_g = g;
+		this->m_F_b = b;
+		this->m_F_alpha = alpha;
+	}
+};

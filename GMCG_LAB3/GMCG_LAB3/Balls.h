@@ -15,7 +15,7 @@ private:
 
 public:
 
-	void setBall(float radius, Point3D center, Point3D color, Point3D velocity) {
+	void setBall(float radius, Point3D center, Color color, Point3D velocity) {
 
 		Ball temp_ball(radius, center, color, velocity);
 
@@ -43,37 +43,6 @@ public:
 		}
 
 	}
-
-	// Загрузка текстуры
-	void loadText() {
-		// Включаем текстурирование
-		glEnable(GL_TEXTURE_2D);
-
-		// Загружаем текстуру с помощью stb_image
-		int width, height, channels;
-		unsigned char* textureData = stbi_load("C:\\dev\\Source\\LABS\\GMCG_LAB3\\wall.png", &width, &height, &channels, 0);
-
-		if (textureData) {
-			glGenTextures(1, &textureID);
-			glBindTexture(GL_TEXTURE_2D, textureID);
-
-			glTexImage2D(GL_TEXTURE_2D, 0, channels == 4 ? GL_RGBA : GL_RGB, width, height, 0, channels == 4 ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, textureData);
-
-			stbi_image_free(textureData);
-
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-			glBindTexture(GL_TEXTURE_2D, 0);
-		}
-		else {
-			std::cout << "Failed to load texture" << std::endl;
-			return;
-		}
-	}
-
 
 	void collisionsWithBalls(Ball& first, Ball& second) {
 
@@ -140,7 +109,6 @@ public:
 
 	}
 
-
 	bool checkCollision(Ball& first, Ball& second) {
 		
 		float dx = first.getCoordsOfCenter().m_F_X - second.getCoordsOfCenter().m_F_X;
@@ -152,13 +120,13 @@ public:
 		return distance < first.getRadius() + second.getRadius();
 	}
 
-	void updateBalls(float deltaTime) {
-		
+	void updateBalls(float deltaTime, const GLuint& texture, float& m_F_x_border, float& m_F_y_border, float& m_F_z_border) {
+
 		handleCollisionsWithBall();
 		
 		for (size_t count = 0; count < m_Vec_Balls.size(); ++count) {
-			m_Vec_Balls[count].updatePos(deltaTime);
-			m_Vec_Balls[count].update(textureID);
+			m_Vec_Balls[count].updatePos(deltaTime, m_F_x_border, m_F_y_border, m_F_z_border);
+			m_Vec_Balls[count].update(texture);
 		}
 
 	}
