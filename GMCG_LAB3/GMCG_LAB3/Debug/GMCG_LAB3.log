@@ -1,6 +1,0 @@
-﻿  GMCG_LAB3.cpp
-C:\dev\Source\LABS\GMCG_LAB3\GMCG_LAB3\Scene.h(256,32): warning C4018: '<': signed/unsigned mismatch
-  (compiling source file 'GMCG_LAB3.cpp')
-  
-C:\dev\Source\LABS\GMCG_LAB3\GMCG_LAB3\Scene.h(199,1): warning C4715: 'Scene::getCollisionsOfOtherBalls': not all control paths return a value
-  GMCG_LAB3.vcxproj -> C:\dev\Source\LABS\GMCG_LAB3\Debug\GMCG_LAB3.exe
