@@ -48,6 +48,9 @@ private:
     std::vector<double> x_coords_of_teor_function;
     std::vector<double> y_coords_of_teor_function;
 
+    int k = 10;
+    std::vector<double> border_of_intervals;
+
     ImGuiWindowFlags flagsForWindows = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse;
 
     bool isDebug = false;
@@ -109,12 +112,32 @@ public:
                 createTable();
                 createGraph();
                 createInfo();
+                createInputIntervals();
             }
 
             m_window.clear({ 255,255,255,100 });
 
             render();
         }
+    }
+
+    void createInputIntervals() {
+
+        ImGui::SetNextWindowPos({ 0,500 }); // устанавливаем позицию для создаваемого окна
+        ImGui::SetNextWindowSize({ 318,80 }); // устанавливаем размер для создаваемого окна
+
+        ImGui::Begin("InputK", 0, flagsForWindows); // Создаем окно с заданными параметрами
+
+
+        if (ImGui::InputInt(" ", &k, 1, 100, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CharsDecimal)) { // ввод данных
+            if (k <= 0) // если число попыток меньше или равно 0, то заменяем значение на 1
+                k = 1;
+
+            isOpened = false; // булева переменная на закрыть данные
+        }
+
+        ImGui::End();
+
     }
 
     void create_button_for_start_calc() {
@@ -149,28 +172,41 @@ public:
 
     void createTable() {
 
-        static ImGuiTableFlags flags = ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg; // настройки для таблицы
+        ImGuiTableFlags flags = ImGuiTableFlags_Borders |ImGuiTableFlags_NoHostExtendX; // настройки для таблицы
 
-        ImGui::SetNextWindowPos({ 0,382 }); // устанавливаем позицию для создаваемого окна для таблицы
-        ImGui::SetNextWindowSize({ 960,998 }); // устанавливаем размер для создаваемого окна для таблицы
+        ImGui::SetNextWindowPos({ 0,222 }); // устанавливаем позицию для создаваемого окна для таблицы
+        ImGui::SetNextWindowSize({ 960,235 }); // устанавливаем размер для создаваемого окна для таблицы
 
         ImGui::Begin("Table", 0, flagsForWindows); // создаем окно с заданными настройками
 
-        if (ImGui::BeginTable("table1", different_answered_tickets.size(), flags)) // создаем таблицу с заданными настройками
+        ImGui::BeginChild("firstTable", { 960, 70 });
+
+        if (ImGui::BeginTable("table1", different_answered_tickets.size() + 1, ImGuiTableFlags_Borders | (different_answered_tickets.size() > 18 ? ImGuiTableFlags_ScrollX : 0) | ImGuiTableFlags_NoHostExtendX)) // создаем таблицу с заданными настройками
         {
+            ImGui::TableSetupColumn(u8"x_i", ImGuiTableColumnFlags_WidthFixed);
             for (size_t count = 0; count < different_answered_tickets.size(); ++count)
                 ImGui::TableSetupColumn(std::to_string(different_answered_tickets[count].first).c_str(), ImGuiTableColumnFlags_WidthFixed);
             ImGui::TableHeadersRow();
 
             ImGui::TableNextRow();
+            
             size_t i = 0;
+            
+            ImGui::TableSetColumnIndex(i++);
+            ImGui::Text(u8"n_i");
+
             for (const auto& [count_ansewered, count] : different_answered_tickets) {
                 ImGui::TableSetColumnIndex(i);
                 ImGui::Text("%d", count);
                 ++i;
             }
             i = 0;
+            
             ImGui::TableNextRow();
+
+            ImGui::TableSetColumnIndex(i++);
+            ImGui::Text(u8"n_i / n");
+
             for (const auto& [count_ansewered, count] : different_answered_tickets) {
                 ImGui::TableSetColumnIndex(i);
                 ImGui::Text("%lf", (double)count / count_of_students);
@@ -178,6 +214,10 @@ public:
             }
             ImGui::EndTable();
         }
+
+        ImGui::EndChild();
+
+        ImGui::BeginChild("secondTable", {960, 60});
 
         if (ImGui::BeginTable("table2", 8, flags)) // создаем таблицу с заданными настройками
         {
@@ -213,7 +253,10 @@ public:
             ImGui::EndTable();
         }
 
-        if (ImGui::BeginTable("table3", different_answered_tickets.size(), flags)) // создаем таблицу с заданными настройками
+        ImGui::EndChild();
+        ImGui::BeginChild("ThirdTable", { 960, 80 });
+
+        if (ImGui::BeginTable("table3", different_answered_tickets.size(), ImGuiTableFlags_Borders | (different_answered_tickets.size() > 17 ? ImGuiTableFlags_ScrollX : 0) | ImGuiTableFlags_NoHostExtendX)) // создаем таблицу с заданными настройками
         {
             for (size_t count = 0; count < different_answered_tickets.size(); ++count)
                 ImGui::TableSetupColumn(std::to_string(different_answered_tickets[count].first).c_str(), ImGuiTableColumnFlags_WidthFixed);
@@ -230,11 +273,12 @@ public:
 
             for (size_t count = 0; count < different_answered_tickets.size(); ++count) {
                 ImGui::TableSetColumnIndex(count);
-                ImGui::Text(std::to_string(y_coords_of_sample_function[count + 1]).c_str());
+                ImGui::Text("%.12lf", (double)different_answered_tickets[count].second / count_of_students);
             }
 
             ImGui::EndTable();
         }
+        ImGui::EndChild();
 
         ImGui::End();
     }
@@ -257,7 +301,7 @@ public:
     void createInfo() {
 
         ImGui::SetNextWindowPos({ 0, 81 });
-        ImGui::SetNextWindowSize({ 960,300 });
+        ImGui::SetNextWindowSize({ 960,140 });
 
         ImGui::Begin("Info", 0, flagsForWindows);
 
