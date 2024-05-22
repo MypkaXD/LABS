@@ -1,5 +1,12 @@
 #include "MMDTT_LAB_2.h"
 
+void LAB2::calc_plotnost() {
+
+	for (int i = 0; i < m_I_n_dop; ++i) {
+		m_2Vec_plotnost[i].push_back(m_Vec_Massa_Cell[i] / (abs(m_2Vec_Geometry[i][m_2Vec_Geometry[i].size() - 1] - m_2Vec_Geometry[i + 1][m_2Vec_Geometry[i + 1].size() - 1])));
+	}
+}
+
 void LAB2::cacl_sigma_components() {
 
 	for (int i = 0; i < m_I_n_dop; ++i) {
@@ -265,10 +272,11 @@ void LAB2::set_start_vertex_power() {
 }
 void LAB2::calc_vertex_power() { // ???????????????????????????????????? (вопрос по формуле 58)
 
-	for (int j = 2; j < m_I_k; j += 2) {
-		for (int i = 2; i < m_I_n - 1; i += 2) {
-			m_2Vec_Vertex_power[i][j] = std::get<0>(m_2Vec_Sigma[i - 1][j]) - std::get<0>(m_2Vec_Sigma[i + 1][j]);
-		}
+	m_2Vec_Vertex_power[0].push_back( - std::get<0>(m_2Vec_Sigma[0].back()));
+	m_2Vec_Vertex_power[m_I_n_main - 1].push_back(std::get<0>(m_2Vec_Sigma[m_I_n_dop - 1].back()));
+
+	for (int i = 1; i < m_I_n_main-1; ++i) {
+		m_2Vec_Vertex_power[i].push_back(std::get<0>(m_2Vec_Sigma[i].back()) - std::get<0>(m_2Vec_Sigma[i - 1].back()));
 	}
 
 }
@@ -327,7 +335,7 @@ void LAB2::calc_delta_time() {
 
 	for (int i = 0; i < m_I_n_dop; ++i) {
 		temp_step_time[i] = abs(m_2Vec_Geometry[i + 1][j] - m_2Vec_Geometry[i][j]) /
-			m_2Vec_Volume_speed[i][j];
+			m_2Vec_Volume_speed[i].back();
 	}
 
 	double babinbubinbubz = *std::max_element(temp_step_time.begin(), temp_step_time.end());
