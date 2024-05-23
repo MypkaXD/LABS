@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <tuple>
+#include <fstream>
 
 class LAB2 {
 
@@ -105,22 +106,38 @@ public:
 		m_2Vec_Sigma.resize(m_I_n_dop);
 	}
 
+	void set_start_deviator_sigma() {
+
+		for (int i = 0; i < m_I_n_dop; ++i) {
+			m_2Vec_Deviator_of_sigma[i].push_back(std::make_tuple(0,0));
+		}
+
+	}
+
+	void set_start_sphere_componets_sigma() {
+
+		for (int i = 0; i < m_I_n_dop; ++i) {
+			m_2Vec_Sphere_component_of_sigma[i].push_back(0);
+		}
+
+	}
+
 	void main_algorithm() {
 
 		input_borders();
 		input_count_x();
 		input_plotnost();
 
-		print_plotnost();
+		//print_plotnost();
 
 		set_start_geometry();
-		print_geometry();
+		//print_geometry();
 		
 		calc_massa_cell();
-		print_mass_cell();
+		//print_mass_cell();
 		
 		calc_mass_node();
-		print_mass_node();
+		//print_mass_node();
 
 		input_K();
 		input_G();
@@ -130,63 +147,145 @@ public:
 		set_start_vertex_power();
 		//print_vertex_power();
 		set_start_velocity();
+		set_start_deviator_sigma();
+		set_start_sphere_componets_sigma();
 
-		int i = 10;
+		int i = 100;
 
 		while (i >= 0) {
 			calc_volume_speed();
-			print_volume_speed();
+			//print_volume_speed();
 
 			calc_delta_time();
-			print_delta_time();
+			//print_delta_time();
 
 			calc_velocity_of_moveming();
-			print_velocity_of_moveming();
+			//print_velocity_of_moveming();
 
 			calc_delta_of_moveming();
-			print_delta_of_moveming();
+			//print_delta_of_moveming();
 
 			calc_geometry();
-			print_geometry();
+			//print_geometry();
 
 			calc_velocity_of_deformation();
-			print_Velocity_of_deformation();
+			//print_Velocity_of_deformation();
 
 			calc_Sphere_Component_of_velocity_deformation();
-			print_Sphere_Component_of_velocity_deformation();
+			//print_Sphere_Component_of_velocity_deformation();
 
 			calc_deviator_velocity_of_deformation();
-			print_deviator_velocity_of_deformation();
+			//print_deviator_velocity_of_deformation();
 
 			calc_sphere_component_velocity_of_sigma();
-			print_sphere_components_velocity_of_sigma();
+			//print_sphere_components_velocity_of_sigma();
 
 			calc_deviator_velocity_of_sigma();
-			print_deviator_velocity_of_sigma();
+			//print_deviator_velocity_of_sigma();
 
 			calc_delta_sphere_components_of_sigma();
-			print_delta_sphere_components_of_sigma();
+			//print_delta_sphere_components_of_sigma();
 
 			calc_deviator_delta_of_sigma();
-			print_deviator_delta_of_sigma();
+			//print_deviator_delta_of_sigma();
 
 			calc_sphere_component_of_sigma();
-			print_sphere_component_of_sigma();
+			//print_sphere_component_of_sigma();
 
 			calc_deviator_of_sigma();
-			print_deviator_of_sigma();
+			//print_deviator_of_sigma();
 
 			cacl_sigma_components();
-			print_sigma_components();
+			//print_sigma_components();
 
 			calc_vertex_power();
-			print_vertex_power();
+			//print_vertex_power();
 
 			calc_plotnost();
-			print_plotnost();
+			//print_plotnost();
 
 			--i;
 		}
+
+		//print_geometry();
+
+		export_velocity();
+		export_sigma();
+
+	}
+
+	void export_sigma() {
+
+		// Имя файла, в который будет записан текст
+		std::string filenameXX = "bubtibusizhuz.txt";
+		std::string filenameYY = "dadyy_bubtibusizhuz.txt";
+
+		// Открываем файл для записи
+		std::ofstream fileXX(filenameXX);
+		std::ofstream fileYY(filenameYY);
+
+		// Проверяем, открыт ли файл
+		if (!fileXX.is_open() || !fileYY.is_open()) {
+			std::cerr << "Не удалось открыть файл для записи!" << std::endl;
+			return;
+		}
+
+		// Записываем данные в файл
+		for (int j = m_2Vec_Deviator_of_sigma[m_I_n_dop - 1].size() - 1; j >= 0; --j) {
+			for (int i = 0; i < m_I_n_dop; ++i) {
+				fileXX << std::get<0>(m_2Vec_Deviator_of_sigma[i][j]);
+				if (i < m_2Vec_Deviator_of_sigma.size() - 1) {
+					fileXX << " "; // Разделяем элементы пробелами
+				}
+				fileYY << std::get<1>(m_2Vec_Deviator_of_sigma[i][j]);
+				if (i < m_2Vec_Deviator_of_sigma.size() - 1) {
+					fileYY << " "; // Разделяем элементы пробелами
+					fileXX << " "; // Разделяем элементы пробелами
+				}
+			}
+			fileYY << "\n"; // Завершаем строку переносом строки
+			fileXX << "\n"; // Завершаем строку переносом строки
+		}
+
+		// Закрываем файл
+		fileXX.close();
+		fileYY.close();
+
+		std::cout << "Данные успешно записаны в файл " << filenameXX << std::endl;
+		std::cout << "Данные успешно записаны в файл " << filenameYY << std::endl;
+
+	}
+
+	void export_velocity() {
+
+		// Имя файла, в который будет записан текст
+		std::string filename = "skvazimabzaza.txt";
+
+		// Открываем файл для записи
+		std::ofstream file(filename);
+
+		// Проверяем, открыт ли файл
+		if (!file.is_open()) {
+			std::cerr << "Не удалось открыть файл для записи!" << std::endl;
+			return;
+		}
+
+		// Записываем данные в файл
+		for (int j = m_2Vec_Velocity_of_moveming[m_I_n_main - 1].size() - 1; j >= 0; --j) {
+			for (int i = 0; i < m_I_n_main; ++i) {
+				file << m_2Vec_Velocity_of_moveming[i][j];
+				if (i < m_2Vec_Velocity_of_moveming.size() - 1) {
+					file << " "; // Разделяем элементы пробелами
+				}
+			}
+			file << "\n"; // Завершаем строку переносом строки
+		}
+
+		// Закрываем файл
+		file.close();
+
+		std::cout << "Данные успешно записаны в файл " << filename << std::endl;
+
 	}
 
 	void cacl_sigma_components();

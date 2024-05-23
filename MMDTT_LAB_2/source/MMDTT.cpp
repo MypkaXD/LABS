@@ -3,7 +3,7 @@
 void LAB2::calc_plotnost() {
 
 	for (int i = 0; i < m_I_n_dop; ++i) {
-		m_2Vec_plotnost[i].push_back(m_Vec_Massa_Cell[i] / (abs(m_2Vec_Geometry[i][m_2Vec_Geometry[i].size() - 1] - m_2Vec_Geometry[i + 1][m_2Vec_Geometry[i + 1].size() - 1])));
+		m_2Vec_plotnost[i].push_back(m_Vec_Massa_Cell[i] / (abs(m_2Vec_Geometry[i].back() - m_2Vec_Geometry[i + 1].back())));
 	}
 }
 
@@ -35,8 +35,8 @@ void LAB2::calc_deviator_of_sigma() {
 
 	for (int i = 0; i < m_I_n_dop; ++i) {
 
-		double prev_xx = m_2Vec_Deviator_of_sigma[i].size() == 0 ? 0 : std::get<0>(m_2Vec_Deviator_of_sigma[i].back());
-		double prev_yy = m_2Vec_Deviator_of_sigma[i].size() == 0 ? 0 : std::get<1>(m_2Vec_Deviator_of_sigma[i].back());
+		double prev_xx = std::get<0>(m_2Vec_Deviator_of_sigma[i].back());
+		double prev_yy = std::get<1>(m_2Vec_Deviator_of_sigma[i].back());
 
 		double xx = (prev_xx) +
 			std::get<0>(m_2Vec_Deviator_delta_of_sigma[i].back());
@@ -62,14 +62,14 @@ void LAB2::calc_sphere_component_of_sigma() {
 
 	for (int i = 0; i < m_I_n_dop; ++i) {
 
-		double prev_value = m_2Vec_Sphere_component_of_sigma[i].size() == 0 ? 0 : m_2Vec_Sphere_component_of_sigma[i].back();
+		double prev_value = m_2Vec_Sphere_component_of_sigma[i].back();
 
 		m_2Vec_Sphere_component_of_sigma[i].push_back(prev_value +
 			m_2Vec_Delta_sigma_of_sphere[i].back());
 	}
 }
 void LAB2::print_sphere_component_of_sigma() {
-	std::cout << "Шаровая компонента тензора деформации (по времени в основоной, по координатам в дополнительной):" << std::endl;
+	std::cout << "Шаровая компонента тензора напряжений (по времени в основоной, по координатам в дополнительной):" << std::endl;
 
 	for (int j = m_2Vec_Sphere_component_of_sigma[m_I_n_dop - 1].size() - 1; j >= 0; --j) {
 		for (int i = 0; i < m_I_n_dop; ++i) {
@@ -81,7 +81,7 @@ void LAB2::print_sphere_component_of_sigma() {
 
 void LAB2::calc_deviator_delta_of_sigma() { // формула 51-52
 
-	double half_step_time = (m_Vec_Step_Time.back() - (m_Vec_Step_Time.size() == 1 ? 0 : m_Vec_Step_Time[m_Vec_Step_Time.size() - 2])) / 2;
+	double half_step_time = (m_Vec_Step_Time.back() + (m_Vec_Step_Time.size() == 1 ? 0 : m_Vec_Step_Time[m_Vec_Step_Time.size() - 2])) / 2;
 
 	for (int i = 0; i < m_I_n_dop; ++i) {
 
@@ -109,7 +109,7 @@ void LAB2::print_deviator_delta_of_sigma() {
 
 void LAB2::calc_delta_sphere_components_of_sigma() { // (формула 50)
 	
-	double half_step_time = (m_Vec_Step_Time.back() - (m_Vec_Step_Time.size() == 1 ? 0 : m_Vec_Step_Time[m_Vec_Step_Time.size() - 2])) / 2;
+	double half_step_time = (m_Vec_Step_Time.back() + (m_Vec_Step_Time.size() == 1 ? 0 : m_Vec_Step_Time[m_Vec_Step_Time.size() - 2])) / 2;
 
 	for (int i = 0; i < m_I_n_dop; ++i) {
 		m_2Vec_Delta_sigma_of_sphere[i].push_back(m_2Vec_Sphere_components_velocity_sigma[i].back() * half_step_time);
@@ -214,11 +214,11 @@ void LAB2::calc_Sphere_Component_of_velocity_deformation() {
 
 void LAB2::calc_velocity_of_deformation() {
 
-	int j_move = m_2Vec_Delta_of_moveming[m_I_n_main - 1].size() - 1;
-	int j_geom = m_2Vec_Geometry[m_I_n_main - 1].size() - 1;
+	int j_vel = m_2Vec_Velocity_of_moveming[m_I_n_main - 1].size() - 1;
+	int j_geom = m_2Vec_Geometry[m_I_n_main - 1].size() - 2;
 
 	for (int i = 0; i < m_I_n_dop; ++i) {
-		m_2Vec_Velocity_of_deformation[i].push_back((m_2Vec_Delta_of_moveming[i + 1][j_move - 1] - m_2Vec_Delta_of_moveming[i][j_move - 1]) /
+		m_2Vec_Velocity_of_deformation[i].push_back((m_2Vec_Velocity_of_moveming[i + 1][j_vel] - m_2Vec_Velocity_of_moveming[i][j_vel]) /
 			(m_2Vec_Geometry[i + 1][j_geom] - m_2Vec_Geometry[i][j_geom]));
 	}
 
@@ -249,7 +249,7 @@ void LAB2::calc_delta_of_moveming() {
 
 	for (int i = 0; i < m_I_n_main; ++i) {
 		
-		double prev_delta = m_2Vec_Delta_of_moveming[i].size() == 0 ? 0 : m_2Vec_Delta_of_moveming[i].back();
+		double prev_delta = m_2Vec_Delta_of_moveming[i].size() == 0 ? 0 : m_2Vec_Delta_of_moveming[i][m_2Vec_Delta_of_moveming[i].size() - 2];
 
 		m_2Vec_Delta_of_moveming[i].push_back(prev_delta + (double)1 / 2 *
 			m_Vec_Step_Time.back() * m_2Vec_Velocity_of_moveming[i].back());
@@ -276,7 +276,7 @@ void LAB2::calc_vertex_power() { // ???????????????????????????????????? (вопрос
 	m_2Vec_Vertex_power[m_I_n_main - 1].push_back(std::get<0>(m_2Vec_Sigma[m_I_n_dop - 1].back()));
 
 	for (int i = 1; i < m_I_n_main-1; ++i) {
-		m_2Vec_Vertex_power[i].push_back(std::get<0>(m_2Vec_Sigma[i].back()) - std::get<0>(m_2Vec_Sigma[i - 1].back()));
+		m_2Vec_Vertex_power[i].push_back(std::get<0>(m_2Vec_Sigma[i - 1].back()) - std::get<0>(m_2Vec_Sigma[i].back()));
 	}
 
 }
@@ -303,13 +303,15 @@ void LAB2::set_start_velocity() {
 }
 void LAB2::calc_velocity_of_moveming() {
 
-	double half_step_time = (m_Vec_Step_Time.back() - (m_Vec_Step_Time.size() == 1 ? 0 : m_Vec_Step_Time[m_Vec_Step_Time.size() - 2])) / 2;
+	double half_step_time = (m_Vec_Step_Time.back() + (m_Vec_Step_Time.size() == 1 ? 0 : m_Vec_Step_Time[m_Vec_Step_Time.size() - 2])) / 2;
 	
 	int j = m_2Vec_Velocity_of_moveming[m_I_n_main - 1].size() - 1 == -1 ? 0 : m_2Vec_Velocity_of_moveming[m_I_n_main - 1].size() - 1;
 
-	for (int i = 0; i < m_I_n_main; ++i) {
+	m_2Vec_Velocity_of_moveming[0].push_back(0);
+
+	for (int i = 1; i < m_I_n_main; ++i) {
 		m_2Vec_Velocity_of_moveming[i].push_back(m_2Vec_Velocity_of_moveming[i].size() == 0 ? 0 : 
-			m_2Vec_Velocity_of_moveming[i].back() - m_2Vec_Vertex_power[i][j] * m_Vec_Step_Time[j] / 
+			m_2Vec_Velocity_of_moveming[i].back() - m_2Vec_Vertex_power[i][j] * half_step_time /
 		m_Vec_Massa_Node[i]);
 	}
 }
@@ -331,14 +333,14 @@ void LAB2::calc_delta_time() {
 
 	std::vector<double> temp_step_time(m_I_n_dop, 0);
 
-	int j = m_2Vec_Geometry[m_I_n_main - 1].size() - 1 == -1 ? 0 : m_2Vec_Geometry[m_I_n_main - 1].size() - 1;
+	int j = m_2Vec_Geometry[m_I_n_main - 1].size() - 1 == 0 ? 0 : m_2Vec_Geometry[m_I_n_main - 1].size() - 2;
 
 	for (int i = 0; i < m_I_n_dop; ++i) {
 		temp_step_time[i] = abs(m_2Vec_Geometry[i + 1][j] - m_2Vec_Geometry[i][j]) /
 			m_2Vec_Volume_speed[i].back();
 	}
 
-	double babinbubinbubz = *std::max_element(temp_step_time.begin(), temp_step_time.end());
+	double babinbubinbubz = *std::min_element(temp_step_time.begin(), temp_step_time.end());
 
 	m_Vec_Step_Time.push_back(babinbubinbubz);
 
@@ -347,8 +349,8 @@ void LAB2::print_delta_time() {
 
 	std::cout << "Моменты времени: " << std::endl;
 
-	for (int j = 0; j < m_Vec_Step_Time.size(); j+=2) {
-		std::cout << j + 1 << "-ый момент времени: " << m_Vec_Step_Time[j] << std::endl;
+	for (int j = 0; j < m_Vec_Step_Time.size(); ++j) {
+		std::cout << j << "-ый момент времени: " << m_Vec_Step_Time[j] << std::endl;
 	}
 
 }
@@ -378,9 +380,12 @@ void LAB2::calc_geometry() {
 
 	int j = m_2Vec_Geometry[m_I_n_main - 1].size() - 1;
 
+	m_2Vec_Geometry[0].push_back(0);
+	m_2Vec_Geometry[0].push_back(0);
+
 	for (int i = 0; i < m_I_n_main; ++i) {
 
-		double prev_geometry = m_2Vec_Geometry[i].back();
+		double prev_geometry = m_2Vec_Geometry[i][0];
 
 		m_2Vec_Geometry[i].push_back(prev_geometry + m_2Vec_Delta_of_moveming[i][j]);
 		m_2Vec_Geometry[i].push_back(prev_geometry + m_2Vec_Delta_of_moveming[i][j+1]);
@@ -443,10 +448,8 @@ void LAB2::calc_volume_speed() {
 
 	m_2Vec_Volume_speed.resize(m_I_n_dop);
 
-	int j = m_2Vec_Volume_speed.back().size() - 1 == -1 ? 0 : m_2Vec_Volume_speed.back().size() - 1;
-
 	for (int i = 0; i < m_I_n_dop; ++i) {
-		m_2Vec_Volume_speed[i].push_back(sqrt((m_D_K + (double)4 / 3 * m_D_G) / (m_2Vec_plotnost[i][j])));
+		m_2Vec_Volume_speed[i].push_back(sqrt((m_D_K + (double)4 / 3 * m_D_G) / (m_2Vec_plotnost[i].back())));
 	}
 }
 void LAB2::print_volume_speed() {
