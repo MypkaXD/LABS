@@ -15,6 +15,9 @@
 #include <vector>
 #include <map>
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 #pragma once
 
 class App {
@@ -48,8 +51,13 @@ private:
     std::vector<double> x_coords_of_teor_function;
     std::vector<double> y_coords_of_teor_function;
 
-    int k = 10;
-    std::vector<double> border_of_intervals;
+    int k = 3;
+    std::vector<std::tuple<double, int, double>> border_of_intervals;
+    double R0 = 0;
+    double alpha = 0.5;
+    int counter_of_experiments = 1;
+    int count_of_accepted = 0;
+    int count_of_not_accepted = 0;
 
     ImGuiWindowFlags flagsForWindows = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse;
 
@@ -112,6 +120,7 @@ public:
                 createTable();
                 createGraph();
                 createInfo();
+                
                 createInputIntervals();
             }
 
@@ -124,17 +133,35 @@ public:
     void createInputIntervals() {
 
         ImGui::SetNextWindowPos({ 0,500 }); // устанавливаем позицию для создаваемого окна
-        ImGui::SetNextWindowSize({ 318,80 }); // устанавливаем размер для создаваемого окна
+        ImGui::SetNextWindowSize({ 318,500 }); // устанавливаем размер для создаваемого окна
 
         ImGui::Begin("InputK", 0, flagsForWindows); // Создаем окно с заданными параметрами
 
 
-        if (ImGui::InputInt(" ", &k, 1, 100, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CharsDecimal)) { // ввод данных
+        if (ImGui::InputInt("a", &k, 1, 100, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CharsDecimal)) { // ввод данных
             if (k <= 0) // если число попыток меньше или равно 0, то заменяем значение на 1
                 k = 1;
-
-            isOpened = false; // булева переменная на закрыть данные
+            else if (k > different_answered_tickets.size() - 1)
+                k = different_answered_tickets.size() - 1;
         }
+        if (ImGui::InputInt("asd", &counter_of_experiments, 1, 100, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CharsDecimal)) { // ввод данных
+            if (counter_of_experiments <= 0) // если число попыток меньше или равно 0, то заменяем значение на 1
+                counter_of_experiments = 1;
+        }
+        if (ImGui::InputDouble("ad", &alpha, 0.01f, 1.0f, "%.8f")) { // ввод вероятности
+
+            if (p < 0 || p > 1) // если вероятность больше 1 или меньше 0, то изменяем на 0.3 (дефолтное значение)
+                alpha = 0.5;
+
+        }
+        if (ImGui::Button("Startas", { 100, 100 })) {
+            count_of_accepted = 0;
+            count_of_not_accepted = 0;
+            calc_intervals();
+        }
+
+        ImGui::Text("%d",count_of_accepted);
+        ImGui::Text("%d",count_of_not_accepted);
 
         ImGui::End();
 
@@ -148,19 +175,29 @@ public:
         ImGui::Begin("Button", 0, flagsForWindows); // Создаем окно с заданными параметрами
 
         if (ImGui::Button("START", { 100,20 })) { // создаем кнопку с размерами 100*20
-            get_data();
-            get_different_answered_ticets();
-            get_sample_mean();
-            get_sample_variance();
-            get_expected_value();
-            get_dispersion();
-            get_sample_median();
-            get_sample_range();
+            
+            count_of_accepted = 0;
+            count_of_not_accepted = 0;
+            
 
-            get_data_of_sample_function_for_graph();
-            get_data_of_teor_function_for_graph();
+            for (int i = 0; i < counter_of_experiments; ++i) {
+                get_data();
+                get_different_answered_ticets();
+                get_sample_mean();
+                get_sample_variance();
+                get_expected_value();
+                get_dispersion();
+                get_sample_median();
+                get_sample_range();
 
-            get_max_deviation();
+                get_data_of_sample_function_for_graph();
+                get_data_of_teor_function_for_graph();
+
+                get_max_deviation();
+
+                calc_intervals();
+            }
+
         }
 
         ImGui::SameLine();
@@ -168,6 +205,115 @@ public:
 
         ImGui::End();
 
+    }
+
+    void calc_intervals() {
+
+        border_of_intervals.clear();
+        border_of_intervals.resize(k + 1);
+
+        border_of_intervals[0] = std::make_tuple(different_answered_tickets[0].first, 0, 0);
+        border_of_intervals[k] = std::make_tuple(different_answered_tickets[different_answered_tickets.size() - 1].first, 0, 0);
+
+
+        double step = abs(std::get<0>(border_of_intervals[0]) - std::get<0>(border_of_intervals[k])) / k;
+
+        for (int i = 1; i < k; ++i) {
+            std::get<0>(border_of_intervals[i]) = std::get<0>(border_of_intervals[0]) + i * step;
+        }
+        
+        int temp = 0;
+
+        for (int j = 1; j < border_of_intervals.size(); ++j) {
+            
+            for (; temp < different_answered_tickets.size(); ++temp) {
+                while (different_answered_tickets[temp].first < std::get<0>(border_of_intervals[j])) {
+                    std::get<1>(border_of_intervals[j]) += different_answered_tickets[temp].second;
+                    ++temp;
+                }
+                break;
+            }
+
+        }
+        std::get<1>(border_of_intervals[border_of_intervals.size() - 1]) += different_answered_tickets.back().second;
+
+        for (int i = 1; i < border_of_intervals.size(); ++i) {
+
+            int j = std::ceil(std::get<0>(border_of_intervals[i-1]));
+
+            while (j < std::get<0>(border_of_intervals[i])) {
+                std::get<2>(border_of_intervals[i]) += pow(p, j) * (1-p);
+                ++j;
+            }
+        }
+
+        std::get<2>(border_of_intervals[border_of_intervals.size() - 1]) += pow(p, different_answered_tickets[different_answered_tickets.size() - 1].first) * (1 - p);
+
+        for (int i = 0; i < border_of_intervals.size(); ++i) {
+            std::cout << "Border: " << std::get<0>(border_of_intervals[i]) << "\t"
+                << "Count of prac: " << std::get<1>(border_of_intervals[i]) << "\t"
+                << "Teor ver: " << std::get<2>(border_of_intervals[i]) << std::endl;
+        }
+
+        calc_R0();
+        double integral = calc_integral(R0, k-1);
+        
+        std::cout << integral << std::endl;
+
+        if (integral < 1 - alpha)
+            ++count_of_accepted;
+        else
+            ++count_of_not_accepted;
+
+    }
+
+    void calc_R0() {
+
+        R0 = 0;
+
+        for (int i = 1; i < border_of_intervals.size(); ++i) {
+            R0 += (double)((std::get<1>(border_of_intervals[i]) - count_of_students * std::get<2>(border_of_intervals[i])) *
+                (std::get<1>(border_of_intervals[i]) - count_of_students * std::get<2>(border_of_intervals[i]))) / (double)(count_of_students * std::get<2>(border_of_intervals[i]));
+        }
+
+        std::cout << "R0: " << R0 << std::endl;
+
+    }
+
+    double calc_gamma(int a) {
+
+        if (a == 2)
+            return 1;
+        else if (a == 1)
+            return sqrt(M_PI);
+        else
+            return ((double)a / 2 - 1) * calc_gamma(a - 2);
+
+    }
+
+    double func_XI_square(double value, int r) {
+
+        return value > 0 ? pow(2, -(double)r / 2) * 1.0 / calc_gamma(r) * pow(value, (double)r / 2 - 1) * exp(-value / 2) : 0;
+    }
+
+    double method_trap(double a, double b, int r, int n = 10000) {
+        double result = 0;
+        double h = (b - a) / n;
+
+        for (int i = 1; i < n; ++i) {
+            result += func_XI_square(a + i * h, r);
+        }
+
+        result += (func_XI_square(a, r) + func_XI_square(b, r)) / 2.0;
+        return result * h;
+    }
+
+    double calc_integral(double R0, int r) {
+        double gamma = calc_gamma(r);
+
+        std::cout << "Gamma: " << gamma << std::endl;
+
+        return 1 - method_trap(0, R0, r);
     }
 
     void createTable() {

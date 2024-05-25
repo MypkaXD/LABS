@@ -299,7 +299,7 @@ void LAB2::set_start_velocity() {
 	for (int i = 0; i < m_I_n_main - 1; ++i) {
 		m_2Vec_Velocity_of_moveming[i].push_back(0);
 	}
-	m_2Vec_Velocity_of_moveming[m_I_n_main - 1].push_back(-1);
+	m_2Vec_Velocity_of_moveming[m_I_n_main - 1].push_back(-10);
 }
 void LAB2::calc_velocity_of_moveming() {
 
@@ -309,11 +309,12 @@ void LAB2::calc_velocity_of_moveming() {
 
 	m_2Vec_Velocity_of_moveming[0].push_back(0);
 
-	for (int i = 1; i < m_I_n_main; ++i) {
+	for (int i = 1; i < m_I_n_main - 1; ++i) {
 		m_2Vec_Velocity_of_moveming[i].push_back(m_2Vec_Velocity_of_moveming[i].size() == 0 ? 0 : 
 			m_2Vec_Velocity_of_moveming[i].back() - m_2Vec_Vertex_power[i][j] * half_step_time /
 		m_Vec_Massa_Node[i]);
 	}
+	m_2Vec_Velocity_of_moveming[m_I_n_main - 1].push_back(-10);
 }
 void LAB2::print_velocity_of_moveming() {
 

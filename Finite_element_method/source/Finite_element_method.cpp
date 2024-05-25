@@ -153,9 +153,66 @@ public:
 
 	}
 
-	void gauss_method() {
+	double gauss_method_3(int k) {
 
+		double result = 0;
 
+		std::vector<double> c_k(3);
+		std::vector<double> root(3);
+
+		root[0] = 0;
+		root[1] = sqrt((double)3 / 5);
+		root[2] = - sqrt((double)3 / 5);
+
+		for (int i = 0; i < 3; ++i) {
+			c_k[i] = 2 * (1 - pow(root[i], 2)) / (pow(3, 2) *
+				pow((double)1/2*(3*pow(root[i], 2) - 1), 2));
+		}
+
+		std::vector<double> x_coords(3);
+		
+		for (int i = 0; i < 3; ++i) {
+			x_coords[i] = (d_right_border + d_left_border) / 2 +
+				(d_right_border - d_left_border) / 2 * root[i];
+			result += c_k[i] * pow(x_coords[i], k);
+		}
+
+		return result * (d_right_border - d_left_border) / 2;
+		
+	}
+
+	double gauss_method_5(int k) {
+
+		double result = 0;
+
+		std::vector<double> c_k(5);
+		std::vector<double> root(5);
+		
+		root[0] = 0;
+		root[1] = sqrt((70+sqrt(1120))/126);
+		root[2] = sqrt((70-sqrt(1120))/126);
+		root[3] = -sqrt((70+sqrt(1120))/126);
+		root[4] = -sqrt((70-sqrt(1120))/126);
+
+		for (int i = 0; i < 5; ++i) {
+			c_k[i] = 2 * (1 - pow(root[i], 2)) / ( pow(5, 2) *
+				pow((double)1 / 8 * (35 * pow(root[i], 4) - 30 * pow(root[i], 2) + 3), 2));
+		}
+
+		for (int count = 0; count < 5; ++count) {
+			std::cout << "c_" << count << ": " << c_k[count] << std::endl;
+			std::cout << "root_" << count << ": " << root[count] << std::endl;
+		}
+
+		std::vector<double> x_coords(5);
+
+		for (int i = 0; i < 5; ++i) {
+			x_coords[i] = (d_right_border + d_left_border) / 2 +
+				(d_right_border - d_left_border) / 2 * root[i];
+			result += c_k[i] * pow(x_coords[i], k);
+		}
+
+		return result * (d_right_border - d_left_border) / 2;
 
 	}
 
@@ -184,11 +241,11 @@ int main() {
 
 	lr.set_border(d_left_border, d_right_border);
 
-	lr.set_sigma_square(1);
+	//lr.set_sigma_square(1);
 
-	lr.print_sigma();
+	//lr.print_sigma();
 
-	std::cout << "Result of method trap: " << lr.trapezoid_method() << std::endl;
+	std::cout << "Result of gauss 3: " << lr.gauss_method_3(6) << std::endl;
 
 	return 0;
 }

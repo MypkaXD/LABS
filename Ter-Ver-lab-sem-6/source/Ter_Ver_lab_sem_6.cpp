@@ -20,5 +20,7 @@ int main() {
     app.init();
     app.run();
 
+    //std::cout << (double)1/calc_gamma(1) << std::endl;
+    
     return 0;
 }
