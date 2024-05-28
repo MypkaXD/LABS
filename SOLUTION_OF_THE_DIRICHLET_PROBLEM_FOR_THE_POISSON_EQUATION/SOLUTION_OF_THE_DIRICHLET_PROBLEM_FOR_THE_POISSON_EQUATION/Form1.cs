@@ -35,7 +35,9 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
         public List<List<double>> difference_clear_and_dirty = new List<List<double>>();
         public List<List<double>> difference_v2_and_v = new List<List<double>>();
         public List<List<double>> initial_approximation = new List<List<double>>();
-        public List<List<double>> func = new List<List<double>>();
+        public List<List<double>> initial_approximation_v2 = new List<List<double>>();
+        public List<double> func = new List<double>();
+        public List<List<double>> func2 = new List<List<double>>();
 
         public double h;
         public double k;
@@ -54,18 +56,26 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
 
         public double A = 0;
 
-        public double w = 1.5; // [0;2]
+        public double w1 = 1.9; // [0;2]
+        public double w2 = 1.9; // [0;2]
 
-        public int N_Max; // число итераций
+        public int N_Max1; // число итераций
+        public int N_Max2; // число итераций
 
-        int S = 0;
-        double eps; // минимально допустимый прирост
-        double eps_max = 0; // текущее значение прироста
+        int S1 = 0;
+        int S2 = 0;
+
+        double eps1; // минимально допустимый прирост
+        double eps2; // минимально допустимый прирост
+        double eps_max1 = 0; // текущее значение прироста
+        double eps_max2 = 0; // текущее значение прироста
         double eps_cur = 0; // для подсчета текущего значения прироста
         double a2, k2, h2; // ненулевые элементы матрицы (–A)
 
-        bool isUser = false;
+        double residual1 = 0;
+        double residual2 = 0;
 
+        bool isUser = false;
         bool isCalc = false;
 
         public Form1()
@@ -128,7 +138,57 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
         private void init_func()
         {
             func.Clear();
-            func = new List<List<double>>(N + 1);
+            func = new List<double>((N - 1) * (M - 1));
+
+            for (int i = 0; i < (N - 1) * (M - 1); ++i)
+            {
+                func.Add(0);
+            }
+
+            for (int j = 1; j < M; ++j)
+            {
+                for (int i = 1; i < N; ++i)
+                {
+                    if (task_number == 0)
+                    {
+                        if (j == M - 1 || j == 1)
+                        {
+                            if (i == 1 || i == N - 1)
+                            {
+                                func[(j-1) * (N-1) + (i - 1)] = -test_func_f(x[i], y[j]) -
+                                    test_func(x[i], y[j]) * k2 - test_func(x[i], y[j]) * h2;
+                            }
+                            else
+                            {
+                                func[(j - 1) * (N - 1) + (i - 1)] = -test_func_f(x[i], y[j]) -
+                                   test_func(x[i], y[j]) * k2;
+                            }
+                        }
+                        else
+                        {
+                            if (i == 1 || i == N - 1)
+                            {
+                                func[(j - 1) * (N - 1) + (i - 1)] = -test_func_f(x[i], y[j]) -
+                                   test_func(x[i], y[j]) * h2;
+                            }
+                            else
+                            {
+                                func[(j - 1) * (N - 1) + (i - 1)] = -test_func_f(x[i], y[j]);    
+                            }
+                        }
+                    }
+                    else
+                    {
+                        func[(j - 1) * (N - 1) + (i - 1)] = 0;
+                    }
+                }
+            }
+        }
+
+        private void init_func2()
+        {
+            func2.Clear();
+            func2 = new List<List<double>>(N + 1);
             for (int i = 0; i < N + 1; ++i)
             {
                 List<double> innerList = new List<double>(M + 1);
@@ -136,9 +196,13 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
                 for (int j = 0; j < M + 1; ++j)
                 {
                     if (task_number == 0)
-                        innerList.Add(test_func(x[i], y[j]));
+                        innerList.Add(test_func(x2[i], y2[j]));
+                    else
+                    {
+                        innerList.Add(func_main(x2[i], y2[j]));
+                    }
                 }
-                func.Add(innerList);
+                func2.Add(innerList);
             }
         }
 
@@ -157,6 +221,22 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
                 initial_approximation.Add(innerList);
             }
 
+        }
+
+        private void init_initial_approximation_v2()
+        {
+            initial_approximation_v2.Clear();
+            initial_approximation_v2 = new List<List<double>>(2 * N + 1);
+            for (int i = 0; i < 2 * N + 1; ++i)
+            {
+                List<double> innerList = new List<double>(2 * M + 1);
+
+                for (int j = 0; j < 2 * M + 1; ++j)
+                {
+                    innerList.Add(0);
+                }
+                initial_approximation_v2.Add(innerList);
+            }
         }
 
         private void init_u()
@@ -237,6 +317,7 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
                     {
                         v[i][j] = 0;
                     }
+                    initial_approximation[i][j] = v[i][j];
                 }
             }
         }
@@ -300,6 +381,7 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
                     {
                         v2[i][j] = 0;
                     }
+                    initial_approximation_v2[i][j] = v2[i][j];
                 }
             }
         }
@@ -321,9 +403,12 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
             M = System.Convert.ToInt32(this.inputM.Text);
             h = (right_border_x - left_border_x) / N;
             k = (right_border_y - left_border_y) / M;
-            N_Max = System.Convert.ToInt32(this.input_N_max.Text);
-            eps = System.Convert.ToDouble(this.input_E_met.Text);
-
+            N_Max1 = System.Convert.ToInt32(this.input_N_max.Text);
+            N_Max2 = System.Convert.ToInt32(this.N_Max_V2.Text);
+            eps1 = System.Convert.ToDouble(this.input_E_met.Text);
+            eps2 = System.Convert.ToDouble(this.eps_v2.Text);
+            w1 = System.Convert.ToDouble(this.textBoxw1.Text);
+            w2 = System.Convert.ToDouble(this.w2TextBox.Text);
         }
 
         private void init_table()
@@ -348,7 +433,7 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
             dataGridView1.Columns.Add(column1);
             dataGridView1.Columns.Add(column2);
 
-            for (int i = 0; i < (task_number == 1 && draw_graph_number == 1 ? 2 * N + 1 : N + 1); ++i)
+            for (int i = 0; i < (task_number == 1 && (draw_graph_number == 1 || draw_graph_number == 4) ? 2 * N + 1 : N + 1); ++i)
             {
                 var column_temp = new DataGridViewColumn();
                 column_temp.HeaderText = "x_" + System.Convert.ToString(i);
@@ -357,14 +442,14 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
                 dataGridView1.Columns.Add(column_temp);
             }
 
-            for (int j = 0; j < (draw_graph_number == 1 && task_number == 1 ? 2 * M + 2 : M + 2); ++j)
+            for (int j = 0; j < ((draw_graph_number == 1 || draw_graph_number == 4) && task_number == 1 ? 2 * M + 2 : M + 2); ++j)
             {
                 dataGridView1.Rows.Add();
                 if (j != 0)
                     dataGridView1[0, j].Value = "y_" + System.Convert.ToString(j - 1);
                 else
                     dataGridView1[0, 0].Value = "yj";
-                for (int i = 1; i < (draw_graph_number == 1 && task_number == 1 ? 2 * N + 3 : N + 3); ++i)
+                for (int i = 1; i < ((draw_graph_number == 1 || draw_graph_number == 4) && task_number == 1 ? 2 * N + 3 : N + 3); ++i)
                 {
                     if (j == 0)
                     {
@@ -397,7 +482,11 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
                                 if (draw_graph_number == 1)
                                     dataGridView1[i, j].Value = System.Convert.ToString(v2[i - 2][j - 1]);
                                 if (draw_graph_number == 2)
+                                    dataGridView1[i, j].Value = System.Convert.ToString(initial_approximation[i - 2][j - 1]);
+                                if (draw_graph_number == 3)
                                     dataGridView1[i, j].Value = System.Convert.ToString(difference_v2_and_v[i - 2][j - 1]);
+                                if (draw_graph_number == 4)
+                                    dataGridView1[i, j].Value = System.Convert.ToString(initial_approximation_v2[i - 2][j - 1]);
                             }
                         }
                     }
@@ -458,19 +547,25 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
 
             if ( task_number == 0)
             {
-                init_func();
                 init_test_v();
                 init_test_u();
-                MVR(v, x, y);
+                MVR(v, x, y, w1, ref S1, ref N_Max1, ref eps_max1, ref eps1);
                 calc_difference_clear_and_dirty();
+
+                init_func();
+                residual1 = residual(v, func);
             }
             else if (task_number == 1)
             {
+                init_initial_approximation_v2();
                 init_main_v();
-                MVR(v, x, y);
+                init_func();
+                MVR(v, x, y, w1, ref S1, ref N_Max1, ref eps_max1, ref eps1);
+                residual1 = residual(v, func);
                 init_main_2v();
-                MVR(v2, x2, y2);
-                
+                MVR(v2, x2, y2, w2, ref S2, ref N_Max2, ref eps_max2, ref eps2);
+                init_func2();
+                //residual2 = residual(v2, func2);
                 N /= 2;
                 M /= 2;
 
@@ -488,12 +583,17 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
             reference();
         }
 
+        private double func_main(double x, double y)
+        {
+            return Math.Abs(x - y);
+        }
+
         private double func_f(double x, double y)
         {
             return -Math.Abs(x - y);
         }
 
-        private void MVR(List<List<double>> matrix, List<double> x_temp, List<double> y_temp)
+        private void MVR(List<List<double>> matrix, List<double> x_temp, List<double> y_temp, double w, ref int S, ref int N_Max, ref double eps_max, ref double eps)
         {
 
             double v_old; // старое значение преобразуемой компоненты вектора v
@@ -541,7 +641,8 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
         private double test_func(double x, double y)
         {
 
-            return Math.Exp(Math.Sin(Math.PI * x * y) * Math.Sin(Math.PI * x * y));
+            return 1;
+            //return Math.Exp(Math.Sin(Math.PI * x * y) * Math.Sin(Math.PI * x * y));
 
         }
 
@@ -576,9 +677,9 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
         private double test_func_f(double x, double y)
         {
 
-            double test = test_func_xx(x, y) + test_func_yy(x, y);
+            //double test = test_func_xx(x, y) + test_func_yy(x, y);
 
-            return test;
+            return 1;
         }
 
         private void graph3D1_Load(object sender, EventArgs e)
@@ -615,8 +716,10 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
             {
                 this.draw_graph_box.Items.Add("Численное решение v(N)(x,y) - поверхность");
                 this.draw_graph_box.Items.Add("Численное решение v2(N2)(x,y), полученное на сетке с половинным шагом - поверхность");
+                this.draw_graph_box.Items.Add("Начальное приближение v(0)(x,y) - поверхность");
                 this.draw_graph_box.Items.Add("Разность численных решений v(N)(x,y) и v2(N2) - поверхность");
-               
+                this.draw_graph_box.Items.Add("Начальное приближение v2(0)(x,y) - поверхность");
+
                 task_number = 1;
                 draw_graph_number = 0;
                 this.draw_graph_box.SelectedIndex = 0;
@@ -659,6 +762,14 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
                     {
                         draw_graph_number = 2;
                     }
+                    else if (this.draw_graph_box.SelectedIndex == 3)
+                    {
+                        draw_graph_number = 3;
+                    }
+                    else if (this.draw_graph_box.SelectedIndex == 4)
+                    {
+                        draw_graph_number = 4;
+                    }
 
                     if (isCalc)
                     {
@@ -678,12 +789,30 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
         {
             if (draw_graph_number == 0)
             {
-                cPoint3D[,] i_Points3D = new cPoint3D[x.Count, y.Count];
-                for (int X = 0; X < x.Count; X++)
+                cPoint3D[,] i_Points3D = new cPoint3D[x.Count > 50 ? 50 + (x.Count % 50) : x.Count , y.Count > 50 ? 50 + (y.Count % 50) : y.Count];
+                for (int X = 0, i = 0; X < x.Count; ++i)
                 {
-                    for (int Y = 0; Y < y.Count; Y++)
+                    for (int Y = 0, j = 0; Y < y.Count; ++j)
                     {
-                        i_Points3D[X, Y] = new cPoint3D(x[X], y[Y], v[X][Y]);
+                        i_Points3D[i, j] = new cPoint3D(x[X], y[Y], v[X][Y]);
+
+                        if (y.Count > 50 && j < 50)
+                        {
+                            Y += (y.Count / 50);
+                        }
+                        else
+                        {
+                            ++Y;
+                        }
+                    }
+
+                    if (x.Count > 50 && i < 50)
+                    {
+                        X += (x.Count / 50);
+                    }
+                    else
+                    {
+                        ++X;
                     }
                 }
                 graph3D1.SetSurfacePoints(i_Points3D, eNormalize.Separate);
@@ -693,36 +822,90 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
             {
                 if (draw_graph_number == 1)
                 {
-                    cPoint3D[,] i_Points3D = new cPoint3D[x.Count, y.Count];
-                    for (int X = 0; X < x.Count; X++)
+                    cPoint3D[,] i_Points3D = new cPoint3D[x.Count > 50 ? 50 + (x.Count % 50) : x.Count, y.Count > 50 ? 50 + (y.Count % 50) : y.Count];
+                    for (int X = 0, i = 0; X < x.Count; ++i)
                     {
-                        for (int Y = 0; Y < y.Count; Y++)
+                        for (int Y = 0, j = 0; Y < y.Count; ++j) 
                         {
-                            i_Points3D[X, Y] = new cPoint3D(x[X], y[Y], u[X][Y]);
+                            i_Points3D[i, j] = new cPoint3D(x[X], y[Y], u[X][Y]);
+
+                            if (y.Count > 50 && j < 50)
+                            {
+                                Y += (y.Count / 50);
+                            }
+                            else
+                            {
+                                ++Y;
+                            }
+                        }
+
+                        if (x.Count > 50 && i < 50)
+                        {
+                            X += (x.Count / 50);
+                        }
+                        else
+                        {
+                            ++X;
                         }
                     }
                     graph3D1.SetSurfacePoints(i_Points3D, eNormalize.Separate);
                 }
                 if (draw_graph_number == 2)
                 {
-                    cPoint3D[,] i_Points3D = new cPoint3D[x.Count, y.Count];
-                    for (int X = 0; X < x.Count; X++)
+                    cPoint3D[,] i_Points3D = new cPoint3D[x.Count > 50 ? 50 + (x.Count % 50) : x.Count, y.Count > 50 ? 50 + (y.Count % 50) : y.Count];
+                    for (int X = 0, i = 0; X < x.Count; ++i)
                     {
-                        for (int Y = 0; Y < y.Count; Y++)
+                        for (int Y = 0, j = 0; Y < y.Count; ++j)
                         {
-                            i_Points3D[X, Y] = new cPoint3D(x[X], y[Y], initial_approximation[X][Y]);
+                            i_Points3D[i, j] = new cPoint3D(x[X], y[Y], initial_approximation[X][Y]);
+
+                            if (y.Count > 50 && j < 50)
+                            {
+                                Y += (y.Count / 50);
+                            }
+                            else
+                            {
+                                ++Y;
+                            }
+                        }
+
+                        if (x.Count > 50 && i < 50)
+                        {
+                            X += (x.Count / 50);
+                        }
+                        else
+                        {
+                            ++X;
                         }
                     }
                     graph3D1.SetSurfacePoints(i_Points3D, eNormalize.Separate);
                 }
                 if (draw_graph_number == 3)
                 {
-                    cPoint3D[,] i_Points3D = new cPoint3D[x.Count, y.Count];
-                    for (int X = 0; X < x.Count; X++)
+                    cPoint3D[,] i_Points3D = new cPoint3D[x.Count > 50 ? 50 + (x.Count % 50) : x.Count, y.Count > 50 ? 50 + (y.Count % 50) : y.Count];
+                    for (int X = 0, i = 0; X < x.Count; ++i)
                     {
-                        for (int Y = 0; Y < y.Count; Y++)
+                        for (int Y = 0, j = 0; Y < y.Count; ++j)
                         {
-                            i_Points3D[X, Y] = new cPoint3D(x[X], y[Y], difference_clear_and_dirty[X][Y]);
+                            i_Points3D[i, j] = new cPoint3D(x[X], y[Y], difference_clear_and_dirty[X][Y]);
+
+                            if (y.Count > 50 && j < 50)
+                            {
+                                Y += (y.Count / 50);
+                            }
+                            else
+                            {
+                                ++Y;
+                            }
+                        }
+
+                        if (x.Count > 50 && i < 50)
+                        {
+                            X += (x.Count / 50);
+                        }
+                        else
+                        {
+                            ++X;
                         }
                     }
                     graph3D1.SetSurfacePoints(i_Points3D, eNormalize.Separate);
@@ -733,28 +916,120 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
             {
                 if (draw_graph_number == 1)
                 {
-                    cPoint3D[,] i_Points3D = new cPoint3D[x2.Count, y2.Count];
-                    Console.WriteLine(x.Count);
-                    Console.WriteLine(x2.Count);
-                    for (int X = 0; X < x2.Count; X++)
+                    cPoint3D[,] i_Points3D = new cPoint3D[x2.Count > 50 ? 50 + (x2.Count % 50) : x2.Count, y2.Count > 50 ? 50 + (y2.Count % 50) : y2.Count];
+                    for (int X = 0, i = 0; X < x2.Count; ++i)
                     {
-                        for (int Y = 0; Y < y2.Count; Y++)
+                        for (int Y = 0, j = 0; Y < y2.Count; ++j)
                         {
-                            i_Points3D[X, Y] = new cPoint3D(x2[X], y2[Y], v2[X][Y]);
+                            i_Points3D[i,j] = new cPoint3D(x2[X], y2[Y], v2[X][Y]);
+
+                            if (y2.Count > 50 && j < 50)
+                            {
+                                Y += (y2.Count / 50);
+                            }
+                            else
+                            {
+                                ++Y;
+                            }
+                        }
+
+                        if (x2.Count > 50 && i < 50)
+                        {
+                            X += (x2.Count / 50);
+                        }
+                        else
+                        {
+                            ++X;
                         }
                     }
                     graph3D1.SetSurfacePoints(i_Points3D, eNormalize.Separate);
                 }
                 if (draw_graph_number == 2)
                 {
-                    cPoint3D[,] i_Points3D = new cPoint3D[x.Count, y.Count];
-                    Console.WriteLine(x.Count);
-                    Console.WriteLine(x2.Count);
-                    for (int X = 0; X < x.Count; X++)
+                    cPoint3D[,] i_Points3D = new cPoint3D[x.Count > 50 ? 50 + (x.Count % 50) : x.Count, y.Count > 50 ? 50 + (y.Count % 50) : y.Count];
+                    for (int X = 0, i = 0; X < x.Count; ++i)
                     {
-                        for (int Y = 0; Y < y.Count; Y++)
+                        for (int Y = 0, j = 0; Y < y.Count; ++j)
                         {
-                            i_Points3D[X, Y] = new cPoint3D(x[X], y[Y], difference_v2_and_v[X][Y]);
+                            i_Points3D[i, j] = new cPoint3D(x[X], y[Y], initial_approximation[X][Y]);
+
+                            if (y.Count > 50 && j < 50)
+                            {
+                                Y += (y.Count / 50);
+                            }
+                            else
+                            {
+                                ++Y;
+                            }
+                        }
+                        if (x.Count > 50 && i < 50)
+                        {
+                            X += (x.Count / 50);
+                        }
+                        else
+                        {
+                            ++X;
+                        }
+                    }
+                    graph3D1.SetSurfacePoints(i_Points3D, eNormalize.Separate);
+                }
+                if (draw_graph_number == 3)
+                {
+                    cPoint3D[,] i_Points3D = new cPoint3D[x.Count > 50 ? 50 + (x.Count % 50) : x.Count, y.Count > 50 ? 50 + (y.Count % 50) : y.Count];
+                    for (int X = 0, i = 0; X < x.Count; ++i)
+                    {
+                        for (int Y = 0, j = 0; Y < y.Count; ++j)
+                        {
+                            i_Points3D[i, j] = new cPoint3D(x[X], y[Y], difference_v2_and_v[X][Y]);
+
+                            if (y.Count > 50 && j < 50)
+                            {
+                                Y += (y.Count / 50);
+                            }
+                            else
+                            {
+                                ++Y;
+                            }
+                        }
+
+                        if (x.Count > 50 && i < 50)
+                        {
+                            X += (x.Count / 50);
+                        }
+                        else
+                        {
+                            ++X;
+                        }
+                    }
+                    graph3D1.SetSurfacePoints(i_Points3D, eNormalize.Separate);
+                }
+                if (draw_graph_number == 4)
+                {
+                    cPoint3D[,] i_Points3D = new cPoint3D[x2.Count > 50 ? 50 + (x2.Count % 50) : x2.Count, y2.Count > 50 ? 50 + (y2.Count % 50) : y2.Count];
+                    for (int X = 0, i = 0; X < x2.Count; ++i)
+                    {
+                        for (int Y = 0, j = 0; Y < y2.Count; ++j)
+                        {
+                            i_Points3D[i , j] = new cPoint3D(x2[X], y2[Y], initial_approximation_v2[X][Y]);
+
+                            if (y2.Count > 50 && j < 50)
+                            {
+                                Y += (y2.Count / 50);
+                            }
+                            else
+                            {
+                                ++Y;
+                            }
+                        }
+
+
+                        if (x2.Count > 50 && i < 50)
+                        {
+                            X += (x2.Count / 50);
+                        }
+                        else
+                        {
+                            ++X;
                         }
                     }
                     graph3D1.SetSurfacePoints(i_Points3D, eNormalize.Separate);
@@ -791,24 +1066,55 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
             return Tuple.Create(res, index_x, index_y);
         }
 
-        private double residual()
+        private Tuple<double, int, int> find_max_deviation_main()
+        {
+            double res = 0;
+            int index_x = 0;
+            int index_y = 0;
+
+            for (int i = 0; i < N + 1; ++i)
+            {
+                for (int j = 0; j < M + 1; ++j)
+                {
+                    double value = Math.Abs(v[i][j] - v2[i * 2][j * 2]);
+                    if (value > res)
+                    {
+                        res = value;
+                        index_x = i;
+                        index_y = j;
+                    }
+
+                }
+            }
+            return Tuple.Create(res, index_x, index_y);
+        }
+
+        private bool isBorder(int i, int j)
+        {
+            return (i == 0 || j == 0 || j == M || i == N) ? true : false;
+        }
+
+        private double residual(List<List<double>> matrix, List<double> function)
         {
             
             double res = 0;
 
-            for (int i = 1; i < N; ++i)
+            for (int j = 1; j < M; ++j)
             {
-                for (int j = 1; j < M; ++j)
+                for (int i = 1; i < N; ++i)
                 {
-                    double value = h2 * (v[i - 1][j] + -2 * v[i][j] + v[i + 1][j]) + 
-                        k2 * (v[i][j - 1] - 2 * v[i][j] + v[i][j + 1]) + func[i][j];
+                    double value = a2 * matrix[i][j];
+                    double coef1 = System.Convert.ToInt32(!isBorder(i + 1, j)) * h2 * matrix[i + 1][j];
+                    double coef2 = System.Convert.ToInt32(!isBorder(i, j + 1)) * k2 * matrix[i][j + 1];
+                    double coef3 = System.Convert.ToInt32(!isBorder(i, j - 1)) * k2 * matrix[i][j - 1];
+                    double coef4 = System.Convert.ToInt32(!isBorder(i - 1, j)) * h2 * matrix[i - 1][j];
+                    value += coef1 + coef2 + coef3 + coef4 - func[(j - 1) * (N - 1) + (i - 1)];
 
-                    if (value > res)
-                        res = value;
+                    res += Math.Pow(value, 2);
                 }
             }
 
-            return res;
+            return Math.Sqrt(res);
         }
 
         private void reference()
@@ -820,17 +1126,43 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
                 this.label3.Text = "Справка: Для решения тестовой задачи использованы сетка с " +
                     "числом разбиений по x n = \"" + System.Convert.ToString(N) + "\" и числом разбиений по " +
                     "y \"" + System.Convert.ToString(M) + "\"," +
-                    "метод верхней релаксации с параметром w = " + System.Convert.ToString(w) +
-                    ", применены критерии остановки по точности E_мет = " + System.Convert.ToString(eps) +
-                    "\nи по числу итерции N_max = " + System.Convert.ToString(N_Max) +
-                    " На решение схемы (СЛАУ) затрачено итераций N = " + System.Convert.ToString(S) +
-                    " и достигнута точность итерационного метода E_N = " + System.Convert.ToString(eps_max) +
-                    "СЛАУ решена с невязкой ||R(N)|| = " + System.Convert.ToString(residual()) + " для невязки исопльзовалась норма \"max\";\n" +
+                    "метод верхней релаксации с параметром w = " + System.Convert.ToString(w1) +
+                    ", применены критерии остановки по точности E_мет = " + System.Convert.ToString(eps1) +
+                    "\nи по числу итерции N_max = " + System.Convert.ToString(N_Max1) +
+                    " На решение схемы (СЛАУ) затрачено итераций N = " + System.Convert.ToString(S1) +
+                    " и достигнута точность итерационного метода E_N = " + System.Convert.ToString(eps_max1) +
+                    " СЛАУ решена с невязкой ||R(N)|| = " + System.Convert.ToString(residual1) + ", для невязки исопльзовалась норма \"max\";\n" +
                     "Тестовая задача должа быть решена с погрешностью не более e = 0.5*10^-6; задача решена с погрешностью e1 = " +
                     System.Convert.ToString(fault.Item1) + "\nМаксимальное отклонение точного и численного решений наблюдается в узле " +
                     "x = \"" + System.Convert.ToString(fault.Item2) + "\"; y = \"" + System.Convert.ToString(fault.Item3) + "\"";
             }
+            else
+            {
+                Tuple<double, int, int> fault = find_max_deviation_main();
 
+                this.label3.Text = "Справка: Для решения основной задачи использованы сетка с " +
+                   "числом разбиений по x n = \"" + System.Convert.ToString(N) + "\" и числом разбиений по " +
+                   "y \"" + System.Convert.ToString(M) + "\"," +
+                   "метод верхней релаксации с параметром w1 = " + System.Convert.ToString(w1) +
+                   ", применены критерии остановки по точности E_мет = " + System.Convert.ToString(eps1) +
+                   "\nи по числу итерции N_max = " + System.Convert.ToString(N_Max1) +
+                   " На решение схемы (СЛАУ) затрачено итераций N = " + System.Convert.ToString(S1) +
+                   " и достигнута точность итерационного метода E_N = " + System.Convert.ToString(eps_max1) +
+                   " СЛАУ решена с\nневязкой ||R(N)|| = " + System.Convert.ToString(residual1) + ", для невязки исопльзовалась норма \"max\";\n" +
+                   "Для контроля точности решения использована сетка с половинным шагом, метод верхней релаксации с параметром w2 = \"" + System.Convert.ToString(w2) +
+                   "\", применены критерии остановки по точности E_мет-2 = \"" + System.Convert.ToString(eps2) + "\" и по числу итераций N_max_2 = \"" +
+                   System.Convert.ToString(N_Max2) + "\"\n" +
+                   "На решение задачи (СЛАУ) затрачено итераций N2 = \"" + System.Convert.ToString(S2) + " и достигнута точность итерационного метода " +
+                   "E_N2 = \"" + System.Convert.ToString(eps_max2) + "\n" +
+                   "Схема (СЛАУ) на сетке с половинным шагом решена с невязкой ||R(N2)|| = \"" + System.Convert.ToString(residual2) + "\", использована" +
+                   " норма \"max\"\n" +
+                   "Основная задача должа быть решена с точностью не хочу, чем e = 0.5*10^-6; задача решена с точностью e2 = \"" +
+                   System.Convert.ToString(fault.Item1) + "\"\n" +
+                   "Максимальное отклонение численных решений на основной сетке и сетке с половинным шагом наблюдается в узле " +
+                   "x = \"" + System.Convert.ToString(fault.Item2) + "\"; y = \"" + System.Convert.ToString(fault.Item3) + 
+                   "\"\n" + 
+                   "В качетсве начально приближения на основной сетке использовано нулево, на сетке с половинным шагом использовано нулево.";
+            }
         }
     }
 }

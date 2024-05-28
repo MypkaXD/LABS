@@ -41,13 +41,21 @@
             this.draw_graph_box = new System.Windows.Forms.ComboBox();
             this.task_number_box = new System.Windows.Forms.ComboBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.graph3D1 = new Plot3D.Graph3D();
             this.trackRho = new System.Windows.Forms.TrackBar();
             this.trackTheta = new System.Windows.Forms.TrackBar();
             this.trackPhi = new System.Windows.Forms.TrackBar();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.N_Max_V2 = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.eps_v2 = new System.Windows.Forms.TextBox();
+            this.w2TextBox = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.textBoxw1 = new System.Windows.Forms.TextBox();
+            this.graph3D1 = new Plot3D.Graph3D();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackRho)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackTheta)).BeginInit();
@@ -163,29 +171,10 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 116);
+            this.dataGridView1.Location = new System.Drawing.Point(12, 135);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(897, 854);
+            this.dataGridView1.Size = new System.Drawing.Size(897, 835);
             this.dataGridView1.TabIndex = 14;
-            // 
-            // graph3D1
-            // 
-            this.graph3D1.AxisX_Color = System.Drawing.Color.DarkBlue;
-            this.graph3D1.AxisX_Legend = null;
-            this.graph3D1.AxisY_Color = System.Drawing.Color.DarkGreen;
-            this.graph3D1.AxisY_Legend = null;
-            this.graph3D1.AxisZ_Color = System.Drawing.Color.DarkRed;
-            this.graph3D1.AxisZ_Legend = null;
-            this.graph3D1.BackColor = System.Drawing.Color.White;
-            this.graph3D1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.graph3D1.Location = new System.Drawing.Point(915, 116);
-            this.graph3D1.Name = "graph3D1";
-            this.graph3D1.PolygonLineColor = System.Drawing.Color.Black;
-            this.graph3D1.Raster = Plot3D.Graph3D.eRaster.Off;
-            this.graph3D1.Size = new System.Drawing.Size(942, 834);
-            this.graph3D1.TabIndex = 0;
-            this.graph3D1.TopLegendColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(150)))));
-            this.graph3D1.Load += new System.EventHandler(this.graph3D1_Load);
             // 
             // trackRho
             // 
@@ -247,11 +236,106 @@
             this.label8.TabIndex = 20;
             this.label8.Text = "Theta";
             // 
+            // N_Max_V2
+            // 
+            this.N_Max_V2.Location = new System.Drawing.Point(12, 93);
+            this.N_Max_V2.Name = "N_Max_V2";
+            this.N_Max_V2.Size = new System.Drawing.Size(100, 20);
+            this.N_Max_V2.TabIndex = 21;
+            this.N_Max_V2.Text = "1000";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(119, 97);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(46, 13);
+            this.label9.TabIndex = 22;
+            this.label9.Text = "N2_max";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(277, 98);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(63, 13);
+            this.label10.TabIndex = 24;
+            this.label10.Text = "E2_метода";
+            // 
+            // eps_v2
+            // 
+            this.eps_v2.Location = new System.Drawing.Point(171, 94);
+            this.eps_v2.Name = "eps_v2";
+            this.eps_v2.Size = new System.Drawing.Size(100, 20);
+            this.eps_v2.TabIndex = 23;
+            this.eps_v2.Text = "0,0000001";
+            // 
+            // w2TextBox
+            // 
+            this.w2TextBox.Location = new System.Drawing.Point(346, 93);
+            this.w2TextBox.Name = "w2TextBox";
+            this.w2TextBox.Size = new System.Drawing.Size(100, 20);
+            this.w2TextBox.TabIndex = 25;
+            this.w2TextBox.Text = "1,9";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(452, 98);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(21, 13);
+            this.label11.TabIndex = 26;
+            this.label11.Text = "w2";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(528, 46);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(21, 13);
+            this.label12.TabIndex = 28;
+            this.label12.Text = "w1";
+            // 
+            // textBoxw1
+            // 
+            this.textBoxw1.Location = new System.Drawing.Point(422, 41);
+            this.textBoxw1.Name = "textBoxw1";
+            this.textBoxw1.Size = new System.Drawing.Size(100, 20);
+            this.textBoxw1.TabIndex = 27;
+            this.textBoxw1.Text = "1,9";
+            // 
+            // graph3D1
+            // 
+            this.graph3D1.AxisX_Color = System.Drawing.Color.DarkBlue;
+            this.graph3D1.AxisX_Legend = null;
+            this.graph3D1.AxisY_Color = System.Drawing.Color.DarkGreen;
+            this.graph3D1.AxisY_Legend = null;
+            this.graph3D1.AxisZ_Color = System.Drawing.Color.DarkRed;
+            this.graph3D1.AxisZ_Legend = null;
+            this.graph3D1.BackColor = System.Drawing.Color.White;
+            this.graph3D1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.graph3D1.Location = new System.Drawing.Point(915, 135);
+            this.graph3D1.Name = "graph3D1";
+            this.graph3D1.PolygonLineColor = System.Drawing.Color.Black;
+            this.graph3D1.Raster = Plot3D.Graph3D.eRaster.Off;
+            this.graph3D1.Size = new System.Drawing.Size(942, 815);
+            this.graph3D1.TabIndex = 0;
+            this.graph3D1.TopLegendColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(150)))));
+            this.graph3D1.Load += new System.EventHandler(this.graph3D1_Load);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1924, 899);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.textBoxw1);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.w2TextBox);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.eps_v2);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.N_Max_V2);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
@@ -273,7 +357,7 @@
             this.Controls.Add(this.button_for_start);
             this.Controls.Add(this.graph3D1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackRho)).EndInit();
@@ -306,6 +390,14 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox N_Max_V2;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox eps_v2;
+        private System.Windows.Forms.TextBox w2TextBox;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox textBoxw1;
     }
 }
 
