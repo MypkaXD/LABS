@@ -38,8 +38,7 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
         public List<List<double>> difference_v2_and_v = new List<List<double>>();
         public List<List<double>> initial_approximation = new List<List<double>>();
         public List<List<double>> initial_approximation_v2 = new List<List<double>>();
-        public List<double> func = new List<double>();
-        public List<List<double>> func2 = new List<List<double>>();
+        public List<double> right_part_v = new List<double>();
 
         public double h;
         public double k;
@@ -106,7 +105,7 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
         }
         private double m2_main(double y)
         {
-            return y * (y - 1);
+            return y * (1 - y);
         }
         private double m3_main(double x)
         {
@@ -119,19 +118,19 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
 
         private double m1_test(double y)
         {
-            return Math.Exp(Math.Sin(Math.PI * left_border_x * y) * Math.Sin(Math.PI * left_border_x * y));
+            return 1;
         }
         private double m2_test(double y)
         {
-            return Math.Exp(Math.Sin(Math.PI * right_border_x * y) * Math.Sin(Math.PI * right_border_x * y));
+            return Math.Exp(Math.Sin(Math.PI * 2 * y) * Math.Sin(Math.PI * 2 * y));
         }
         private double m3_test(double x)
         {
-            return Math.Exp(Math.Sin(Math.PI * x * left_border_y) * Math.Sin(Math.PI * x * left_border_y));
+            return 1;
         }
         private double m4_test(double x)
         {
-            return Math.Exp(Math.Sin(Math.PI * x * right_border_y) * Math.Sin(Math.PI * x * right_border_y));
+            return Math.Exp(Math.Sin(Math.PI * x) * Math.Sin(Math.PI * x));
         }
 
         ///////////////////
@@ -144,7 +143,7 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
         {
 
             double test = test_func_xx(x, y) + test_func_yy(x, y);
-
+            
             return test;
         }
         private double test_func_xx(double x, double y)
@@ -296,7 +295,7 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
             }
         }
 
-        private void MVR(List<List<double>> matrix, List<double> x_temp, List<double> y_temp, double w, ref int S, ref int N_Max, ref double eps_max, ref double eps)
+        private void MVR(ref List<List<double>> matrix, ref List<double> x_temp, ref List<double> y_temp, ref double w, ref int S, ref int N_Max, ref double eps_max, ref double eps)
         {
 
             double v_old; // старое значение преобразуемой компоненты вектора v
@@ -307,7 +306,7 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
             S = 0;
             h2 = 1.0 / (h * h);
             k2 = 1.0 / (k * k);
-            a2 = -2.0 * (h2 + k2);
+            a2 = - 2.0 * (h2 + k2);
 
             while (!check)
             {
@@ -318,7 +317,8 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
                     for (int i = 1; i < N; i++)
                     {
                         v_old = matrix[i][j];
-                        v_new = -w * (h2 * (matrix[i + 1][j] + matrix[i - 1][j]) + k2 * (matrix[i][j + 1] + matrix[i][j - 1]));
+                        v_new = -w * (h2 * (matrix[i + 1][j] + matrix[i - 1][j]) + 
+                            k2 * (matrix[i][j + 1] + matrix[i][j - 1]));
 
                         if (task_number == 0)
                             v_new = v_new + (1 - w) * a2 * matrix[i][j] + w * test_func_f(x_temp[i], y_temp[j]);
@@ -344,24 +344,60 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
             }
         }
 
-        private void init_func2()
+        private void set_right_part(ref List<double> x_current, ref List<double> y_current)
         {
-            func2.Clear();
-            func2 = new List<List<double>>(N + 1);
-            for (int i = 0; i < N + 1; ++i)
-            {
-                List<double> innerList = new List<double>(M + 1);
 
-                for (int j = 0; j < M + 1; ++j)
+            right_part_v.Clear();
+
+            for (int j = 1; j < M; ++j)
+            {
+                for (int i = 1; i < N; ++i)
                 {
-                    if (task_number == 0)
-                        innerList.Add(test_func(x2[i], y2[j]));
+
+                    double right_part_of_eq_increment = 0;
+
+                    if (j == 1)
+                    {
+                        if (task_number == 0)
+                            right_part_of_eq_increment += k2 * m3_test(x_current[i]);
+                        else
+                            right_part_of_eq_increment += k2 * m3_main(x_current[i]);
+                    }
                     else
                     {
-                        innerList.Add(func_main(x2[i], y2[j]));
+                        if (j == M - 1)
+                        {
+                            if (task_number == 0)
+                                right_part_of_eq_increment += k2 * m4_test(x_current[i]);
+                            else
+                                right_part_of_eq_increment += k2 * m4_main(x_current[i]);
+                        }
                     }
+
+                    if (i == 1)
+                    {
+                        if (task_number == 0)
+                            right_part_of_eq_increment += h2 * m1_test(y_current[j]);
+                        else
+                            right_part_of_eq_increment += h2 * m1_main(y_current[j]);
+                    }
+                    else
+                    {
+                        if (i == N - 1)
+                        {
+                            if (task_number == 0)
+                                right_part_of_eq_increment += h2 * m2_test(y_current[j]);
+                            else
+                                right_part_of_eq_increment += h2 * m2_main(y_current[j]);
+                        }
+                    }
+
+                    if (task_number == 0)
+                        right_part_v.Add(test_func_f(x_current[i], y_current[j]) - right_part_of_eq_increment);
+                    else
+                        right_part_v.Add(func_main(x_current[i], y_current[j]) - right_part_of_eq_increment);
+
                 }
-                func2.Add(innerList);
             }
         }
 
@@ -558,8 +594,6 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
                 }
             }
 
-            //dataGridView1.Columns.Add(column3);
-
             dataGridView1.AllowUserToAddRows = false; //запрешаем пользователю самому добавлять строки
 
         }
@@ -596,22 +630,29 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
                 init_test_u();
                 init_test_v();
 
-                MVR(v, x, y, w1, ref S1, ref N_Max1, ref eps_max1, ref eps1);
+                MVR(ref v, ref x, ref y, ref w1, ref S1, ref N_Max1, ref eps_max1, ref eps1);
                 
                 calc_difference_clear_and_dirty();
 
-                residual1 = residual(v);
+                set_right_part(ref x, ref y);
+                residual1 = residual(ref v);
             }
-            else if (task_number == 1)
+            else
             {
                 init_initial_approximation_v2();
                 init_main_v();
-                MVR(v, x, y, w1, ref S1, ref N_Max1, ref eps_max1, ref eps1);
-                residual1 = residual(v);
+
+                MVR(ref v, ref x, ref y, ref w1, ref S1, ref N_Max1, ref eps_max1, ref eps1);
+
+                set_right_part(ref x,ref y);
+                residual1 = residual(ref v);
+                
                 init_main_2v();
-                MVR(v2, x2, y2, w2, ref S2, ref N_Max2, ref eps_max2, ref eps2);
-                init_func2();
-                //residual2 = residual(v2, func2);
+                MVR(ref v2, ref x2, ref y2, ref w2, ref S2, ref N_Max2, ref eps_max2, ref eps2);
+                
+                set_right_part(ref x2, ref y2);
+                residual2 = residual(ref v2);
+
                 N /= 2;
                 M /= 2;
 
@@ -1045,131 +1086,31 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
             return (i == 0 || j == 0 || j == M || i == N) ? true : false;
         }
 
-        private double residual(List<List<double>> matrix)
+        private double residual(ref List<List<double>> matrix)
         {
 
-            double res_glob = 0;
             double res_loc = 0;
-            double right_part_of_eq = 0;
+            double res = 0;
 
             for (int j = 1; j < M; ++j) {
                 for (int i = 1; i < N; ++i)
                 {
-
-                    double right_part_of_eq_increment = 0;
-
-                    if (j == 1)
-                    {
-                        if (task_number == 0)
-                            right_part_of_eq_increment += k2 * m4_test(x[i]);
-                        else
-                            right_part_of_eq_increment += k2 * m4_main(x[i]);
-                    }
-                    else
-                    {
-                        if (j == M - 1)
-                        {
-                            if (task_number == 0)
-                                right_part_of_eq_increment += k2 * m3_test(x[i]);
-                            else
-                                right_part_of_eq_increment += k2 * m3_main(x[i]);
-                        }
-                    }
-
-                    if (i == 1)
-                    {
-                        if (task_number == 0)
-                            right_part_of_eq_increment += h2 * m1_test(y[j]);
-                        else
-                            right_part_of_eq_increment += h2 * m1_main(y[j]);
-                    }
-                    else
-                    {
-                        if (i == N - 1)
-                        {
-                            if (task_number == 0)
-                                right_part_of_eq_increment += h2 * m2_test(y[j]);
-                            else
-                                right_part_of_eq_increment += h2 * m2_main(y[j]);
-                        }
-                    }
-
-                    if (task_number == 0)
-                        right_part_of_eq = -test_func_f(x[i], y[j]) - right_part_of_eq_increment;
-                    else
-                        right_part_of_eq = -func_main(x[i], y[j]) - right_part_of_eq_increment;
-
-                    
-                    
                     double left_part_of_eq = 0;
 
-                    if (j != 1 && j != M - 1)
-                    {
-                        if (i != 1 && i != N - 1)
-                        {
-                            left_part_of_eq = k2 * matrix[i][j-1] + h2 * matrix[i - 1][j]
-                                + a2 * matrix[i][j] + h2 * matrix[i+1][j] + 
-                                k2 * matrix[i][j + 1];
+                    left_part_of_eq = a2 * matrix[i][j] +
+                        h2 * matrix[i + 1][j] * System.Convert.ToInt32(!isBorder(i + 1, j)) +
+                        k2 * matrix[i][j + 1] * System.Convert.ToInt32(!isBorder(i, j + 1)) +
+                        h2 * matrix[i - 1][j] * System.Convert.ToInt32(!isBorder(i - 1, j)) +
+                        k2 * matrix[i][j - 1] * System.Convert.ToInt32(!isBorder(i, j - 1));
 
-                        }
-                        else if (i == 1)
-                        {
-                            left_part_of_eq = k2 * matrix[i][j-1]+ 
-                                a2 * matrix[i][j] +
-                                h2 * matrix[i+1][j]+ k2 *
-                                matrix[j+1][i];
-                        }
-                        else if (i == N - 1)
-                        {
-                            left_part_of_eq = k2 * matrix[i][j-1]+ h2 * 
-                                matrix[i-1][j] + a2 * matrix[i][j] 
-                                + k2 * matrix[i][j+1];
-                        }
-                    }
-                    else if (j == 1)
-                    {
-                        if (i == 1) {
-                            left_part_of_eq = a2 * matrix[i][j] + 
-                                h2 * matrix[i+1][j] + 
-                                k2 * matrix[i][j+1]; 
-                        }
-                        else if (i != N - 1) {
-                            left_part_of_eq = h2 * matrix[i-1][j] + 
-                                a2 * matrix[i][j] + 
-                                h2 * matrix[i+1][j] + 
-                                k2 * matrix[i][j+1]; 
-                        }
-                        else if (i == N - 1) {
-                            left_part_of_eq = h2 * matrix[i-1][j] + 
-                                a2 * matrix[i][j] + k2 * matrix[i][j+1]; 
-                        }
-                    }
-                    else if (j == M - 1)
-                    {
-                        if (i == 1) {
-                            left_part_of_eq = k2 * matrix[i][j-1] + 
-                                a2 * matrix[i][j] + 
-                                h2 * matrix[i+1][j]; 
-                        }
-                        else if (i != N - 1) {
-                            left_part_of_eq = k2 * matrix[i][j-1] + 
-                                h2 * matrix[i-1][j] + a2 * matrix[i][j] + 
-                                h2 * matrix[i+1][j]; 
-                        }
-                        else if (i == N - 1) {
-                            left_part_of_eq = k2 * matrix[i][j-1] + h2 * matrix[i-1][j] + 
-                                a2 * matrix[i][j]; 
-                        }
-                    }
+                    res_loc = left_part_of_eq - right_part_v[(i - 1) + (j - 1) * (N - 1)];
 
-                    res_loc = Math.Abs(left_part_of_eq - right_part_of_eq);
-
-                    if (res_loc > res_glob)
-                        res_glob = res_loc;
+                    if (Math.Abs(res_loc) > res)
+                        res = Math.Abs(res_loc);
                 }
             }
 
-            return res_glob;
+            return res;
 
         }
 

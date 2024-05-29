@@ -179,7 +179,7 @@
             // trackRho
             // 
             this.trackRho.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.trackRho.Location = new System.Drawing.Point(926, 171);
+            this.trackRho.Location = new System.Drawing.Point(926, 187);
             this.trackRho.Name = "trackRho";
             this.trackRho.Orientation = System.Windows.Forms.Orientation.Vertical;
             this.trackRho.Size = new System.Drawing.Size(45, 679);
@@ -189,7 +189,7 @@
             // trackTheta
             // 
             this.trackTheta.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.trackTheta.Location = new System.Drawing.Point(963, 171);
+            this.trackTheta.Location = new System.Drawing.Point(959, 187);
             this.trackTheta.Name = "trackTheta";
             this.trackTheta.Orientation = System.Windows.Forms.Orientation.Vertical;
             this.trackTheta.Size = new System.Drawing.Size(45, 679);
@@ -199,7 +199,7 @@
             // trackPhi
             // 
             this.trackPhi.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.trackPhi.Location = new System.Drawing.Point(999, 171);
+            this.trackPhi.Location = new System.Drawing.Point(1000, 187);
             this.trackPhi.Name = "trackPhi";
             this.trackPhi.Orientation = System.Windows.Forms.Orientation.Vertical;
             this.trackPhi.Size = new System.Drawing.Size(45, 679);
