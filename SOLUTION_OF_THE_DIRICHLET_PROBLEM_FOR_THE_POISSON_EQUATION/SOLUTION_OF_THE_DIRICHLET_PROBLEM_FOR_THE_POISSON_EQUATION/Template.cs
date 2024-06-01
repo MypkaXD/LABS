@@ -22,7 +22,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.ScrollBar;
 
 namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
 {
-    public partial class Form1 : Form
+    public partial class Template : Form
     {
 
         public List<double> x = new List<double>();
@@ -49,8 +49,8 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
         public double left_border_y;
         public double right_border_y;
 
-        public int N;
-        public int M;
+        public int N = 10;
+        public int M = 10;
 
         public int task_number = 0;
         public int draw_graph_number = 0; // 0 - числ; 1 - истинное; 2 - начальное приближение; 3 - разность точного и численного
@@ -77,9 +77,10 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
         bool isUser = false;
         bool isCalc = false;
 
-        public Form1()
+        public Template()
         {
             InitializeComponent();
+            calc_w_opt();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -99,36 +100,36 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
 
         // Функции m1 - m4
 
-        private double m1_main(double y)
+        static public double m1_main(double y)
         {
             return -y * (y - 1);
         }
-        private double m2_main(double y)
+        static public double m2_main(double y)
         {
             return y * (1 - y);
         }
-        private double m3_main(double x)
+        static public double m3_main(double x)
         {
             return Math.Abs(Math.Sin(Math.PI * x));
         }
-        private double m4_main(double x)
+        static public double m4_main(double x)
         {
             return Math.Abs(Math.Sin(Math.PI * x)) * Math.Exp(x);
         }
 
-        private double m1_test(double y)
+        static public double m1_test(double y)
         {
             return 1;
         }
-        private double m2_test(double y)
+        static public double m2_test(double y)
         {
             return Math.Exp(Math.Sin(Math.PI * 2 * y) * Math.Sin(Math.PI * 2 * y));
         }
-        private double m3_test(double x)
+        static public double m3_test(double x)
         {
             return 1;
         }
-        private double m4_test(double x)
+        static public double m4_test(double x)
         {
             return Math.Exp(Math.Sin(Math.PI * x) * Math.Sin(Math.PI * x));
         }
@@ -142,7 +143,10 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
         private double test_func_f(double x, double y)
         {
 
-            double test = test_func_xx(x, y) + test_func_yy(x, y);
+            double test = 2 * Math.Exp(Math.Pow(Math.Sin(Math.PI * x * y), 2))*
+                Math.Pow(Math.PI,2) * (y*y+x*x)*
+                (Math.Pow(Math.Cos(Math.PI * x* y), 2) - Math.Pow(Math.Sin(Math.PI*x*y),2) + 
+                2 * Math.Pow(Math.Sin(Math.PI * x * y),2)* Math.Pow(Math.Cos(Math.PI * x * y), 2));
             
             return test;
         }
@@ -672,7 +676,7 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
 
         private double func_main(double x, double y)
         {
-            return Math.Abs(x - y);
+            return Math.Pow(Math.Abs(x - y), 4);
         }
         private void graph3D1_Load(object sender, EventArgs e)
         {
@@ -1086,6 +1090,19 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
             return (i == 0 || j == 0 || j == M || i == N) ? true : false;
         }
 
+        void calc_w_opt()
+        {
+
+            double m = (double)1 / ( (System.Convert.ToInt32(this.inputM.Text)) * (System.Convert.ToInt32(this.inputN.Text)) + 1);
+
+            this.w_opt.Text = "w_opt = " + System.Convert.ToString((double)2 / (1 + Math.Sin(Math.PI * m)));
+        }
+
+        private void button_calc_w_opt_Click(object sender, EventArgs e)
+        {
+            calc_w_opt();
+        }
+
         private double residual(ref List<List<double>> matrix)
         {
 
@@ -1128,7 +1145,7 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
                     "\nи по числу итерции N_max = " + System.Convert.ToString(N_Max1) +
                     " На решение схемы (СЛАУ) затрачено итераций N = " + System.Convert.ToString(S1) +
                     " и достигнута точность итерационного метода E_N = " + System.Convert.ToString(eps_max1) +
-                    " СЛАУ решена с невязкой ||R(N)|| = " + System.Convert.ToString(residual1) + ", для невязки исопльзовалась норма \"max\";\n" +
+                    " СЛАУ решена с невязкой ||R(N)|| = " + System.Convert.ToString(residual1) + ", для\nневязки исопльзовалась норма \"max\";" +
                     "Тестовая задача должа быть решена с погрешностью не более e = 0.5*10^-6; задача решена с погрешностью e1 = " +
                     System.Convert.ToString(fault.Item1) + "\nМаксимальное отклонение точного и численного решений наблюдается в узле " +
                     "x = \"" + System.Convert.ToString(fault.Item2) + "\"; y = \"" + System.Convert.ToString(fault.Item3) + "\"";
@@ -1158,7 +1175,7 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
                    "Максимальное отклонение численных решений на основной сетке и сетке с половинным шагом наблюдается в узле " +
                    "x = \"" + System.Convert.ToString(fault.Item2) + "\"; y = \"" + System.Convert.ToString(fault.Item3) + 
                    "\"\n" + 
-                   "В качетсве начально приближения на основной сетке использовано нулево, на сетке с половинным шагом использовано нулево.";
+                   "В качетсве начально приближения на основной сетке использовано нулевоe, на сетке с половинным шагом использовано нулево.";
             }
         }
     }

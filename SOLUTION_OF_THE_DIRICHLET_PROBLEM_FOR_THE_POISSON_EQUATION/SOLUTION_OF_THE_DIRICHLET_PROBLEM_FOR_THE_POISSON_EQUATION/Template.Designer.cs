@@ -1,6 +1,6 @@
 ﻿namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
 {
-    partial class Form1
+    partial class Template
     {
         /// <summary>
         /// Required designer variable.
@@ -55,7 +55,9 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.textBoxw1 = new System.Windows.Forms.TextBox();
+            this.w_opt = new System.Windows.Forms.Label();
             this.graph3D1 = new Plot3D.Graph3D();
+            this.button_calc_w_opt = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackRho)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackTheta)).BeginInit();
@@ -75,7 +77,7 @@
             // 
             // inputN
             // 
-            this.inputN.Location = new System.Drawing.Point(12, 41);
+            this.inputN.Location = new System.Drawing.Point(161, 41);
             this.inputN.Name = "inputN";
             this.inputN.Size = new System.Drawing.Size(100, 20);
             this.inputN.TabIndex = 2;
@@ -83,7 +85,7 @@
             // 
             // inputM
             // 
-            this.inputM.Location = new System.Drawing.Point(12, 67);
+            this.inputM.Location = new System.Drawing.Point(161, 67);
             this.inputM.Name = "inputM";
             this.inputM.Size = new System.Drawing.Size(100, 20);
             this.inputM.TabIndex = 3;
@@ -92,7 +94,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(118, 44);
+            this.label1.Location = new System.Drawing.Point(9, 44);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(146, 13);
             this.label1.TabIndex = 4;
@@ -101,7 +103,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(118, 70);
+            this.label2.Location = new System.Drawing.Point(9, 70);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(146, 13);
             this.label2.TabIndex = 5;
@@ -118,7 +120,7 @@
             // 
             // input_N_max
             // 
-            this.input_N_max.Location = new System.Drawing.Point(270, 41);
+            this.input_N_max.Location = new System.Drawing.Point(64, 143);
             this.input_N_max.Name = "input_N_max";
             this.input_N_max.Size = new System.Drawing.Size(100, 20);
             this.input_N_max.TabIndex = 7;
@@ -127,7 +129,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(376, 44);
+            this.label4.Location = new System.Drawing.Point(12, 146);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(40, 13);
             this.label4.TabIndex = 8;
@@ -135,7 +137,7 @@
             // 
             // input_E_met
             // 
-            this.input_E_met.Location = new System.Drawing.Point(270, 66);
+            this.input_E_met.Location = new System.Drawing.Point(372, 143);
             this.input_E_met.Name = "input_E_met";
             this.input_E_met.Size = new System.Drawing.Size(100, 20);
             this.input_E_met.TabIndex = 10;
@@ -144,7 +146,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(376, 70);
+            this.label5.Location = new System.Drawing.Point(303, 146);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(57, 13);
             this.label5.TabIndex = 11;
@@ -171,9 +173,9 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 135);
+            this.dataGridView1.Location = new System.Drawing.Point(12, 187);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(897, 835);
+            this.dataGridView1.Size = new System.Drawing.Size(897, 783);
             this.dataGridView1.TabIndex = 14;
             // 
             // trackRho
@@ -238,7 +240,7 @@
             // 
             // N_Max_V2
             // 
-            this.N_Max_V2.Location = new System.Drawing.Point(12, 93);
+            this.N_Max_V2.Location = new System.Drawing.Point(64, 117);
             this.N_Max_V2.Name = "N_Max_V2";
             this.N_Max_V2.Size = new System.Drawing.Size(100, 20);
             this.N_Max_V2.TabIndex = 21;
@@ -247,7 +249,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(119, 97);
+            this.label9.Location = new System.Drawing.Point(12, 120);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(46, 13);
             this.label9.TabIndex = 22;
@@ -256,7 +258,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(277, 98);
+            this.label10.Location = new System.Drawing.Point(303, 120);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(63, 13);
             this.label10.TabIndex = 24;
@@ -264,7 +266,7 @@
             // 
             // eps_v2
             // 
-            this.eps_v2.Location = new System.Drawing.Point(171, 94);
+            this.eps_v2.Location = new System.Drawing.Point(372, 117);
             this.eps_v2.Name = "eps_v2";
             this.eps_v2.Size = new System.Drawing.Size(100, 20);
             this.eps_v2.TabIndex = 23;
@@ -272,7 +274,7 @@
             // 
             // w2TextBox
             // 
-            this.w2TextBox.Location = new System.Drawing.Point(346, 93);
+            this.w2TextBox.Location = new System.Drawing.Point(197, 117);
             this.w2TextBox.Name = "w2TextBox";
             this.w2TextBox.Size = new System.Drawing.Size(100, 20);
             this.w2TextBox.TabIndex = 25;
@@ -281,7 +283,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(452, 98);
+            this.label11.Location = new System.Drawing.Point(170, 120);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(21, 13);
             this.label11.TabIndex = 26;
@@ -290,7 +292,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(528, 46);
+            this.label12.Location = new System.Drawing.Point(170, 146);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(21, 13);
             this.label12.TabIndex = 28;
@@ -298,11 +300,21 @@
             // 
             // textBoxw1
             // 
-            this.textBoxw1.Location = new System.Drawing.Point(422, 41);
+            this.textBoxw1.Location = new System.Drawing.Point(197, 143);
             this.textBoxw1.Name = "textBoxw1";
             this.textBoxw1.Size = new System.Drawing.Size(100, 20);
             this.textBoxw1.TabIndex = 27;
             this.textBoxw1.Text = "1,9";
+            // 
+            // w_opt
+            // 
+            this.w_opt.AutoSize = true;
+            this.w_opt.Location = new System.Drawing.Point(148, 93);
+            this.w_opt.Name = "w_opt";
+            this.w_opt.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.w_opt.Size = new System.Drawing.Size(54, 13);
+            this.w_opt.TabIndex = 29;
+            this.w_opt.Text = "w_opt = 0";
             // 
             // graph3D1
             // 
@@ -323,11 +335,23 @@
             this.graph3D1.TopLegendColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(150)))));
             this.graph3D1.Load += new System.EventHandler(this.graph3D1_Load);
             // 
+            // button_calc_w_opt
+            // 
+            this.button_calc_w_opt.Location = new System.Drawing.Point(12, 88);
+            this.button_calc_w_opt.Name = "button_calc_w_opt";
+            this.button_calc_w_opt.Size = new System.Drawing.Size(130, 23);
+            this.button_calc_w_opt.TabIndex = 30;
+            this.button_calc_w_opt.Text = "Рассчитать w_opt";
+            this.button_calc_w_opt.UseVisualStyleBackColor = true;
+            this.button_calc_w_opt.Click += new System.EventHandler(this.button_calc_w_opt_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1924, 899);
+            this.Controls.Add(this.button_calc_w_opt);
+            this.Controls.Add(this.w_opt);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.textBoxw1);
             this.Controls.Add(this.label11);
@@ -398,6 +422,8 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox textBoxw1;
+        private System.Windows.Forms.Label w_opt;
+        private System.Windows.Forms.Button button_calc_w_opt;
     }
 }
 

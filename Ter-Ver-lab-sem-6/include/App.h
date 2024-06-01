@@ -133,22 +133,22 @@ public:
     void createInputIntervals() {
 
         ImGui::SetNextWindowPos({ 0,500 }); // устанавливаем позицию для создаваемого окна
-        ImGui::SetNextWindowSize({ 318,500 }); // устанавливаем размер для создаваемого окна
+        ImGui::SetNextWindowSize({ 500,500 }); // устанавливаем размер для создаваемого окна
 
         ImGui::Begin("InputK", 0, flagsForWindows); // Создаем окно с заданными параметрами
 
 
-        if (ImGui::InputInt("a", &k, 1, 100, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CharsDecimal)) { // ввод данных
+        if (ImGui::InputInt(u8"Введите число интервалов", &k, 1, 100, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CharsDecimal)) { // ввод данных
             if (k <= 0) // если число попыток меньше или равно 0, то заменяем значение на 1
                 k = 1;
             else if (k > different_answered_tickets.size() - 1)
                 k = different_answered_tickets.size() - 1;
         }
-        if (ImGui::InputInt("asd", &counter_of_experiments, 1, 100, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CharsDecimal)) { // ввод данных
+        if (ImGui::InputInt(u8"Введите кол-во экспериметнов", &counter_of_experiments, 1, 100, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CharsDecimal)) { // ввод данных
             if (counter_of_experiments <= 0) // если число попыток меньше или равно 0, то заменяем значение на 1
                 counter_of_experiments = 1;
         }
-        if (ImGui::InputDouble("ad", &alpha, 0.01f, 1.0f, "%.8f")) { // ввод вероятности
+        if (ImGui::InputDouble(u8"Введите уровень значимости", &alpha, 0.01f, 1.0f, "%.8f")) { // ввод вероятности
 
             if (p < 0 || p > 1) // если вероятность больше 1 или меньше 0, то изменяем на 0.3 (дефолтное значение)
                 alpha = 0.5;
@@ -160,8 +160,8 @@ public:
             calc_intervals();
         }
 
-        ImGui::Text("%d",count_of_accepted);
-        ImGui::Text("%d",count_of_not_accepted);
+        ImGui::Text(u8"Число принятых: %d",count_of_accepted);
+        ImGui::Text(u8"Число отклоненных: %d",count_of_not_accepted);
 
         ImGui::End();
 
@@ -327,7 +327,7 @@ public:
 
         ImGui::BeginChild("firstTable", { 960, 70 });
 
-        if (ImGui::BeginTable("table1", different_answered_tickets.size() + 1, ImGuiTableFlags_Borders | (different_answered_tickets.size() > 18 ? ImGuiTableFlags_ScrollX : 0) | ImGuiTableFlags_NoHostExtendX)) // создаем таблицу с заданными настройками
+        if (ImGui::BeginTable("table1", different_answered_tickets.size() + 1, ImGuiTableFlags_Borders | (different_answered_tickets.size() > 6 ? ImGuiTableFlags_ScrollX : 0) | ImGuiTableFlags_NoHostExtendX)) // создаем таблицу с заданными настройками
         {
             ImGui::TableSetupColumn(u8"x_i", ImGuiTableColumnFlags_WidthFixed);
             for (size_t count = 0; count < different_answered_tickets.size(); ++count)
@@ -402,7 +402,7 @@ public:
         ImGui::EndChild();
         ImGui::BeginChild("ThirdTable", { 960, 80 });
 
-        if (ImGui::BeginTable("table3", different_answered_tickets.size(), ImGuiTableFlags_Borders | (different_answered_tickets.size() > 17 ? ImGuiTableFlags_ScrollX : 0) | ImGuiTableFlags_NoHostExtendX)) // создаем таблицу с заданными настройками
+        if (ImGui::BeginTable("table3", different_answered_tickets.size(), ImGuiTableFlags_Borders | (different_answered_tickets.size() > 6 ? ImGuiTableFlags_ScrollX : 0) | ImGuiTableFlags_NoHostExtendX)) // создаем таблицу с заданными настройками
         {
             for (size_t count = 0; count < different_answered_tickets.size(); ++count)
                 ImGui::TableSetupColumn(std::to_string(different_answered_tickets[count].first).c_str(), ImGuiTableColumnFlags_WidthFixed);
