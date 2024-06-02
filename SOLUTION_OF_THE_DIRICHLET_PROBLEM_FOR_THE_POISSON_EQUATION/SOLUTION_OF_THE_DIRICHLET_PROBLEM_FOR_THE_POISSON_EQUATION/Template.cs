@@ -19,60 +19,58 @@ using System.Collections;
 using Plot3D;
 using System.Runtime.ConstrainedExecution;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ScrollBar;
+using System.Drawing.Printing;
 
 namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
 {
     public partial class Template : Form
     {
-
         public List<double> x = new List<double>();
         public List<double> y = new List<double>();
+        public List<List<double>> v = new List<List<double>>();
+        public List<List<double>> difference_clear_and_dirty = new List<List<double>>();
+        public List<List<double>> initial_approximation = new List<List<double>>();
 
         public List<double> x2 = new List<double>();
         public List<double> y2 = new List<double>();
-
-        public List<List<double>> v = new List<List<double>>();
         public List<List<double>> v2 = new List<List<double>>();
-        public List<List<double>> u = new List<List<double>>();
-        public List<List<double>> difference_clear_and_dirty = new List<List<double>>();
         public List<List<double>> difference_v2_and_v = new List<List<double>>();
-        public List<List<double>> initial_approximation = new List<List<double>>();
         public List<List<double>> initial_approximation_v2 = new List<List<double>>();
-        public List<double> right_part_v = new List<double>();
+
+        public List<List<double>> u = new List<List<double>>();
 
         public double h;
         public double k;
 
-        public double left_border_x;
-        public double right_border_x;
+        public double left_border_x = 0;
+        public double right_border_x = 2;
 
-        public double left_border_y;
-        public double right_border_y;
+        public double down_border_y = 0;
+        public double upper_border_y = 1;
 
         public int N = 10;
         public int M = 10;
 
+        public double residual1 = 0;
+        public double residual2 = 0;
+
+        public double w1 = 1.9;
+        public double w2 = 1.9;
+
+        public int S1 = 0;
+        public int S2 = 0;
+
         public int task_number = 0;
         public int draw_graph_number = 0; // 0 - числ; 1 - истинное; 2 - начальное приближение; 3 - разность точного и численного
-
-        public double w1 = 1.9; // [0;2]
-        public double w2 = 1.9; // [0;2]
 
         public int N_Max1; // число итераций
         public int N_Max2; // число итераций
 
-        int S1 = 0;
-        int S2 = 0;
-
         double eps1; // минимально допустимый прирост
         double eps2; // минимально допустимый прирост
-        double eps_max1 = 0; // текущее значение прироста
-        double eps_max2 = 0; // текущее значение прироста
-        double eps_cur = 0; // для подсчета текущего значения прироста
-        double a2, k2, h2; // ненулевые элементы матрицы (–A)
 
-        double residual1 = 0;
-        double residual2 = 0;
+        double eps_max1 = 0;
+        double eps_max2 = 0;
 
         bool isUser = false;
         bool isCalc = false;
@@ -80,7 +78,6 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
         public Template()
         {
             InitializeComponent();
-            calc_w_opt();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -98,190 +95,19 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
             first_init_data();
         }
 
-        // Функции m1 - m4
-
-        static public double m1_main(double y)
-        {
-            return -y * (y - 1);
-        }
-        static public double m2_main(double y)
-        {
-            return y * (1 - y);
-        }
-        static public double m3_main(double x)
-        {
-            return Math.Abs(Math.Sin(Math.PI * x));
-        }
-        static public double m4_main(double x)
-        {
-            return Math.Abs(Math.Sin(Math.PI * x)) * Math.Exp(x);
-        }
-
-        static public double m1_test(double y)
-        {
-            return 1;
-        }
-        static public double m2_test(double y)
-        {
-            return Math.Exp(Math.Sin(Math.PI * 2 * y) * Math.Sin(Math.PI * 2 * y));
-        }
-        static public double m3_test(double x)
-        {
-            return 1;
-        }
-        static public double m4_test(double x)
-        {
-            return Math.Exp(Math.Sin(Math.PI * x) * Math.Sin(Math.PI * x));
-        }
-
-        ///////////////////
-
-        private double test_func(double x, double y)
-        {
-            return Math.Exp(Math.Sin(Math.PI * x * y) * Math.Sin(Math.PI * x * y));
-        }
-        private double test_func_f(double x, double y)
-        {
-
-            double test = 2 * Math.Exp(Math.Pow(Math.Sin(Math.PI * x * y), 2))*
-                Math.Pow(Math.PI,2) * (y*y+x*x)*
-                (Math.Pow(Math.Cos(Math.PI * x* y), 2) - Math.Pow(Math.Sin(Math.PI*x*y),2) + 
-                2 * Math.Pow(Math.Sin(Math.PI * x * y),2)* Math.Pow(Math.Cos(Math.PI * x * y), 2));
-            
-            return test;
-        }
-        private double test_func_xx(double x, double y)
-        {
-            return 4 * Math.Pow(Math.PI, 2) * y * y *
-                Math.Exp(Math.Pow(Math.Sin(Math.PI * x * y), 2)) *
-                Math.Pow(Math.Sin(Math.PI * x * y), 2) *
-                Math.Pow(Math.Cos(Math.PI * x * y), 2) -
-                2 * Math.Pow(Math.PI, 2) * Math.Pow(y, 2) *
-                Math.Exp(Math.Pow(Math.Sin(Math.PI * x * y), 2)) *
-                Math.Pow(Math.Sin(Math.PI * x * y), 2) +
-                2 * Math.Pow(Math.PI, 2) * Math.Pow(y, 2) *
-                Math.Exp(Math.Pow(Math.Sin(Math.PI * x * y), 2)) *
-                Math.Pow(Math.Cos(Math.PI * x * y), 2);
-        }
-        private double test_func_yy(double x, double y)
-        {
-            return 4 * Math.Pow(Math.PI, 2) * x * x *
-                Math.Exp(Math.Pow(Math.Sin(Math.PI * x * y), 2)) *
-                Math.Pow(Math.Sin(Math.PI * x * y), 2) *
-                Math.Pow(Math.Cos(Math.PI * x * y), 2) -
-                2 * Math.Pow(Math.PI, 2) * Math.Pow(x, 2) *
-                Math.Exp(Math.Pow(Math.Sin(Math.PI * x * y), 2)) *
-                Math.Pow(Math.Sin(Math.PI * x * y), 2) +
-                2 * Math.Pow(Math.PI, 2) * Math.Pow(x, 2) *
-                Math.Exp(Math.Pow(Math.Sin(Math.PI * x * y), 2)) *
-                Math.Pow(Math.Cos(Math.PI * x * y), 2);
-        }
-
         private void init_getted_data()
         {
             N = System.Convert.ToInt32(this.inputN.Text);
             M = System.Convert.ToInt32(this.inputM.Text);
 
             h = (right_border_x - left_border_x) / N;
-            k = (right_border_y - left_border_y) / M;
+            k = (upper_border_y - down_border_y) / M;
 
             N_Max1 = System.Convert.ToInt32(this.input_N_max.Text);
             N_Max2 = System.Convert.ToInt32(this.N_Max_V2.Text);
 
             eps1 = System.Convert.ToDouble(this.input_E_met.Text);
             eps2 = System.Convert.ToDouble(this.eps_v2.Text);
-
-            w1 = System.Convert.ToDouble(this.textBoxw1.Text);
-            w2 = System.Convert.ToDouble(this.w2TextBox.Text);
-        }
-        private void init_containers()
-        {
-            init_initial_approximation();
-            init_x();
-            init_y();
-            init_v();
-        }
-        private void init_initial_approximation()
-        {
-            initial_approximation.Clear();
-            initial_approximation = new List<List<double>>(N + 1);
-            for (int i = 0; i < N + 1; ++i)
-            {
-                List<double> innerList = new List<double>(M + 1);
-
-                for (int j = 0; j < M + 1; ++j)
-                {
-                    innerList.Add(0);
-                }
-                initial_approximation.Add(innerList);
-            }
-        }
-        private void init_x()
-        {
-            x.Clear();
-            x = new List<double>(N + 1);
-            for (int i = 0; i < N + 1; i++)
-            {
-                x.Add(left_border_x + i * h);
-            }
-        }
-        private void init_y()
-        {
-            y.Clear();
-            y = new List<double>(M + 1);
-            for (int i = 0; i < M + 1; i++)
-            {
-                y.Add(left_border_y + i * k);
-            }
-        }
-        private void init_v()
-        {
-            v.Clear();
-            v = new List<List<double>>(N + 1);
-            for (int i = 0; i < N + 1; ++i)
-            {
-                List<double> innerList = new List<double>(M + 1);
-
-                for (int j = 0; j < M + 1; ++j)
-                {
-                    innerList.Add(0);
-                }
-                v.Add(innerList);
-            }
-        }
-        private void init_test_u()
-        {
-            u.Clear();
-            u = new List<List<double>>(N + 1);
-            for (int i = 0; i < N + 1; ++i)
-            {
-                List<double> innerList = new List<double>(M + 1);
-                for (int j = 0; j < M + 1; ++j)
-                {
-                    innerList.Add(test_func(x[i], y[j]));
-                }
-                u.Add(innerList);
-            }
-        }
-        private void init_test_v()
-        {
-            for (int i = 0; i < N + 1; ++i)
-            {
-                for (int j = 0; j < M + 1; ++j)
-                {
-                    if (i == 0 || j == 0 || i == N || j == M)
-                    {
-                        double value = u[i][j];
-                        v[i][j] = value;
-                        initial_approximation[i][j] = value;
-                    }
-                    else
-                    {
-                        v[i][j] = 0;
-                        initial_approximation[i][j] = 0;
-                    }
-                }
-            }
         }
 
         private void calc_difference_clear_and_dirty()
@@ -296,223 +122,6 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
                     innerList.Add(v[i][j] - u[i][j]);
                 }
                 difference_clear_and_dirty.Add(innerList);
-            }
-        }
-
-        private void MVR(ref List<List<double>> matrix, ref List<double> x_temp, ref List<double> y_temp, ref double w, ref int S, ref int N_Max, ref double eps_max, ref double eps)
-        {
-
-            double v_old; // старое значение преобразуемой компоненты вектора v
-            double v_new; // новое значение преобразуемой компоненты вектора v
-
-            bool check = false; // условие остановки
-
-            S = 0;
-            h2 = 1.0 / (h * h);
-            k2 = 1.0 / (k * k);
-            a2 = - 2.0 * (h2 + k2);
-
-            while (!check)
-            {
-                eps_max = 0;
-
-                for (int j = 1; j < M; j++)
-                {
-                    for (int i = 1; i < N; i++)
-                    {
-                        v_old = matrix[i][j];
-                        v_new = -w * (h2 * (matrix[i + 1][j] + matrix[i - 1][j]) + 
-                            k2 * (matrix[i][j + 1] + matrix[i][j - 1]));
-
-                        if (task_number == 0)
-                            v_new = v_new + (1 - w) * a2 * matrix[i][j] + w * test_func_f(x_temp[i], y_temp[j]);
-                        else
-                            v_new = v_new + (1 - w) * a2 * matrix[i][j] + w * func_main(x_temp[i], y_temp[j]);
-
-                        v_new = v_new / a2;
-
-                        eps_cur = Math.Abs(v_old - v_new);
-
-                        if (eps_cur > eps_max)
-                            eps_max = eps_cur;
-
-                        matrix[i][j] = v_new;
-                    }
-                }
-
-                ++S;
-
-                if ((eps_max < eps) || (S >= N_Max))
-                    check = true;
-
-            }
-        }
-
-        private void set_right_part(ref List<double> x_current, ref List<double> y_current)
-        {
-
-            right_part_v.Clear();
-
-            for (int j = 1; j < M; ++j)
-            {
-                for (int i = 1; i < N; ++i)
-                {
-
-                    double right_part_of_eq_increment = 0;
-
-                    if (j == 1)
-                    {
-                        if (task_number == 0)
-                            right_part_of_eq_increment += k2 * m3_test(x_current[i]);
-                        else
-                            right_part_of_eq_increment += k2 * m3_main(x_current[i]);
-                    }
-                    else
-                    {
-                        if (j == M - 1)
-                        {
-                            if (task_number == 0)
-                                right_part_of_eq_increment += k2 * m4_test(x_current[i]);
-                            else
-                                right_part_of_eq_increment += k2 * m4_main(x_current[i]);
-                        }
-                    }
-
-                    if (i == 1)
-                    {
-                        if (task_number == 0)
-                            right_part_of_eq_increment += h2 * m1_test(y_current[j]);
-                        else
-                            right_part_of_eq_increment += h2 * m1_main(y_current[j]);
-                    }
-                    else
-                    {
-                        if (i == N - 1)
-                        {
-                            if (task_number == 0)
-                                right_part_of_eq_increment += h2 * m2_test(y_current[j]);
-                            else
-                                right_part_of_eq_increment += h2 * m2_main(y_current[j]);
-                        }
-                    }
-
-                    if (task_number == 0)
-                        right_part_v.Add(test_func_f(x_current[i], y_current[j]) - right_part_of_eq_increment);
-                    else
-                        right_part_v.Add(func_main(x_current[i], y_current[j]) - right_part_of_eq_increment);
-
-                }
-            }
-        }
-
-        private void init_initial_approximation_v2()
-        {
-            initial_approximation_v2.Clear();
-            initial_approximation_v2 = new List<List<double>>(2 * N + 1);
-            for (int i = 0; i < 2 * N + 1; ++i)
-            {
-                List<double> innerList = new List<double>(2 * M + 1);
-
-                for (int j = 0; j < 2 * M + 1; ++j)
-                {
-                    innerList.Add(0);
-                }
-                initial_approximation_v2.Add(innerList);
-            }
-        }
-
-        private void init_main_v()
-        {
-            for (int i = 0; i < N + 1; ++i)
-            {
-                for (int j = 0; j < M + 1; ++j)
-                {
-                    if (i == 0)
-                    {
-                        v[i][j] = m1_main(y[j]);
-                    }
-                    else if (j == 0)
-                    {
-                        v[i][j] = m3_main(x[i]);
-                    }
-                    else if (i == N)
-                    {
-                        v[i][j] = m2_main(y[j]);
-                    }
-                    else if (j == M)
-                    {
-                        v[i][j] = m4_main(x[i]);
-                    }
-                    else
-                    {
-                        v[i][j] = 0;
-                    }
-                    initial_approximation[i][j] = v[i][j];
-                }
-            }
-        }
-
-        private void init_main_2v()
-        {
-            N *= 2;
-            M *= 2;
-
-            h = (right_border_x - left_border_x) / N;
-            k = (right_border_y - left_border_y) / M;
-
-            v2.Clear();
-            v2 = new List<List<double>>(N + 1);
-            for (int i = 0; i < N + 1; ++i)
-            {
-                List<double> innerList = new List<double>(M + 1);
-
-                for (int j = 0; j < M + 1; ++j)
-                {
-                    innerList.Add(0);
-                }
-                v2.Add(innerList);
-            }
-
-            x2.Clear();
-            x2 = new List<double>(N + 1);
-            for (int i = 0; i < N + 1; i++)
-            {
-                x2.Add(left_border_x + i * h);
-            }
-
-            y2.Clear();
-            y2 = new List<double>(M + 1);
-            for (int i = 0; i < M + 1; i++)
-            {
-                y2.Add(left_border_y + i * k);
-            }
-
-            for (int i = 0; i < N + 1; ++i)
-            {
-                for (int j = 0; j < M + 1; ++j)
-                {
-                    if (i == 0)
-                    {
-                        v2[i][j] = m1_main(y2[j]);
-                    }
-                    else if (j == 0)
-                    {
-                        v2[i][j] = m3_main(x2[i]);
-                    }
-                    else if (i == N)
-                    {
-                        v2[i][j] = m2_main(y2[j]);
-                    }
-                    else if (j == M)
-                    {
-                        v2[i][j] = m4_main(x2[i]);
-                    }
-                    else
-                    {
-                        v2[i][j] = 0;
-                    }
-                    initial_approximation_v2[i][j] = v2[i][j];
-                }
             }
         }
 
@@ -619,51 +228,39 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
         private void first_init_data()
         {
 
-            right_border_x = 2;
-            left_border_x = 0;
-
-            right_border_y = 1;
-            left_border_y = 0;
-
             init_getted_data();
-
-            init_containers();
 
             if ( task_number == 0)
             {
-                init_test_u();
-                init_test_v();
+                init_test();
 
-                MVR(ref v, ref x, ref y, ref w1, ref S1, ref N_Max1, ref eps_max1, ref eps1);
-                
+                MethodVerRel mvr = new MethodVerRel(N_Max1, N, M, w1, h, k, eps1, ref x, ref y, ref v, task_number, ref residual1, ref S1, ref eps_max1);
+
                 calc_difference_clear_and_dirty();
-
-                set_right_part(ref x, ref y);
-                residual1 = residual(ref v);
             }
             else
             {
-                init_initial_approximation_v2();
-                init_main_v();
-
-                MVR(ref v, ref x, ref y, ref w1, ref S1, ref N_Max1, ref eps_max1, ref eps1);
-
-                set_right_part(ref x,ref y);
-                residual1 = residual(ref v);
-                
-                init_main_2v();
-                MVR(ref v2, ref x2, ref y2, ref w2, ref S2, ref N_Max2, ref eps_max2, ref eps2);
-                
-                set_right_part(ref x2, ref y2);
-                residual2 = residual(ref v2);
-
-                N /= 2;
-                M /= 2;
-
-                h = (right_border_x - left_border_x) / N;
-                k = (right_border_y - left_border_y) / M;
-
-                calc_difference_v2_and_v();
+                //init_initial_approximation_v2();
+                //init_main_v();
+                //
+                //MVR(ref v, ref x, ref y, ref w1, ref S1, ref N_Max1, ref eps_max1, ref eps1);
+                //
+                //set_right_part(ref x,ref y);
+                //residual1 = residual(ref v);
+                //
+                //init_main_2v();
+                //MVR(ref v2, ref x2, ref y2, ref w2, ref S2, ref N_Max2, ref eps_max2, ref eps2);
+                //
+                //set_right_part(ref x2, ref y2);
+                //residual2 = residual(ref v2);
+                //
+                //N /= 2;
+                //M /= 2;
+                //
+                //h = (right_border_x - left_border_x) / N;
+                //k = (right_border_y - left_border_y) / M;
+                //
+                //calc_difference_v2_and_v();
             }
 
             isCalc = true;
@@ -674,10 +271,6 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
             reference();
         }
 
-        private double func_main(double x, double y)
-        {
-            return Math.Pow(Math.Abs(x - y), 4);
-        }
         private void graph3D1_Load(object sender, EventArgs e)
         {
         }
@@ -1085,11 +678,6 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
             return Tuple.Create(res, index_x, index_y);
         }
 
-        private bool isBorder(int i, int j)
-        {
-            return (i == 0 || j == 0 || j == M || i == N) ? true : false;
-        }
-
         void calc_w_opt()
         {
 
@@ -1101,34 +689,6 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
         private void button_calc_w_opt_Click(object sender, EventArgs e)
         {
             calc_w_opt();
-        }
-
-        private double residual(ref List<List<double>> matrix)
-        {
-
-            double res_loc = 0;
-            double res = 0;
-
-            for (int j = 1; j < M; ++j) {
-                for (int i = 1; i < N; ++i)
-                {
-                    double left_part_of_eq = 0;
-
-                    left_part_of_eq = a2 * matrix[i][j] +
-                        h2 * matrix[i + 1][j] * System.Convert.ToInt32(!isBorder(i + 1, j)) +
-                        k2 * matrix[i][j + 1] * System.Convert.ToInt32(!isBorder(i, j + 1)) +
-                        h2 * matrix[i - 1][j] * System.Convert.ToInt32(!isBorder(i - 1, j)) +
-                        k2 * matrix[i][j - 1] * System.Convert.ToInt32(!isBorder(i, j - 1));
-
-                    res_loc = left_part_of_eq - right_part_v[(i - 1) + (j - 1) * (N - 1)];
-
-                    if (Math.Abs(res_loc) > res)
-                        res = Math.Abs(res_loc);
-                }
-            }
-
-            return res;
-
         }
 
         private void reference()
