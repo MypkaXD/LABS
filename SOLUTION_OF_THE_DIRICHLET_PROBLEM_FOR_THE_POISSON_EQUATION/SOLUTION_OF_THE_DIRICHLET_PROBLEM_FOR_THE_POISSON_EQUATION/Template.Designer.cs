@@ -56,8 +56,9 @@
             this.label12 = new System.Windows.Forms.Label();
             this.textBoxw1 = new System.Windows.Forms.TextBox();
             this.w_opt = new System.Windows.Forms.Label();
-            this.graph3D1 = new Plot3D.Graph3D();
             this.button_calc_w_opt = new System.Windows.Forms.Button();
+            this.combo_methods = new System.Windows.Forms.ComboBox();
+            this.graph3D1 = new Plot3D.Graph3D();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackRho)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackTheta)).BeginInit();
@@ -316,6 +317,25 @@
             this.w_opt.TabIndex = 29;
             this.w_opt.Text = "w_opt = 0";
             // 
+            // button_calc_w_opt
+            // 
+            this.button_calc_w_opt.Location = new System.Drawing.Point(12, 88);
+            this.button_calc_w_opt.Name = "button_calc_w_opt";
+            this.button_calc_w_opt.Size = new System.Drawing.Size(130, 23);
+            this.button_calc_w_opt.TabIndex = 30;
+            this.button_calc_w_opt.Text = "Рассчитать w_opt";
+            this.button_calc_w_opt.UseVisualStyleBackColor = true;
+            this.button_calc_w_opt.Click += new System.EventHandler(this.button_calc_w_opt_Click);
+            // 
+            // combo_methods
+            // 
+            this.combo_methods.FormattingEnabled = true;
+            this.combo_methods.Location = new System.Drawing.Point(267, 40);
+            this.combo_methods.Name = "combo_methods";
+            this.combo_methods.Size = new System.Drawing.Size(121, 21);
+            this.combo_methods.TabIndex = 31;
+            this.combo_methods.SelectedIndexChanged += new System.EventHandler(this.combo_methods_SelectedIndexChanged);
+            // 
             // graph3D1
             // 
             this.graph3D1.AxisX_Color = System.Drawing.Color.DarkBlue;
@@ -335,21 +355,12 @@
             this.graph3D1.TopLegendColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(150)))));
             this.graph3D1.Load += new System.EventHandler(this.graph3D1_Load);
             // 
-            // button_calc_w_opt
-            // 
-            this.button_calc_w_opt.Location = new System.Drawing.Point(12, 88);
-            this.button_calc_w_opt.Name = "button_calc_w_opt";
-            this.button_calc_w_opt.Size = new System.Drawing.Size(130, 23);
-            this.button_calc_w_opt.TabIndex = 30;
-            this.button_calc_w_opt.Text = "Рассчитать w_opt";
-            this.button_calc_w_opt.UseVisualStyleBackColor = true;
-            this.button_calc_w_opt.Click += new System.EventHandler(this.button_calc_w_opt_Click);
-            // 
-            // Form1
+            // Template
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1924, 899);
+            this.Controls.Add(this.combo_methods);
             this.Controls.Add(this.button_calc_w_opt);
             this.Controls.Add(this.w_opt);
             this.Controls.Add(this.label12);
@@ -380,7 +391,7 @@
             this.Controls.Add(this.inputN);
             this.Controls.Add(this.button_for_start);
             this.Controls.Add(this.graph3D1);
-            this.Name = "Form1";
+            this.Name = "Template";
             this.Text = "SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -424,6 +435,7 @@
         private System.Windows.Forms.TextBox textBoxw1;
         private System.Windows.Forms.Label w_opt;
         private System.Windows.Forms.Button button_calc_w_opt;
+        private System.Windows.Forms.ComboBox combo_methods;
     }
 }
 

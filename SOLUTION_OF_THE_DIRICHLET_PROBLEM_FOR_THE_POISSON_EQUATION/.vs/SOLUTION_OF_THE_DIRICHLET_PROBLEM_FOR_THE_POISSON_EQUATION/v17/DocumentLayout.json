@@ -3,36 +3,44 @@
   "WorkspaceRootPath": "C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|c:\\dev\\source\\labs\\solution_of_the_dirichlet_problem_for_the_poisson_equation\\solution_of_the_dirichlet_problem_for_the_poisson_equation\\mvr.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\solution_of_the_dirichlet_problem_for_the_poisson_equation\\functions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|solutionrelative:solution_of_the_dirichlet_problem_for_the_poisson_equation\\functions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|c:\\dev\\source\\labs\\solution_of_the_dirichlet_problem_for_the_poisson_equation\\solution_of_the_dirichlet_problem_for_the_poisson_equation\\mnn.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|solutionrelative:solution_of_the_dirichlet_problem_for_the_poisson_equation\\mnn.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\solution_of_the_dirichlet_problem_for_the_poisson_equation\\mvr.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|solutionrelative:solution_of_the_dirichlet_problem_for_the_poisson_equation\\mvr.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|c:\\dev\\source\\labs\\solution_of_the_dirichlet_problem_for_the_poisson_equation\\solution_of_the_dirichlet_problem_for_the_poisson_equation\\template.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\solution_of_the_dirichlet_problem_for_the_poisson_equation\\template.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|solutionrelative:solution_of_the_dirichlet_problem_for_the_poisson_equation\\template.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\solution_of_the_dirichlet_problem_for_the_poisson_equation\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|solutionrelative:solution_of_the_dirichlet_problem_for_the_poisson_equation\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\solution_of_the_dirichlet_problem_for_the_poisson_equation\\template.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|solutionrelative:solution_of_the_dirichlet_problem_for_the_poisson_equation\\template.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\solution_of_the_dirichlet_problem_for_the_poisson_equation\\msi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|solutionrelative:solution_of_the_dirichlet_problem_for_the_poisson_equation\\msi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\solution_of_the_dirichlet_problem_for_the_poisson_equation\\checknet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|solutionrelative:solution_of_the_dirichlet_problem_for_the_poisson_equation\\checknet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\solution_of_the_dirichlet_problem_for_the_poisson_equation\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|solutionrelative:solution_of_the_dirichlet_problem_for_the_poisson_equation\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|c:\\dev\\source\\labs\\solution_of_the_dirichlet_problem_for_the_poisson_equation\\solution_of_the_dirichlet_problem_for_the_poisson_equation\\maintask.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\solution_of_the_dirichlet_problem_for_the_poisson_equation\\maintask.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|solutionrelative:solution_of_the_dirichlet_problem_for_the_poisson_equation\\maintask.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\solution_of_the_dirichlet_problem_for_the_poisson_equation\\functions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|solutionrelative:solution_of_the_dirichlet_problem_for_the_poisson_equation\\functions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\solution_of_the_dirichlet_problem_for_the_poisson_equation\\testtask.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|solutionrelative:solution_of_the_dirichlet_problem_for_the_poisson_equation\\testtask.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\solution_of_the_dirichlet_problem_for_the_poisson_equation\\checknet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|solutionrelative:solution_of_the_dirichlet_problem_for_the_poisson_equation\\checknet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{90B4147A-B330-4BFC-8ABC-F06F19F08B76}|SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION.csproj|C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\solution_of_the_dirichlet_problem_for_the_poisson_equation\\mainnet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -50,24 +58,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Template.Designer.cs",
-              "DocumentMoniker": "C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\Template.Designer.cs",
-              "RelativeDocumentMoniker": "SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\Template.Designer.cs",
-              "ToolTip": "C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\Template.Designer.cs",
-              "RelativeToolTip": "SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\Template.Designer.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAIAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-25T11:41:52.273Z",
-              "IsPinned": true
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "MainNet.cs",
               "DocumentMoniker": "C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\MainNet.cs",
               "RelativeDocumentMoniker": "SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\MainNet.cs",
@@ -76,26 +71,24 @@
               "ViewState": "AQIAAAAAAAAAAAAAAAAqwAsAAAAiAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-01T18:25:53.337Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 9,
               "Title": "CheckNet.cs",
               "DocumentMoniker": "C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\CheckNet.cs",
               "RelativeDocumentMoniker": "SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\CheckNet.cs",
               "ToolTip": "C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\CheckNet.cs",
               "RelativeToolTip": "SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\CheckNet.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAACQAAAAbAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwBYAAAAlAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-01T18:34:27.813Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "TestTask.cs",
               "DocumentMoniker": "C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\TestTask.cs",
               "RelativeDocumentMoniker": "SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\TestTask.cs",
@@ -104,78 +97,100 @@
               "ViewState": "AQIAAAQAAAAAAAAAAAAjwCEAAAArAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-01T18:43:22.001Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "MVR.cs",
               "DocumentMoniker": "C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\MVR.cs",
               "RelativeDocumentMoniker": "SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\MVR.cs",
               "ToolTip": "C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\MVR.cs",
               "RelativeToolTip": "SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\MVR.cs",
-              "ViewState": "AQIAAGEAAAAAAAAAAAAvwH0AAAArAAAA",
+              "ViewState": "AQIAAKcAAAAAAAAAAAAIwA8AAAAYAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-02T13:42:23.004Z",
-              "IsPinned": true,
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MNN.cs",
+              "DocumentMoniker": "C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\MNN.cs",
+              "RelativeDocumentMoniker": "SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\MNN.cs",
+              "ToolTip": "C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\MNN.cs",
+              "RelativeToolTip": "SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\MNN.cs",
+              "ViewState": "AQIAAIMAAAAAAAAAAAArwIwAAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-03T17:22:59.103Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 11,
+              "Title": "Template.Designer.cs",
+              "DocumentMoniker": "C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\Template.Designer.cs",
+              "RelativeDocumentMoniker": "SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\Template.Designer.cs",
+              "ToolTip": "C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\Template.Designer.cs",
+              "RelativeToolTip": "SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\Template.Designer.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T11:41:52.273Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "MainTask.cs",
               "DocumentMoniker": "C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\MainTask.cs",
               "RelativeDocumentMoniker": "SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\MainTask.cs",
               "ToolTip": "C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\MainTask.cs",
               "RelativeToolTip": "SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\MainTask.cs",
-              "ViewState": "AQIAADsAAAAAAAAAAAAwwA8AAAAAAAAA",
+              "ViewState": "AQIAABMAAAAAAAAAAAAswC8AAAAVAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-02T13:48:47.291Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-02T13:48:47.291Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 0,
               "Title": "Functions.cs",
               "DocumentMoniker": "C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\Functions.cs",
               "RelativeDocumentMoniker": "SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\Functions.cs",
               "ToolTip": "C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\Functions.cs",
               "RelativeToolTip": "SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\Functions.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAcAAAA",
+              "ViewState": "AQIAAB0AAAAAAAAAAAAswC0AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-01T18:08:10.345Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "MSI.cs",
               "DocumentMoniker": "C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\MSI.cs",
               "RelativeDocumentMoniker": "SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\MSI.cs",
               "ToolTip": "C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\MSI.cs",
               "RelativeToolTip": "SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\MSI.cs",
-              "ViewState": "AQIAABYAAAAAAAAAAAAkwDEAAAAAAAAA",
+              "ViewState": "AQIAALIAAAAAAAAAAAAcwIkAAAAuAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-01T17:51:35.52Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-01T17:51:35.52Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Template.cs",
               "DocumentMoniker": "C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\Template.cs",
               "RelativeDocumentMoniker": "SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\Template.cs",
               "ToolTip": "C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\Template.cs",
               "RelativeToolTip": "SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\Template.cs",
-              "ViewState": "AQIAAN4AAAAAAAAAAAAmwOwAAAAzAAAA",
+              "ViewState": "AQIAADIDAAAAAAAAAAAiwDQDAABJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-29T10:23:37.731Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\Program.cs",
               "RelativeDocumentMoniker": "SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\Program.cs",
@@ -183,8 +198,19 @@
               "RelativeToolTip": "SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\Program.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAtAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-24T19:35:27.447Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-24T19:35:27.447Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Template.cs [Design]",
+              "DocumentMoniker": "C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\Template.cs",
+              "RelativeDocumentMoniker": "SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\Template.cs",
+              "ToolTip": "C:\\dev\\Source\\LABS\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\Template.cs [Design]",
+              "RelativeToolTip": "SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION\\Template.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-03T13:01:06.478Z",
+              "EditorCaption": " [Design]"
             }
           ]
         }

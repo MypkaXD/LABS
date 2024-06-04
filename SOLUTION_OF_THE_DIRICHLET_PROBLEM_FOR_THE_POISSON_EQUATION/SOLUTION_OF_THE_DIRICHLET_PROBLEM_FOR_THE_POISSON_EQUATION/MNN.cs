@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
 {
-    internal class MethodSimpleIter
+    internal class MethodMinNevazok
     {
 
         public double tau = 0.0005; // [0;2]
@@ -30,7 +29,7 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
         public List<double> right_part_v = new List<double>();
         public List<double> residual_vec = new List<double>();
 
-        public MethodSimpleIter(int n_max, int n, int m, ref double param, double h, double k, double eps, ref List<double> x_current, ref List<double> y_current,
+        public MethodMinNevazok(int n_max, int n, int m, ref double param, double h, double k, double eps, ref List<double> x_current, ref List<double> y_current,
             ref List<List<double>> matrix, int task_number, ref double residual_value, ref int S, ref double eps_max)
         {
             this.N_Max = n_max;
@@ -49,7 +48,7 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
             a2 = -2.0 * (h2 + k2);
 
             set_right_part(ref x_current, ref y_current, task_number);
-            MSI(ref matrix, ref x_current, ref y_current, ref S, ref eps_max);
+            MNN(ref matrix, ref x_current, ref y_current, ref S, ref eps_max);
             residual_value = residual(ref matrix);
         }
 
@@ -110,7 +109,49 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
             }
         }
 
-        public void MSI(ref List<List<double>> matrix, ref List<double> x_temp, ref List<double> y_temp, ref int S, ref double eps_max)
+        private List<double> calc_a_mult_r()
+        {
+            
+            List<double> temp = new List<double>();
+
+            for (int j = 1; j < M; ++j)
+            {
+                for (int i = 1; i < N; ++i)
+                {
+                    double value = 0;
+
+                    value = a2 * residual_vec[(i - 1) + (j - 1) * (N - 1)];
+                    double value1 = h2 * (((i + (j - 1) * (N - 1) < 0) || ((i + (j - 1) * (N - 1)) >= residual_vec.Count)) ? 0 : residual_vec[i + (j - 1) * (N - 1)]) * System.Convert.ToInt32(!isBorder(i + 1, j));
+                    double value2 = k2 * (((i - 1 + (j) * (N - 1) < 0) || ((i - 1 + (j) * (N - 1)) >= residual_vec.Count)) ? 0 : residual_vec[i - 1 + (j) * (N - 1)]) * System.Convert.ToInt32(!isBorder(i, j + 1));
+                    double value3 = h2 * (((i - 2 + (j - 1) * (N - 1) < 0) || ((i - 2 + (j - 1) * (N - 1)) >= residual_vec.Count)) ? 0 : residual_vec[i - 2 + (j - 1) * (N - 1)]) * System.Convert.ToInt32(!isBorder(i - 1, j));
+                    double value4 = k2 * (((i - 1 + (j - 2) * (N - 1) < 0) || ((i - 1 + (j - 2) * (N - 1)) >= residual_vec.Count)) ? 0 : residual_vec[i - 1 + (j - 2) * (N - 1)]) * System.Convert.ToInt32(!isBorder(i, j - 1));
+
+                    temp.Add(value + value1 + value2 + value3 + value4);
+                }
+            }
+
+            return temp;
+
+        }
+
+        private double scalar_mult(List<double> vec1, List<double> vec2)
+        {
+            double value = 0;
+
+            if (vec1.Count != vec2.Count)
+                Console.WriteLine("ИДИ НАХУЙ, СЧИТАЙ ЛУЧШЕ, ДОЛБОЁБ!");
+            else
+            {
+                for (int i = 0; i < vec1.Count; ++i)
+                {
+                    value += vec1[i] * vec2[i];
+                }
+            }
+
+            return value;
+        }
+
+        public void MNN(ref List<List<double>> matrix, ref List<double> x_temp, ref List<double> y_temp, ref int S, ref double eps_max)
         {
 
             double v_old; // старое значение преобразуемой компоненты вектора v
@@ -125,6 +166,11 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
                 eps_max = 0;
 
                 residual_vec_calc(ref matrix);
+                List<double> a_mult_r = calc_a_mult_r();
+                double numerator = scalar_mult(a_mult_r, residual_vec);
+                double denominator = scalar_mult(a_mult_r, a_mult_r);
+
+                tau = 0.00001;
 
                 for (int j = 1; j < M; ++j)
                 {
@@ -205,6 +251,5 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
             }
 
         }
-
     }
 }

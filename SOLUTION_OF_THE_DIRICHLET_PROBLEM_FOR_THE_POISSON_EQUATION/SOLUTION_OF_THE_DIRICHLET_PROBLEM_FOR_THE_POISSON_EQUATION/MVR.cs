@@ -47,6 +47,15 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
             k2 = 1.0 / (k * k);
             a2 = -2.0 * (h2 + k2);
 
+            Console.WriteLine(N);
+            Console.WriteLine(M);
+            Console.WriteLine(h);
+            Console.WriteLine(k);
+
+            Console.WriteLine(h2);
+            Console.WriteLine(k2);
+            Console.WriteLine(a2);
+
             set_right_part(ref x_current, ref y_current, task_number);
             MVR(ref matrix, ref x_current, ref y_current, task_number, ref S, ref eps_max);
             residual_value = residual(ref matrix);

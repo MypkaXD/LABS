@@ -8,6 +8,23 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
 {
     public partial class Template
     {
+        public void v_to_v2()
+        {
+            N *= 2;
+            M *= 2;
+            h = (right_border_x - left_border_x) / N;
+            k = (upper_border_y - down_border_y) / M;
+
+        }
+
+        public void v2_to_v()
+        {
+            N /= 2;
+            M /= 2;
+            h = (right_border_x - left_border_x) / N;
+            k = (upper_border_y - down_border_y) / M;
+
+        }
 
         public void init_main()
         {
@@ -16,6 +33,8 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
 
             init_check_net();
             init_v_for_check_net();
+
+            v2_to_v();
         }
 
         private void init_v_for_check_net()

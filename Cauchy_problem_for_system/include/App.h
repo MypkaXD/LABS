@@ -403,8 +403,8 @@ public:
 
         static double input_e_local = rk.get_E_local(); // переменная input_e_local из класса RK
         static double max = 1.0; // max значение для input_e_local
-        static double min = 0.000000001; // min значение для input_e_local
-        if (ImGui::DragScalar(" ", ImGuiDataType_Double, &input_e_local, 0.0005f, &min, &max, "%.10f", ImGuiSliderFlags_AlwaysClamp)) // создает поле для ввода данных и если были введены какие-то данные, то
+        static double min = 0.0000000000001; // min значение для input_e_local
+        if (ImGui::DragScalar(" ", ImGuiDataType_Double, &input_e_local, 0.0005f, &min, &max, "%.15f", ImGuiSliderFlags_AlwaysClamp)) // создает поле для ввода данных и если были введены какие-то данные, то
             rk.set_E_local(input_e_local); // устанавливается значение для m_E_check_up в классе RK
 
         ImGui::EndChild(); // дочернее окно удаляется
@@ -420,9 +420,9 @@ public:
 
         static double input_e_right = rk.get_E_right(); // переменная input_e_right из класса RK
         static double max = 1.0; // max значение для input_e_right
-        static double min = 0.000000001; // min значение для input_e_right
+        static double min = 0.0000000000001; // min значение для input_e_right
 
-        if (ImGui::DragScalar(" ", ImGuiDataType_Double, &input_e_right, 0.0005f, &min, &max, "%.10f", ImGuiSliderFlags_AlwaysClamp)) // создает поле для ввода данных и если были введены какие-то данные, то
+        if (ImGui::DragScalar(" ", ImGuiDataType_Double, &input_e_right, 0.0005f, &min, &max, "%.15f", ImGuiSliderFlags_AlwaysClamp)) // создает поле для ввода данных и если были введены какие-то данные, то
             rk.set_E_right(input_e_right); // устанавливается значение для m_E_check_right в классе RK
 
         ImGui::EndChild(); // дочернее окно удаляется
@@ -438,9 +438,9 @@ public:
 
         static double input_h = rk.get_Start_H(); // переменная input_h из класса RK
         static double max = 1.0; // max значение для input_h
-        static double min = 0.0000001; // min значение для input_h
+        static double min = 0.000000000001; // min значение для input_h
 
-        if (ImGui::DragScalar(" ", ImGuiDataType_Double, &input_h, 0.0005f, &min, &max, "%.10f", ImGuiSliderFlags_AlwaysClamp)) // создает поле для ввода данных и если были введены какие-то данные, то
+        if (ImGui::DragScalar(" ", ImGuiDataType_Double, &input_h, 0.0005f, &min, &max, "%.15f", ImGuiSliderFlags_AlwaysClamp)) // создает поле для ввода данных и если были введены какие-то данные, то
             rk.set_Start_H(input_h); // устанавливается значение для m_h в классе RK
 
         ImGui::EndChild(); // дочернее окно удаляется
@@ -597,7 +597,7 @@ public:
             if (true)
             {
                 ImGui::TableSetupColumn("#", ImGuiTableColumnFlags_WidthFixed);
-                ImGui::TableSetupColumn("Xi");
+                ImGui::TableSetupColumn("Xi", ImGuiTableColumnFlags_WidthFixed);
                 ImGui::TableSetupColumn("Vi");
                 ImGui::TableSetupColumn("OLP", ImGuiTableColumnFlags_WidthFixed);
                 ImGui::TableSetupColumn("V^i");

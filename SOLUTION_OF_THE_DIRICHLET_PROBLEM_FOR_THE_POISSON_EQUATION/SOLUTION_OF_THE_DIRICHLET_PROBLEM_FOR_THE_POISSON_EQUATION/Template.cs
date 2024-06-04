@@ -39,8 +39,8 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
 
         public List<List<double>> u = new List<List<double>>();
 
-        public double h;
-        public double k;
+        public double h = 0.2;
+        public double k = 0.1;
 
         public double left_border_x = 0;
         public double right_border_x = 2;
@@ -54,14 +54,15 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
         public double residual1 = 0;
         public double residual2 = 0;
 
-        public double w1 = 1.9;
-        public double w2 = 1.9;
+        public double param1 = 0.5;
+        public double param2 = 1.9;
 
         public int S1 = 0;
         public int S2 = 0;
 
         public int task_number = 0;
         public int draw_graph_number = 0; // 0 - числ; 1 - истинное; 2 - начальное приближение; 3 - разность точного и численного
+        public int method = 0;
 
         public int N_Max1; // число итераций
         public int N_Max2; // число итераций
@@ -87,6 +88,14 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
 
             this.task_number_box.SelectedIndex = 0;
 
+            this.combo_methods.Items.Clear();
+
+            this.combo_methods.Items.Add("МВР");
+            this.combo_methods.Items.Add("МПИ");
+            this.combo_methods.Items.Add("ММН");
+
+            this.combo_methods.SelectedIndex = 0;
+
             graph3D1.AssignTrackBars(trackRho, trackTheta, trackPhi);
         }
 
@@ -108,6 +117,9 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
 
             eps1 = System.Convert.ToDouble(this.input_E_met.Text);
             eps2 = System.Convert.ToDouble(this.eps_v2.Text);
+
+            param1 = System.Convert.ToDouble(this.textBoxw1.Text);
+            param2 = System.Convert.ToDouble(this.w2TextBox.Text);
         }
 
         private void calc_difference_clear_and_dirty()
@@ -234,33 +246,48 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
             {
                 init_test();
 
-                MethodVerRel mvr = new MethodVerRel(N_Max1, N, M, w1, h, k, eps1, ref x, ref y, ref v, task_number, ref residual1, ref S1, ref eps_max1);
+                if (method == 0)
+                {
+                    MethodVerRel mvr = new MethodVerRel(N_Max1, N, M, param1, h, k, eps1, ref x, ref y, ref v, task_number, ref residual1, ref S1, ref eps_max1);
+                }
+                else if (method == 1) { 
+                    MethodSimpleIter msi = new MethodSimpleIter(N_Max1, N, M, ref param1, h, k, eps1, ref x, ref y, ref v, task_number, ref residual1, ref S1, ref eps_max1);
+                }
+                else if (method == 2)
+                {
+                    MethodMinNevazok mmn = new MethodMinNevazok(N_Max1, N, M, ref param1, h, k, eps1, ref x, ref y, ref v, task_number, ref residual1, ref S1, ref eps_max1);
+                }
 
                 calc_difference_clear_and_dirty();
             }
             else
             {
-                //init_initial_approximation_v2();
-                //init_main_v();
-                //
-                //MVR(ref v, ref x, ref y, ref w1, ref S1, ref N_Max1, ref eps_max1, ref eps1);
-                //
-                //set_right_part(ref x,ref y);
-                //residual1 = residual(ref v);
-                //
-                //init_main_2v();
-                //MVR(ref v2, ref x2, ref y2, ref w2, ref S2, ref N_Max2, ref eps_max2, ref eps2);
-                //
-                //set_right_part(ref x2, ref y2);
-                //residual2 = residual(ref v2);
-                //
-                //N /= 2;
-                //M /= 2;
-                //
-                //h = (right_border_x - left_border_x) / N;
-                //k = (right_border_y - left_border_y) / M;
-                //
-                //calc_difference_v2_and_v();
+
+                init_main();
+
+                if (method == 0)
+                {
+                    MethodVerRel mvr_v1 = new MethodVerRel(N_Max1, N, M, param1, h, k, eps1, ref x, ref y, ref v, task_number, ref residual1, ref S1, ref eps_max1);
+
+                    v_to_v2();
+
+                    MethodVerRel mvr_v2 = new MethodVerRel(N_Max2, N, M, param2, h, k, eps2, ref x, ref y, ref v, task_number, ref residual2, ref S2, ref eps_max2);
+
+                    v2_to_v();
+                }
+                else if (method == 1)
+                {
+                    MethodSimpleIter msi_v1 = new MethodSimpleIter(N_Max1, N, M, ref param1, h, k, eps1, ref x, ref y, ref v, task_number, ref residual1, ref S1, ref eps_max1);
+
+                    v_to_v2();
+
+                    MethodSimpleIter msi_v2 = new MethodSimpleIter(N_Max2, N, M, ref param2, h, k, eps2, ref x2, ref y2, ref v2, task_number, ref residual2, ref S2, ref eps_max2);
+
+                    v2_to_v();
+                }
+
+
+                calc_difference_v2_and_v();
             }
 
             isCalc = true;
@@ -685,10 +712,35 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
 
             this.w_opt.Text = "w_opt = " + System.Convert.ToString((double)2 / (1 + Math.Sin(Math.PI * m)));
         }
+        void calc_interval_tau()
+        {
+
+            init_getted_data();
+
+            double temp1 = (double)4 / (h * h) * Math.Pow(Math.Sin(Math.PI * (N - 1) / (2 * N)), 2) +
+                   (double)4 / (k * k) * Math.Pow(Math.Sin(Math.PI * (M - 1) / (2 * M)), 2);
+
+            double param_v1 = (double)2 / temp1;
+
+            v_to_v2();
+
+            temp1 = (double)4 / (h * h) * Math.Pow(Math.Sin(Math.PI * (N - 1) / (2 * N)), 2) +
+                   (double)4 / (k * k) * Math.Pow(Math.Sin(Math.PI * (M - 1) / (2 * M)), 2);
+
+            double param_v2 = (double)2 / temp1;
+
+            v2_to_v();
+
+            this.w_opt.Text = "tau1 = (0; " + System.Convert.ToString(param_v1) + ")" + "    "
+                + "tau2 = (0; " + System.Convert.ToString(param_v2) + ")";
+        }
 
         private void button_calc_w_opt_Click(object sender, EventArgs e)
         {
-            calc_w_opt();
+            if (method == 0)
+                calc_w_opt();
+            else
+                calc_interval_tau();
         }
 
         private void reference()
@@ -700,7 +752,16 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
                 this.label3.Text = "Справка: Для решения тестовой задачи использованы сетка с " +
                     "числом разбиений по x n = \"" + System.Convert.ToString(N) + "\" и числом разбиений по " +
                     "y \"" + System.Convert.ToString(M) + "\"," +
-                    "метод верхней релаксации с параметром w = " + System.Convert.ToString(w1) +
+                    "метод ";
+                if (method == 0)
+                {
+                    this.label3.Text += "верхней релаксации с параметром w = " + System.Convert.ToString(param1);
+                }
+                else if (method == 1)
+                {
+                    this.label3.Text += "верхней простой итерации с параметром tau = " + System.Convert.ToString(param1);
+                }
+                this.label3.Text +=
                     ", применены критерии остановки по точности E_мет = " + System.Convert.ToString(eps1) +
                     "\nи по числу итерции N_max = " + System.Convert.ToString(N_Max1) +
                     " На решение схемы (СЛАУ) затрачено итераций N = " + System.Convert.ToString(S1) +
@@ -717,13 +778,31 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
                 this.label3.Text = "Справка: Для решения основной задачи использованы сетка с " +
                    "числом разбиений по x n = \"" + System.Convert.ToString(N) + "\" и числом разбиений по " +
                    "y \"" + System.Convert.ToString(M) + "\"," +
-                   "метод верхней релаксации с параметром w1 = " + System.Convert.ToString(w1) +
+                   "метод ";
+                if (method == 0)
+                {
+                    this.label3.Text += "верхней релаксации с параметром w = " + System.Convert.ToString(param1);
+                }
+                else if (method == 1)
+                {
+                    this.label3.Text += "верхней простой итерации с параметром tau = " + System.Convert.ToString(param1);
+                }
+                this.label3.Text +=
                    ", применены критерии остановки по точности E_мет = " + System.Convert.ToString(eps1) +
                    "\nи по числу итерции N_max = " + System.Convert.ToString(N_Max1) +
                    " На решение схемы (СЛАУ) затрачено итераций N = " + System.Convert.ToString(S1) +
                    " и достигнута точность итерационного метода E_N = " + System.Convert.ToString(eps_max1) +
                    " СЛАУ решена с\nневязкой ||R(N)|| = " + System.Convert.ToString(residual1) + ", для невязки исопльзовалась норма \"max\";\n" +
-                   "Для контроля точности решения использована сетка с половинным шагом, метод верхней релаксации с параметром w2 = \"" + System.Convert.ToString(w2) +
+                   "Для контроля точности решения использована сетка с половинным шагом, метод ";
+                if (method == 0)
+                {
+                    this.label3.Text += "верхней релаксации с параметром w = " + System.Convert.ToString(param2);
+                }
+                else if (method == 1)
+                {
+                    this.label3.Text += "верхней простой итерации с параметром tau = " + System.Convert.ToString(param2);
+                }
+                this.label3.Text +=
                    "\", применены критерии остановки по точности E_мет-2 = \"" + System.Convert.ToString(eps2) + "\" и по числу итераций N_max_2 = \"" +
                    System.Convert.ToString(N_Max2) + "\"\n" +
                    "На решение задачи (СЛАУ) затрачено итераций N2 = \"" + System.Convert.ToString(S2) + " и достигнута точность итерационного метода " +
@@ -736,6 +815,31 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
                    "x = \"" + System.Convert.ToString(fault.Item2) + "\"; y = \"" + System.Convert.ToString(fault.Item3) + 
                    "\"\n" + 
                    "В качетсве начально приближения на основной сетке использовано нулевоe, на сетке с половинным шагом использовано нулево.";
+            }
+        }
+
+        private void combo_methods_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (combo_methods.SelectedIndex == 0)
+            {
+                method = 0;
+
+                this.button_calc_w_opt.Text = "Рассчитать w_opt";
+                this.w_opt.Text = "w_opt = 0";
+
+                calc_w_opt();
+            }
+            else if (combo_methods.SelectedIndex == 1)
+            {
+                method = 1;
+                this.button_calc_w_opt.Text = "Рассчитать интервал tau";
+                this.w_opt.Text = "tau = (0, 1)";
+            }
+            else if (combo_methods.SelectedIndex == 2)
+            {
+                method = 2;
+                this.button_calc_w_opt.Visible = false;
+                this.w_opt.Text = "";
             }
         }
     }

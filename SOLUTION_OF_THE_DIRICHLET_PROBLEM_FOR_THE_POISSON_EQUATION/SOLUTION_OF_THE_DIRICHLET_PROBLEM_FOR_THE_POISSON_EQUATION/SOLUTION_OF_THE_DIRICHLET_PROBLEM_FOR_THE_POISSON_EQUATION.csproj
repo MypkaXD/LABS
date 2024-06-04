@@ -57,6 +57,7 @@
     <Compile Include="MainTask.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="MNN.cs" />
     <Compile Include="MVR.cs" />
     <Compile Include="MainNet.cs">
       <SubType>Form</SubType>
