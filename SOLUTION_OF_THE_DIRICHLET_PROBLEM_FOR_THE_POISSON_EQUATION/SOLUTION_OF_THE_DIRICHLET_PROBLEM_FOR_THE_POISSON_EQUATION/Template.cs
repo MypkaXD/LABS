@@ -53,6 +53,8 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
 
         public double residual1 = 0;
         public double residual2 = 0;
+        public double residual_start_v1 = 0;
+        public double residual_start_v2 = 0;
 
         public double param1 = 0.5;
         public double param2 = 1.9;
@@ -251,11 +253,11 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
                     MethodVerRel mvr = new MethodVerRel(N_Max1, N, M, param1, h, k, eps1, ref x, ref y, ref v, task_number, ref residual1, ref S1, ref eps_max1);
                 }
                 else if (method == 1) { 
-                    MethodSimpleIter msi = new MethodSimpleIter(N_Max1, N, M, ref param1, h, k, eps1, ref x, ref y, ref v, task_number, ref residual1, ref S1, ref eps_max1);
+                    MethodSimpleIter msi = new MethodSimpleIter(N_Max1, N, M, ref param1, h, k, eps1, ref x, ref y, ref v, task_number, ref residual1, ref S1, ref eps_max1, ref residual_start_v1);
                 }
                 else if (method == 2)
                 {
-                    MethodMinNevazok mmn = new MethodMinNevazok(N_Max1, N, M, ref param1, h, k, eps1, ref x, ref y, ref v, task_number, ref residual1, ref S1, ref eps_max1);
+                    MethodMinNevazok mmn = new MethodMinNevazok(N_Max1, N, M, ref param1, h, k, eps1, ref x, ref y, ref v, task_number, ref residual1, ref S1, ref eps_max1, ref residual_start_v1);
                 }
 
                 calc_difference_clear_and_dirty();
@@ -271,21 +273,30 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
 
                     v_to_v2();
 
-                    MethodVerRel mvr_v2 = new MethodVerRel(N_Max2, N, M, param2, h, k, eps2, ref x, ref y, ref v, task_number, ref residual2, ref S2, ref eps_max2);
+                    MethodVerRel mvr_v2 = new MethodVerRel(N_Max2, N, M, param2, h, k, eps2, ref x2, ref y2, ref v2, task_number, ref residual2, ref S2, ref eps_max2);
 
                     v2_to_v();
                 }
                 else if (method == 1)
                 {
-                    MethodSimpleIter msi_v1 = new MethodSimpleIter(N_Max1, N, M, ref param1, h, k, eps1, ref x, ref y, ref v, task_number, ref residual1, ref S1, ref eps_max1);
+                    MethodSimpleIter msi_v1 = new MethodSimpleIter(N_Max1, N, M, ref param1, h, k, eps1, ref x, ref y, ref v, task_number, ref residual1, ref S1, ref eps_max1, ref residual_start_v1);
 
                     v_to_v2();
 
-                    MethodSimpleIter msi_v2 = new MethodSimpleIter(N_Max2, N, M, ref param2, h, k, eps2, ref x2, ref y2, ref v2, task_number, ref residual2, ref S2, ref eps_max2);
+                    MethodSimpleIter msi_v2 = new MethodSimpleIter(N_Max2, N, M, ref param2, h, k, eps2, ref x2, ref y2, ref v2, task_number, ref residual2, ref S2, ref eps_max2, ref residual_start_v2);
 
                     v2_to_v();
                 }
+                else if (method == 2)
+                {
+                    MethodMinNevazok mmn_v1 = new MethodMinNevazok(N_Max1, N, M, ref param1, h, k, eps1, ref x, ref y, ref v, task_number, ref residual1, ref S1, ref eps_max1, ref residual_start_v1);
 
+                    v_to_v2();
+
+                    MethodMinNevazok mmn_v2 = new MethodMinNevazok(N_Max2, N, M, ref param2, h, k, eps2, ref x2, ref y2, ref v2, task_number, ref residual2, ref S2, ref eps_max2, ref residual_start_v2);
+
+                    v2_to_v();
+                }
 
                 calc_difference_v2_and_v();
             }
@@ -751,7 +762,7 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
 
                 this.label3.Text = "Справка: Для решения тестовой задачи использованы сетка с " +
                     "числом разбиений по x n = \"" + System.Convert.ToString(N) + "\" и числом разбиений по " +
-                    "y \"" + System.Convert.ToString(M) + "\"," +
+                    "y m = \"" + System.Convert.ToString(M) + "\", " +
                     "метод ";
                 if (method == 0)
                 {
@@ -759,17 +770,26 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
                 }
                 else if (method == 1)
                 {
-                    this.label3.Text += "верхней простой итерации с параметром tau = " + System.Convert.ToString(param1);
+                    this.label3.Text += "простой итерации с параметром tau = " + System.Convert.ToString(param1);
+                }
+                else if (method == 2)
+                {
+                    this.label3.Text += "минимальных невязок";
                 }
                 this.label3.Text +=
                     ", применены критерии остановки по точности E_мет = " + System.Convert.ToString(eps1) +
                     "\nи по числу итерции N_max = " + System.Convert.ToString(N_Max1) +
-                    " На решение схемы (СЛАУ) затрачено итераций N = " + System.Convert.ToString(S1) +
+                    "\nНа решение схемы (СЛАУ) затрачено итераций N = " + System.Convert.ToString(S1) +
                     " и достигнута точность итерационного метода E_N = " + System.Convert.ToString(eps_max1) +
-                    " СЛАУ решена с невязкой ||R(N)|| = " + System.Convert.ToString(residual1) + ", для\nневязки исопльзовалась норма \"max\";" +
-                    "Тестовая задача должа быть решена с погрешностью не более e = 0.5*10^-6; задача решена с погрешностью e1 = " +
+                    "\nСЛАУ решена с невязкой ||R(N)|| = " + System.Convert.ToString(residual1) + ", для невязки исопльзовалась норма \"max\";" +
+                    "\nТестовая задача должа быть решена с погрешностью не более e = 0.5*10^-6; задача решена с погрешностью e1 = " +
                     System.Convert.ToString(fault.Item1) + "\nМаксимальное отклонение точного и численного решений наблюдается в узле " +
-                    "x = \"" + System.Convert.ToString(fault.Item2) + "\"; y = \"" + System.Convert.ToString(fault.Item3) + "\"";
+                    "x = \"" + System.Convert.ToString(fault.Item2) + "\"; y = \"" + System.Convert.ToString(fault.Item3) + "\"" +
+                    "\nВ качестве начального приближения использовано \"нулевое\"\n";
+                if (method != 0)
+                {
+                    this.label3.Text += "Невязка СЛАУ на начальном приближениии ||R_0||_max = \"" + System.Convert.ToString(residual_start_v1) + "\"";
+                }
             }
             else
             {
@@ -777,7 +797,7 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
 
                 this.label3.Text = "Справка: Для решения основной задачи использованы сетка с " +
                    "числом разбиений по x n = \"" + System.Convert.ToString(N) + "\" и числом разбиений по " +
-                   "y \"" + System.Convert.ToString(M) + "\"," +
+                   "y m = \"" + System.Convert.ToString(M) + "\"," +
                    "метод ";
                 if (method == 0)
                 {
@@ -785,22 +805,35 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
                 }
                 else if (method == 1)
                 {
-                    this.label3.Text += "верхней простой итерации с параметром tau = " + System.Convert.ToString(param1);
+                    this.label3.Text += "простой итерации с параметром tau = " + System.Convert.ToString(param1);
+                }
+                else if (method == 2)
+                {
+                    this.label3.Text += "минимальных невязок";
                 }
                 this.label3.Text +=
                    ", применены критерии остановки по точности E_мет = " + System.Convert.ToString(eps1) +
                    "\nи по числу итерции N_max = " + System.Convert.ToString(N_Max1) +
-                   " На решение схемы (СЛАУ) затрачено итераций N = " + System.Convert.ToString(S1) +
+                   "\nНа решение схемы (СЛАУ) затрачено итераций N = " + System.Convert.ToString(S1) +
                    " и достигнута точность итерационного метода E_N = " + System.Convert.ToString(eps_max1) +
-                   " СЛАУ решена с\nневязкой ||R(N)|| = " + System.Convert.ToString(residual1) + ", для невязки исопльзовалась норма \"max\";\n" +
-                   "Для контроля точности решения использована сетка с половинным шагом, метод ";
+                   "\nСЛАУ решена сневязкой ||R(N)|| = " + System.Convert.ToString(residual1) + ", для невязки исопльзовалась норма \"max\";\n" +
+                    "В качестве начального приближения на основной сетке использовано \"нулевое\"";
+                if (method != 0)
+                {
+                    this.label3.Text += "\nНа основное сетке невязка СЛАУ на начальном приближении ||R_0||_max = \"" + System.Convert.ToString(residual_start_v1) + "\"";
+                }
+                this.label3.Text += "\nДля контроля точности решения использована сетка с половинным шагом, метод ";
                 if (method == 0)
                 {
                     this.label3.Text += "верхней релаксации с параметром w = " + System.Convert.ToString(param2);
                 }
                 else if (method == 1)
                 {
-                    this.label3.Text += "верхней простой итерации с параметром tau = " + System.Convert.ToString(param2);
+                    this.label3.Text += "простой итерации с параметром tau = " + System.Convert.ToString(param2);
+                }
+                else if (method == 2)
+                {
+                    this.label3.Text += "минимальных невязок";
                 }
                 this.label3.Text +=
                    "\", применены критерии остановки по точности E_мет-2 = \"" + System.Convert.ToString(eps2) + "\" и по числу итераций N_max_2 = \"" +
@@ -813,8 +846,12 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
                    System.Convert.ToString(fault.Item1) + "\"\n" +
                    "Максимальное отклонение численных решений на основной сетке и сетке с половинным шагом наблюдается в узле " +
                    "x = \"" + System.Convert.ToString(fault.Item2) + "\"; y = \"" + System.Convert.ToString(fault.Item3) + 
-                   "\"\n" + 
-                   "В качетсве начально приближения на основной сетке использовано нулевоe, на сетке с половинным шагом использовано нулево.";
+                   "\"\n" +
+                   "В качестве начального приближения на сетке с половинным шагом использовано \"нулевое\"";
+                if (method != 0)
+                {
+                    this.label3.Text += "\nНа сетке с половинным шагом невязка СЛАУ на начальном приближении ||R_0||_max = \"" + System.Convert.ToString(residual_start_v2) + "\"";
+                }
             }
         }
 
@@ -824,6 +861,7 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
             {
                 method = 0;
 
+                this.button_calc_w_opt.Visible = true;
                 this.button_calc_w_opt.Text = "Рассчитать w_opt";
                 this.w_opt.Text = "w_opt = 0";
 
@@ -832,6 +870,7 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
             else if (combo_methods.SelectedIndex == 1)
             {
                 method = 1;
+                this.button_calc_w_opt.Visible = true;
                 this.button_calc_w_opt.Text = "Рассчитать интервал tau";
                 this.w_opt.Text = "tau = (0, 1)";
             }
@@ -841,6 +880,23 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
                 this.button_calc_w_opt.Visible = false;
                 this.w_opt.Text = "";
             }
+
+            clear_all();
+        }
+
+        private void clear_all()
+        {
+            x.Clear();
+            y.Clear();
+            v.Clear();
+            difference_clear_and_dirty.Clear();
+            initial_approximation.Clear();
+
+            x2.Clear();
+            y2.Clear();
+            v2.Clear();
+            difference_v2_and_v.Clear();
+            initial_approximation_v2.Clear();
         }
     }
 }

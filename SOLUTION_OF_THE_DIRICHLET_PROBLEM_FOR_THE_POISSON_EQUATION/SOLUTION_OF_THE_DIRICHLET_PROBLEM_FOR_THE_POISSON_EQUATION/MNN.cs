@@ -30,7 +30,7 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
         public List<double> residual_vec = new List<double>();
 
         public MethodMinNevazok(int n_max, int n, int m, ref double param, double h, double k, double eps, ref List<double> x_current, ref List<double> y_current,
-            ref List<List<double>> matrix, int task_number, ref double residual_value, ref int S, ref double eps_max)
+            ref List<List<double>> matrix, int task_number, ref double residual_value, ref int S, ref double eps_max, ref double residual_start)
         {
             this.N_Max = n_max;
 
@@ -48,6 +48,7 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
             a2 = -2.0 * (h2 + k2);
 
             set_right_part(ref x_current, ref y_current, task_number);
+            residual_start = residual(ref matrix);
             MNN(ref matrix, ref x_current, ref y_current, ref S, ref eps_max);
             residual_value = residual(ref matrix);
         }

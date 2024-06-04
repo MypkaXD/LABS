@@ -182,30 +182,30 @@
             // trackRho
             // 
             this.trackRho.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.trackRho.Location = new System.Drawing.Point(926, 187);
+            this.trackRho.Location = new System.Drawing.Point(926, 238);
             this.trackRho.Name = "trackRho";
             this.trackRho.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackRho.Size = new System.Drawing.Size(45, 679);
+            this.trackRho.Size = new System.Drawing.Size(45, 628);
             this.trackRho.TabIndex = 15;
             this.trackRho.TickStyle = System.Windows.Forms.TickStyle.None;
             // 
             // trackTheta
             // 
             this.trackTheta.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.trackTheta.Location = new System.Drawing.Point(959, 187);
+            this.trackTheta.Location = new System.Drawing.Point(959, 238);
             this.trackTheta.Name = "trackTheta";
             this.trackTheta.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackTheta.Size = new System.Drawing.Size(45, 679);
+            this.trackTheta.Size = new System.Drawing.Size(45, 628);
             this.trackTheta.TabIndex = 16;
             this.trackTheta.TickStyle = System.Windows.Forms.TickStyle.None;
             // 
             // trackPhi
             // 
             this.trackPhi.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.trackPhi.Location = new System.Drawing.Point(1000, 187);
+            this.trackPhi.Location = new System.Drawing.Point(1000, 238);
             this.trackPhi.Name = "trackPhi";
             this.trackPhi.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackPhi.Size = new System.Drawing.Size(45, 679);
+            this.trackPhi.Size = new System.Drawing.Size(45, 628);
             this.trackPhi.TabIndex = 17;
             this.trackPhi.TickStyle = System.Windows.Forms.TickStyle.None;
             // 
@@ -346,11 +346,11 @@
             this.graph3D1.AxisZ_Legend = null;
             this.graph3D1.BackColor = System.Drawing.Color.White;
             this.graph3D1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.graph3D1.Location = new System.Drawing.Point(915, 135);
+            this.graph3D1.Location = new System.Drawing.Point(915, 187);
             this.graph3D1.Name = "graph3D1";
             this.graph3D1.PolygonLineColor = System.Drawing.Color.Black;
             this.graph3D1.Raster = Plot3D.Graph3D.eRaster.Off;
-            this.graph3D1.Size = new System.Drawing.Size(942, 815);
+            this.graph3D1.Size = new System.Drawing.Size(942, 763);
             this.graph3D1.TabIndex = 0;
             this.graph3D1.TopLegendColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(150)))));
             this.graph3D1.Load += new System.EventHandler(this.graph3D1_Load);
