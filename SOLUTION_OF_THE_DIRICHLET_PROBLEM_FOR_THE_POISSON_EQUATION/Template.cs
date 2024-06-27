@@ -269,6 +269,8 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
 
                 if (method == 0)
                 {
+                    //Gauss gauss = new Gauss(N, M, h,k,ref x, ref y, ref v, task_number);
+
                     MethodVerRel mvr_v1 = new MethodVerRel(N_Max1, N, M, param1, h, k, eps1, ref x, ref y, ref v, task_number, ref residual1, ref S1, ref eps_max1);
 
                     v_to_v2();

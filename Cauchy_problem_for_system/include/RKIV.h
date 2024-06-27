@@ -163,6 +163,8 @@ private:
 
     void calculate_with_e(double x0, double u0, Task task, double u_0 = 0, double a = 0, double b = 0) { // функция для рассчета численного решения с переменным шагом
 
+        m_E_check_down = ((m_E_check_up) / 32);
+
         m_data.push_back({ x0,u0, u_0 }); // пушим в вектор координат начальные условия (x0, u0, u'0)
         m_vector_of_h.push_back(0); // пушим в вектор шагов начальный шаг
         m_twice_half_h_u.push_back(u0); // пушим в вектор v^ (u0)

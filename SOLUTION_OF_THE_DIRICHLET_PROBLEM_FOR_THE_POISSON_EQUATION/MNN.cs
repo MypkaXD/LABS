@@ -139,14 +139,9 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
         {
             double value = 0;
 
-            if (vec1.Count != vec2.Count)
-                Console.WriteLine("ИДИ НАХУЙ, СЧИТАЙ ЛУЧШЕ, ДОЛБОЁБ!");
-            else
+            for (int i = 0; i < vec1.Count; ++i)
             {
-                for (int i = 0; i < vec1.Count; ++i)
-                {
-                    value += vec1[i] * vec2[i];
-                }
+                value += vec1[i] * vec2[i];
             }
 
             return value;
@@ -171,7 +166,7 @@ namespace SOLUTION_OF_THE_DIRICHLET_PROBLEM_FOR_THE_POISSON_EQUATION
                 double numerator = scalar_mult(a_mult_r, residual_vec);
                 double denominator = scalar_mult(a_mult_r, a_mult_r);
 
-                tau = 0.00001;
+                tau = Math.Abs(numerator / denominator);
 
                 for (int j = 1; j < M; ++j)
                 {
