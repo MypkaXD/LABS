@@ -1,0 +1,5 @@
+C:\dev\Source\LABS\Optimization_methods\Optimization_methods\obj\Debug\net8.0-windows\Optimization_methods.csproj.AssemblyReference.cache
+C:\dev\Source\LABS\Optimization_methods\Optimization_methods\obj\Debug\net8.0-windows\MainWindow.g.cs
+C:\dev\Source\LABS\Optimization_methods\Optimization_methods\obj\Debug\net8.0-windows\App.g.cs
+C:\dev\Source\LABS\Optimization_methods\Optimization_methods\obj\Debug\net8.0-windows\Optimization_methods_MarkupCompile.cache
+C:\dev\Source\LABS\Optimization_methods\Optimization_methods\obj\Debug\net8.0-windows\Optimization_methods_MarkupCompile.lref

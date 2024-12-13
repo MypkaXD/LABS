@@ -1,0 +1,128 @@
+﻿<Window x:Class="CauchyProblemForOrdinaryDifferentialEquations.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CauchyProblemForOrdinaryDifferentialEquations"
+        xmlns:ScottPlot="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="5"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.ColumnSpan="3" Grid.Row="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                    <ComboBox Name="Method" Width="120" Margin="0,0,10,0" SelectionChanged="Method_SelectionChanged">
+                        <ComboBoxItem Content="RKIV" />
+                        <ComboBoxItem Content="Hemming" />
+                    </ComboBox>
+
+                    <CheckBox Name="IsConstStep" Content="Use Constant Step" Margin="10,0" VerticalAlignment="Center" />
+
+                    <Button Content="Start" Click="StartCalcultaing_Click" Width="75" Margin="10,0" Padding="5" Background="#4CAF50" Foreground="White" BorderBrush="#388E3C" BorderThickness="1" />
+
+                </StackPanel>
+
+
+                <Grid Grid.Column="0" Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <Label HorizontalAlignment="Center" Content="Start Conditions:"></Label>
+
+                        <DockPanel>
+
+                            <Label Content="Enter u1__0" HorizontalAlignment="Left"></Label>
+                            <TextBox DockPanel.Dock="Right" x:Name="StartConditionsForU1" Text="2" Margin="5" Width="Auto" MinWidth="50"></TextBox>
+
+                        </DockPanel>
+
+                        <DockPanel >
+                            <Label Content="Enter u2__0"></Label>
+                            <TextBox DockPanel.Dock="Right" x:Name="StartConditionsForU2" Text="0" Margin="5" Width="Auto" MinWidth="50"></TextBox>
+
+                        </DockPanel>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1">
+                        <Label HorizontalAlignment="Center" Content="Params:"></Label>
+
+                        <DockPanel>
+                            <Label Content="Enter alpha" HorizontalAlignment="Left"></Label>
+                            <TextBox DockPanel.Dock ="Right" x:Name="ParamAlpha" Text="10" Margin="5" Width="Auto" MinWidth="50"></TextBox>
+                        </DockPanel>
+
+                        <DockPanel>
+                            <Label Content="Enter mu"></Label>
+                            <TextBox DockPanel.Dock="Right" x:Name="ParamMu" Text="5" Margin="5" Width="Auto" MinWidth="50"></TextBox>
+                        </DockPanel>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
+                        <Label Content="Conditions:" HorizontalAlignment="Center"></Label>
+
+                        <DockPanel>
+                            <Label Content="Enter maxSteps"></Label>
+                            <TextBox DockPanel.Dock="Right" x:Name="ConditionsForMaxSteps" Text="1000" Margin="5" Width="Auto"></TextBox>
+                        </DockPanel>
+
+                        <DockPanel>
+                            <Label Content="Enter startStep"></Label>
+                            <TextBox DockPanel.Dock="Right" x:Name="ConditionsForStartStep" Text="0,0001" Margin="5" Width="Auto"></TextBox>
+                        </DockPanel>
+
+                        <DockPanel>
+                            <Label Content="Enter Eps"></Label>
+                            <TextBox DockPanel.Dock="Right" x:Name="ConditionsForEps" Margin="5" Text="0,0000005" Width="Auto"></TextBox>
+                        </DockPanel>
+
+                    </StackPanel>
+
+                </Grid>
+            </Grid>
+        </StackPanel>
+        <DataGrid Grid.Row="1" CanUserSortColumns="False" Grid.Column="0" Name="dgCoords" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" HorizontalAlignment="Left">
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="Auto" IsReadOnly="True" Header="#" Binding="{Binding m_index}"></DataGridTextColumn>
+                <DataGridTextColumn Width="Auto" IsReadOnly="True" Header="step" Binding="{Binding m_step}"></DataGridTextColumn>
+                <DataGridTextColumn Width="*" IsReadOnly="True" Header="t" Binding="{Binding m_coord.m_t}"></DataGridTextColumn>
+                <DataGridTextColumn Width="*" IsReadOnly="True" Header="k" Binding="{Binding m_coord.m_u1}"></DataGridTextColumn>
+                <DataGridTextColumn Width="*" IsReadOnly="True" Header="u" Binding="{Binding m_coord.m_u2}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <GridSplitter Grid.Column="1" Grid.Row="1" Width="5" HorizontalAlignment="Stretch"/>
+        <Grid Grid.Row="1" Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <TabControl Grid.Row="0" x:Name="TabControlGraphs" SelectionChanged="TabControlGraphs_SelectionChanged">
+                <TabItem Header="Graph u_1(t)" />
+                <TabItem Header="Graph u_2(t)" />
+                <TabItem Header="Graph (du_1/dt, du_2/dt)" />
+            </TabControl>
+            <ScottPlot:WpfPlot x:Name="WpfPlotMain" Grid.Row="1" />
+        </Grid>
+    </Grid>
+</Window>

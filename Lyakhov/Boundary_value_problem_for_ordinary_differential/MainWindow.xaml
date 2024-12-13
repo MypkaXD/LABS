@@ -1,0 +1,39 @@
+﻿<Window x:Class="Boundary_value_problem_for_ordinary_differential.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ScottPlot="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
+        xmlns:local="clr-namespace:Boundary_value_problem_for_ordinary_differential"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="5"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Grid.ColumnSpan="3" Orientation="Horizontal">
+            <Label Content="Input N: "></Label>
+            <TextBox Name="NParam" Width="100"></TextBox>
+            <Button Grid.Row="0"  Content="Start" Click="Button_Click"></Button>
+            <Label Name="EpsMax" Content="EpsMax: "></Label>
+        </StackPanel>
+        <DataGrid Grid.Row="1" Grid.Column="0" CanUserSortColumns="False" Name="dgCoords" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" HorizontalAlignment="Left">
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="*" IsReadOnly="True" Header="X_i" Binding="{Binding x_i}"></DataGridTextColumn>
+                <DataGridTextColumn Width="*" IsReadOnly="True" Header="Y_i (step)" Binding="{Binding y_i_with_step}"></DataGridTextColumn>
+                <DataGridTextColumn Width="*" IsReadOnly="True" Header="Y_i (half step)" Binding="{Binding y_i_with_half_step}"></DataGridTextColumn>
+                <DataGridTextColumn Width="*" IsReadOnly="True" Header="Y_i (уточнение по Рунге)" Binding="{Binding y_i_Runge}"></DataGridTextColumn>
+                <DataGridTextColumn Width="*" IsReadOnly="True" Header="U_i (точное решение)" Binding="{Binding u_i}"></DataGridTextColumn>
+                <DataGridTextColumn Width="*" IsReadOnly="True" Header="Eps (ошибка)" Binding="{Binding eps}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <GridSplitter Grid.Column="1" Grid.Row="1" Width="5" HorizontalAlignment="Stretch"/>
+        <ScottPlot:WpfPlot Grid.Row="1" Grid.Column="2" x:Name="WpfPlotMain"/>
+    </Grid>
+</Window>

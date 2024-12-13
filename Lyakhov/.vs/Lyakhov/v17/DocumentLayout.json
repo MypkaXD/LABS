@@ -1,0 +1,111 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\dev\\Source\\LABS\\Lyakhov\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C41FFF44-BFD0-4E60-AAE5-A7421B3B63A8}|Boundary_value_problem_for_ordinary_differentialC\u002B\u002B\\Boundary_value_problem_for_ordinary_differentialC\u002B\u002B.vcxproj|C:\\dev\\Source\\LABS\\Lyakhov\\Boundary_value_problem_for_ordinary_differentialC\u002B\u002B\\Boundary_value_problem_for_ordinary_differentialC\u002B\u002B.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{C41FFF44-BFD0-4E60-AAE5-A7421B3B63A8}|Boundary_value_problem_for_ordinary_differentialC\u002B\u002B\\Boundary_value_problem_for_ordinary_differentialC\u002B\u002B.vcxproj|solutionrelative:Boundary_value_problem_for_ordinary_differentialC\u002B\u002B\\Boundary_value_problem_for_ordinary_differentialC\u002B\u002B.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6FF6956-D9AF-45A2-A03E-9BCCE33AD3DB}|Boundary_value_problem_for_ordinary_differential\\Boundary_value_problem_for_ordinary_differential.csproj|c:\\dev\\source\\labs\\lyakhov\\boundary_value_problem_for_ordinary_differential\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6FF6956-D9AF-45A2-A03E-9BCCE33AD3DB}|Boundary_value_problem_for_ordinary_differential\\Boundary_value_problem_for_ordinary_differential.csproj|solutionrelative:boundary_value_problem_for_ordinary_differential\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6FF6956-D9AF-45A2-A03E-9BCCE33AD3DB}|Boundary_value_problem_for_ordinary_differential\\Boundary_value_problem_for_ordinary_differential.csproj|c:\\dev\\source\\labs\\lyakhov\\boundary_value_problem_for_ordinary_differential\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{B6FF6956-D9AF-45A2-A03E-9BCCE33AD3DB}|Boundary_value_problem_for_ordinary_differential\\Boundary_value_problem_for_ordinary_differential.csproj|solutionrelative:boundary_value_problem_for_ordinary_differential\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B84CF022-7EA1-43AD-93A8-B993EA5A2F9F}|CauchyProblemForOrdinaryDifferentialEquations\\CauchyProblemForOrdinaryDifferentialEquations.csproj|c:\\dev\\source\\labs\\lyakhov\\cauchyproblemforordinarydifferentialequations\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B84CF022-7EA1-43AD-93A8-B993EA5A2F9F}|CauchyProblemForOrdinaryDifferentialEquations\\CauchyProblemForOrdinaryDifferentialEquations.csproj|solutionrelative:cauchyproblemforordinarydifferentialequations\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B84CF022-7EA1-43AD-93A8-B993EA5A2F9F}|CauchyProblemForOrdinaryDifferentialEquations\\CauchyProblemForOrdinaryDifferentialEquations.csproj|c:\\dev\\source\\labs\\lyakhov\\cauchyproblemforordinarydifferentialequations\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{B84CF022-7EA1-43AD-93A8-B993EA5A2F9F}|CauchyProblemForOrdinaryDifferentialEquations\\CauchyProblemForOrdinaryDifferentialEquations.csproj|solutionrelative:cauchyproblemforordinarydifferentialequations\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Boundary_value_problem_for_ordinary_differentialC\u002B\u002B.cpp",
+              "DocumentMoniker": "C:\\dev\\Source\\LABS\\Lyakhov\\Boundary_value_problem_for_ordinary_differentialC\u002B\u002B\\Boundary_value_problem_for_ordinary_differentialC\u002B\u002B.cpp",
+              "RelativeDocumentMoniker": "Boundary_value_problem_for_ordinary_differentialC\u002B\u002B\\Boundary_value_problem_for_ordinary_differentialC\u002B\u002B.cpp",
+              "ToolTip": "C:\\dev\\Source\\LABS\\Lyakhov\\Boundary_value_problem_for_ordinary_differentialC\u002B\u002B\\Boundary_value_problem_for_ordinary_differentialC\u002B\u002B.cpp",
+              "RelativeToolTip": "Boundary_value_problem_for_ordinary_differentialC\u002B\u002B\\Boundary_value_problem_for_ordinary_differentialC\u002B\u002B.cpp",
+              "ViewState": "AQIAAKgAAAAAAAAAAAAAAMcAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-12-13T07:27:36.958Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\dev\\Source\\LABS\\Lyakhov\\Boundary_value_problem_for_ordinary_differential\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "Boundary_value_problem_for_ordinary_differential\\MainWindow.xaml",
+              "ToolTip": "C:\\dev\\Source\\LABS\\Lyakhov\\Boundary_value_problem_for_ordinary_differential\\MainWindow.xaml",
+              "RelativeToolTip": "Boundary_value_problem_for_ordinary_differential\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-12-13T07:26:15.133Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\dev\\Source\\LABS\\Lyakhov\\Boundary_value_problem_for_ordinary_differential\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "Boundary_value_problem_for_ordinary_differential\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\dev\\Source\\LABS\\Lyakhov\\Boundary_value_problem_for_ordinary_differential\\MainWindow.xaml.cs",
+              "RelativeToolTip": "Boundary_value_problem_for_ordinary_differential\\MainWindow.xaml.cs",
+              "ViewState": "AQIAACEBAAAAAAAAAAAIwEUBAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-13T07:26:14.978Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\dev\\Source\\LABS\\Lyakhov\\CauchyProblemForOrdinaryDifferentialEquations\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "CauchyProblemForOrdinaryDifferentialEquations\\MainWindow.xaml",
+              "ToolTip": "C:\\dev\\Source\\LABS\\Lyakhov\\CauchyProblemForOrdinaryDifferentialEquations\\MainWindow.xaml",
+              "RelativeToolTip": "CauchyProblemForOrdinaryDifferentialEquations\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-12-13T07:25:03.371Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\dev\\Source\\LABS\\Lyakhov\\CauchyProblemForOrdinaryDifferentialEquations\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "CauchyProblemForOrdinaryDifferentialEquations\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\dev\\Source\\LABS\\Lyakhov\\CauchyProblemForOrdinaryDifferentialEquations\\MainWindow.xaml.cs",
+              "RelativeToolTip": "CauchyProblemForOrdinaryDifferentialEquations\\MainWindow.xaml.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-13T07:25:02.196Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
