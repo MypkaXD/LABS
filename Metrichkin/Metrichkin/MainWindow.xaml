@@ -1,0 +1,144 @@
+﻿<Window x:Class="Metrichkin.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ScottPlot="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
+        xmlns:local="clr-namespace:Metrichkin"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="5"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.ColumnSpan="3" Grid.Row="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Row="0" Grid.ColumnSpan="2" Content="Start" Click="StartCalcultaing_Click" Width="50" HorizontalAlignment="Left"></Button>
+
+                <Grid Grid.Column="0" Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <Label HorizontalAlignment="Center" Content="Start Conditions:"></Label>
+
+                        <DockPanel>
+
+                            <Label Content="Enter x_0" HorizontalAlignment="Left"></Label>
+                            <TextBox DockPanel.Dock="Right" x:Name="StartConditionsForX" Text="2" Margin="5" Width="Auto" MinWidth="50"></TextBox>
+
+                        </DockPanel>
+
+                        <DockPanel >
+                            <Label Content="Enter y_0"></Label>
+                            <TextBox DockPanel.Dock="Right" x:Name="StartConditionsForY" Text="0" Margin="5" Width="Auto" MinWidth="50"></TextBox>
+
+                        </DockPanel>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1">
+                        <Label HorizontalAlignment="Center" Content="Params:"></Label>
+
+                        <DockPanel>
+                            <Label Content="Введите m" HorizontalAlignment="Left"></Label>
+                            <TextBox DockPanel.Dock ="Right" x:Name="mParam" Text="1" Margin="5" Width="Auto" MinWidth="50" TextChanged="mParam_TextChanged"></TextBox>
+                        </DockPanel>
+
+                        <DockPanel>
+                            <Label Content="Введите h"></Label>
+                            <TextBox DockPanel.Dock="Right" x:Name="hParam" Text="0,5" Margin="5" Width="Auto" MinWidth="50" TextChanged="hParam_TextChanged"></TextBox>
+                        </DockPanel>
+
+                        <DockPanel>
+                            <Label Content="Введите k"></Label>
+                            <TextBox DockPanel.Dock="Right" x:Name="kParam" Text="0,0625" Margin="5" Width="Auto" MinWidth="50" TextChanged="kParam_TextChanged"></TextBox>
+                        </DockPanel>
+
+                        <DockPanel>
+                            <Label Content="Введите k'"></Label>
+                            <TextBox DockPanel.Dock="Right" x:Name="k_Param" Text="0,1" Margin="5" Width="Auto" MinWidth="50" TextChanged="k_Param_TextChanged"></TextBox>
+                        </DockPanel>
+
+                        <DockPanel>
+                            <Label Content="Введите f0"></Label>
+                            <TextBox DockPanel.Dock="Right" x:Name="f0Param" Text="2,5" Margin="5" Width="Auto" MinWidth="50" TextChanged="f0Param_TextChanged"></TextBox>
+                        </DockPanel>
+
+                        <DockPanel>
+                            <Label Content="Введите omega"></Label>
+                            <TextBox DockPanel.Dock="Right" x:Name="omegaParam" Text="2,0" Margin="5" Width="Auto" MinWidth="50" TextChanged="omegaParam_TextChanged"></TextBox>
+                        </DockPanel>
+
+                        <DockPanel>
+                            <Label Content="Enter mu"></Label>
+                            <TextBox DockPanel.Dock="Right" x:Name="muParam" Text="0,1" Margin="5" Width="Auto" MinWidth="50"></TextBox>
+                        </DockPanel>
+
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
+                        <Label Content="Conditions:" HorizontalAlignment="Center"></Label>
+
+                        <DockPanel>
+                            <Label Content="Enter maxSteps"></Label>
+                            <TextBox DockPanel.Dock="Right" x:Name="ConditionsForMaxSteps" Text="1000" Margin="5" Width="Auto"></TextBox>
+                        </DockPanel>
+
+                        <DockPanel>
+                            <Label Content="Enter startStep"></Label>
+                            <TextBox DockPanel.Dock="Right" x:Name="ConditionsForStartStep" Text="0,1" Margin="5" Width="Auto"></TextBox>
+                        </DockPanel>
+
+                    </StackPanel>
+
+                </Grid>
+                <Grid Grid.Column="1" Grid.Row="1">
+                    <Label Name="LabelEquations"></Label>
+                </Grid>
+            </Grid>
+        </StackPanel>
+        <DataGrid Grid.Row="1" CanUserSortColumns="False" Grid.Column="0" Name="dgCoords" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" HorizontalAlignment="Left">
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="Auto" IsReadOnly="True" Header="#" Binding="{Binding m_index}"></DataGridTextColumn>
+                <DataGridTextColumn Width="Auto" IsReadOnly="True" Header="step" Binding="{Binding m_step}"></DataGridTextColumn>
+                <DataGridTextColumn Width="*" IsReadOnly="True" Header="t_RK" Binding="{Binding m_coord_for_RK.m_t}"></DataGridTextColumn>
+                <DataGridTextColumn Width="*" IsReadOnly="True" Header="x_RK" Binding="{Binding m_coord_for_RK.m_x}"></DataGridTextColumn>
+                <DataGridTextColumn Width="*" IsReadOnly="True" Header="y_RK" Binding="{Binding m_coord_for_RK.m_y}"></DataGridTextColumn>
+                <DataGridTextColumn Width="*" IsReadOnly="True" Header="t_VDP" Binding="{Binding m_coord_for_VDP.m_t}"></DataGridTextColumn>
+                <DataGridTextColumn Width="*" IsReadOnly="True" Header="x_VDP" Binding="{Binding m_coord_for_VDP.m_x}"></DataGridTextColumn>
+                <DataGridTextColumn Width="*" IsReadOnly="True" Header="y_VDP" Binding="{Binding m_coord_for_VDP.m_y}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <GridSplitter Grid.Column="1" Grid.Row="1" Width="5" HorizontalAlignment="Stretch"/>
+        <Grid Grid.Row="1" Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <TabControl Grid.Row="0" x:Name="TabControlGraphs" SelectionChanged="TabControlGraphs_SelectionChanged">
+                <TabItem Header="Graph (t, x)" />
+                <TabItem Header="Graph (t, y)" />
+                <TabItem Header="Graph (x, y)" />
+            </TabControl>
+            <ScottPlot:WpfPlot x:Name="WpfPlotMain" Grid.Row="1" />
+        </Grid>
+    </Grid>
+</Window>
