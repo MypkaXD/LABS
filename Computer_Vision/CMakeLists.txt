@@ -4,13 +4,14 @@ set(PROJECT_NAME Computer_Vision)
 
 project(${PROJECT_NAME})
 
-SET(IMGUI_INSTALL_DIR "../3rdparty/imgui-master" CACHE PATH "Set Dear Imgui directory path")
-SET(GLAD_INSTALL_DIR "../3rdparty/glad" CACHE PATH "Set GLAD directory path")
-SET(GLFW_INSTALL_DIR "../3rdparty/glfw-master" CACHE PATH "Set GLFW directory path")
+SET(IMGUI_INSTALL_DIR "3rdparty/imgui-master" CACHE PATH "Set Dear Imgui directory path")
+SET(GLAD_INSTALL_DIR "3rdparty/glad" CACHE PATH "Set GLAD directory path")
+SET(GLFW_INSTALL_DIR "3rdparty/glfw-master" CACHE PATH "Set GLFW directory path")
 
-find_package(OpenCV 
-    PATHS "3rdparty/opencv-4.12.0/build"
-    NO_DEFAULT_PATH
+set(OpenCV_DIR "3rdparty/opencv-4.12.0/build")
+
+find_package(OpenCV 4.12.0 REQUIRED
+    COMPONENTS world
 )
 
 add_library(3rdparty STATIC
@@ -29,7 +30,7 @@ target_include_directories(3rdparty PUBLIC
 #Dear ImGui
 	${IMGUI_INSTALL_DIR}
 	${IMGUI_INSTALL_DIR}/backends
-#GLDW
+#GLFW
 	${GLFW_INSTALL_DIR}/include
 #GLAD
 	${GLAD_INSTALL_DIR}/include
@@ -37,9 +38,11 @@ target_include_directories(3rdparty PUBLIC
 	${OpenCV_INCLUDE_DIRS}
 )
 
+message(${OpenCV_LIBS})
+
 target_link_libraries(3rdparty PUBLIC 
-	${OpenCV_LIBS} 
 	${GLFW_INSTALL_DIR}/lib/glfw3.lib
+	${OpenCV_LIBS}
 )
 
 add_subdirectory(Lesson_1)

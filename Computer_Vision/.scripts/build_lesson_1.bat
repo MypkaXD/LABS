@@ -1,8 +1,8 @@
 @echo off
 
-set IMGUI_INSTALL_DIR="%cd%/../3rdparty/imgui-master/"
-set GLFW_INSTALL_DIR="%cd%/../3rdparty/glfw-master/install/"
-set GLAD_INSTALL_DIR="%cd%/../3rdparty/glad/"
+set IMGUI_INSTALL_DIR=%cd%/../3rdparty/imgui-master/
+set GLFW_INSTALL_DIR=%cd%/../3rdparty/glfw-master/install/
+set GLAD_INSTALL_DIR=%cd%/../3rdparty/glad/
 set INSTALL_DIR=%cd%/../
 
 set count_of_step=2

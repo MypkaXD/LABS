@@ -56,9 +56,13 @@ cmake -S "%INSTALL_DIR%/%FOLDER_NAME[1]%" ^
 	-DBUILD_SHARED_LIBS=OFF ^
 	-DBUILD_PERF_TESTS=OFF ^
 	-DBUILD_opencv_world=ON	
-echo Building OPENCV
+echo Building Release OPENCV
 cmake --build "%INSTALL_DIR%/%FOLDER_NAME[1]%/build" --config Release
-echo Installing OPENCV
-cmake --build "%INSTALL_DIR%/%FOLDER_NAME[1]%/build" --config Release --target INSTALL
+echo Installing Release OPENCV
+cmake --build "%INSTALL_DIR%/%FOLDER_NAME[1]%/build" --config Release --target install
+echo Building Debug OPENCV
+cmake --build "%INSTALL_DIR%/%FOLDER_NAME[1]%/build" --config Debug
+echo Installing Debug OPENCV
+cmake --build "%INSTALL_DIR%/%FOLDER_NAME[1]%/build" --config Debug --target install
 
 pause
