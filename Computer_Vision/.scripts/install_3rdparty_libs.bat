@@ -23,7 +23,7 @@ for /l %%i in (0,1,2) do (
 	echo Extracting archive !ZIP_NAME[%%i]!
 	powershell -Command "Expand-Archive -Path '!ZIP_NAME[%%i]!' -DestinationPath '%INSTALL_DIR%'"
 	echo Cleaning up
-	del !ZIP_NAME[%%i]!
+	REM del !ZIP_NAME[%%i]!
 	echo Creating folders
 	if not exist "%INSTALL_DIR%/!FOLDER_NAME[%%i]!/build" mkdir "%INSTALL_DIR%/!FOLDER_NAME[%%i]!/build"
 	if not exist "%INSTALL_DIR%/!FOLDER_NAME[%%i]!/install" mkdir "%INSTALL_DIR%/!FOLDER_NAME[%%i]!/install"
@@ -53,7 +53,7 @@ cmake -S "%INSTALL_DIR%/%FOLDER_NAME[1]%" ^
 	-G "Visual Studio 17 2022" -A x64 ^
 	-DBUILD_TESTS=OFF ^
 	-DBUILD_EXAMPLES=OFF ^
-	-DBUILD_SHARED_LIBS=OFF ^
+	-DBUILD_SHARED_LIBS=ON ^
 	-DBUILD_PERF_TESTS=OFF ^
 	-DBUILD_opencv_world=ON	
 echo Building Release OPENCV

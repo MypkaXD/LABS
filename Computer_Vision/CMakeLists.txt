@@ -38,8 +38,6 @@ target_include_directories(3rdparty PUBLIC
 	${OpenCV_INCLUDE_DIRS}
 )
 
-message(${OpenCV_LIBS})
-
 target_link_libraries(3rdparty PUBLIC 
 	${GLFW_INSTALL_DIR}/lib/glfw3.lib
 	${OpenCV_LIBS}
