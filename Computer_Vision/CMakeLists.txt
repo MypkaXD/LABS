@@ -44,3 +44,4 @@ target_link_libraries(3rdparty PUBLIC
 )
 
 add_subdirectory(Lesson_1)
+add_subdirectory(Lesson_2)

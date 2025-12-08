@@ -9,10 +9,13 @@
 
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include <omp.h>
 
 float coef = 10.0f;
 int current_width = 800;
 int current_height = 800;
+int count_of_symbols_in_real = 2452;
 
 std::vector<cv::Mat> container;
 std::vector<unsigned int> texutres;
@@ -44,12 +47,116 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     update_textures(texutres, count_of_textures, container);
 }
 
+void morphology_erode(const cv::Mat& input, cv::Mat& output, const cv::Mat& kernel, int count_of_iters = 1) {
 
+    output = input.clone();
+
+    int kernel_rows = kernel.rows;
+    int kernel_cols = kernel.cols;
+    int kernel_center_x = kernel_cols / 2;
+    int kernel_center_y = kernel_rows / 2;
+
+    cv::Mat current_mat;
+
+    for (int current_iters = 0; current_iters < count_of_iters; ++current_iters) {
+
+        current_mat = output.clone();
+
+#pragma omp parallel for collapse(2)
+        for (int idx_i = kernel_center_x; idx_i < current_mat.cols - kernel_center_x; ++idx_i) {
+            for (int idx_j = kernel_center_y; idx_j < current_mat.rows - kernel_center_y; ++idx_j) {
+
+                std::uint8_t min_b = (int)(1 << 8) - 1;
+                std::uint8_t min_g = (int)(1 << 8) - 1;
+                std::uint8_t min_r = (int)(1 << 8) - 1;
+
+                for (int idx_kernel_x = 0; idx_kernel_x < kernel_cols; ++idx_kernel_x) {
+                    for (int idx_kernel_y = 0; idx_kernel_y < kernel_rows; ++idx_kernel_y) {
+
+                        cv::Vec3b input_current_pixel = current_mat.at<cv::Vec3b>(idx_j + idx_kernel_y - kernel_center_y, idx_i + idx_kernel_x - kernel_center_x);
+
+                        if (input_current_pixel[0] < min_b)
+                            min_b = input_current_pixel[0];
+                        if (input_current_pixel[1] < min_g)
+                            min_g = input_current_pixel[1];
+                        if (input_current_pixel[2] < min_r)
+                            min_r = input_current_pixel[2];
+                    }
+                }
+
+                cv::Vec3b& output_current_pixel = output.at<cv::Vec3b>(idx_j, idx_i);
+                output_current_pixel = { min_b, min_g, min_r };
+            }
+        }
+    }
+}
+void morphology_dilate(const cv::Mat& input, cv::Mat& output, const cv::Mat& kernel, int count_of_iters = 1) {
+
+    output = input.clone();
+
+    int kernel_rows = kernel.rows;
+    int kernel_cols = kernel.cols;
+    int kernel_center_x = kernel_cols / 2;
+    int kernel_center_y = kernel_rows / 2;
+
+    cv::Mat current_mat;
+
+    for (int current_iters = 0; current_iters < count_of_iters; ++current_iters) {
+
+        current_mat = output.clone();
+
+#pragma omp parallel for collapse(2)
+        for (int idx_i = kernel_center_x; idx_i < current_mat.cols - kernel_center_x; ++idx_i) {
+            for (int idx_j = kernel_center_y; idx_j < current_mat.rows - kernel_center_y; ++idx_j) {
+
+                std::uint8_t max_b = 0;
+                std::uint8_t max_g = 0;
+                std::uint8_t max_r = 0;
+
+                for (int idx_kernel_x = 0; idx_kernel_x < kernel_cols; ++idx_kernel_x) {
+                    for (int idx_kernel_y = 0; idx_kernel_y < kernel_rows; ++idx_kernel_y) {
+
+                        cv::Vec3b input_current_pixel = current_mat.at<cv::Vec3b>(idx_j + idx_kernel_y - kernel_center_y, idx_i + idx_kernel_x - kernel_center_x);
+
+                        if (input_current_pixel[0] > max_b)
+                            max_b = input_current_pixel[0];
+                        if (input_current_pixel[1] > max_g)
+                            max_g = input_current_pixel[1];
+                        if (input_current_pixel[2] > max_r)
+                            max_r = input_current_pixel[2];
+                    }
+                }
+
+                cv::Vec3b& output_current_pixel = output.at<cv::Vec3b>(idx_j, idx_i);
+                output_current_pixel = { max_b, max_g, max_r };
+            }
+        }
+    }
+}
+void morphology_close(const cv::Mat& input, cv::Mat& output, const cv::Mat& kernel, int count_of_iters = 1) {
+    cv::Mat current_mat;
+    morphology_dilate(input, current_mat, kernel, count_of_iters);
+    morphology_erode(current_mat, output, kernel, count_of_iters);
+}
 void morphology(std::vector<cv::Mat>& container) {
     cv::Mat after_morphology;
     cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(5, 5));
     cv::morphologyEx(container.back(), after_morphology, cv::MORPH_CLOSE, kernel, cv::Point(-1, -1), 1);
     container.emplace_back(after_morphology);
+}
+
+void brightness_increase(const cv::Mat& input, cv::Mat& output, double alpha, double beta) {
+    output.create(input.size(), input.type());
+    const int total_pixels = input.rows * input.cols;
+    const cv::Vec3b* input_data = input.ptr<cv::Vec3b>();
+    cv::Vec3b* output_data = output.ptr<cv::Vec3b>();
+#pragma omp parallel for
+    for (int i = 0; i < total_pixels; ++i) {
+        for (int c = 0; c < 3; ++c) {
+            int val = static_cast<int>(input_data[i][c] * alpha + beta);
+            output_data[i][c] = static_cast<uchar>((std::max)(0, (std::min)(255, val)));
+        }
+    }
 }
 
 void grab_cut(std::vector<cv::Mat>& container) {
@@ -66,6 +173,50 @@ void grab_cut(std::vector<cv::Mat>& container) {
     container.back().copyTo(dest, mask2);
 
     container.emplace_back(dest);
+}
+
+void draw_lines_of_text(const cv::Mat& input, cv::Mat& output, const std::vector<cv::Rect>& rects, int& count_of_lines, int param_min_distance_between_lines = 40) {
+
+    if (rects.size() == 0)
+        return;
+
+    cv::cvtColor(input, output, cv::COLOR_GRAY2BGR);
+
+    std::vector<int> y_coords(rects.size());
+    for (std::size_t idx = 0; idx < rects.size(); ++idx) {
+        y_coords[idx] = rects[idx].y;
+    }
+
+    std::sort(y_coords.begin(), y_coords.end());
+
+    std::vector<int> y_lines;
+    y_lines.emplace_back(y_coords[0]);
+    for (std::size_t idx = 1; idx < y_coords.size(); ++idx) {
+        if (std::abs(y_coords[idx] - y_lines.back()) >= param_min_distance_between_lines)
+            y_lines.emplace_back(y_coords[idx]);
+    }
+
+    count_of_lines = y_lines.size();
+
+    for (std::size_t idx = 0; idx < y_lines.size(); ++idx) {
+        cv::line(output, cv::Point(0, y_lines[idx]), cv::Point(output.cols, y_lines[idx]), cv::Scalar(0, 255, 0), 3);
+    }
+
+}
+
+cv::Mat createDocumentMask(const cv::Mat& warped, int border_margin = 40) {
+
+    cv::Mat mask = cv::Mat::zeros(warped.size(), warped.type());
+
+    cv::Rect document_roi(border_margin, border_margin,
+        warped.cols - 2 * border_margin,
+        warped.rows - 2 * border_margin);
+
+    mask(document_roi) = 255;
+
+    cv::Mat result;
+    warped.copyTo(result, mask);
+    return result;
 }
 
 int main()
@@ -103,16 +254,23 @@ int main()
 
     // resized image for fast proccessing
     cv::Mat resized_image;
-    cv::resize(container.back(), resized_image, cv::Size((float)container.back().cols / coef, (float)container.back().rows / coef));
+    cv::resize(container[0], resized_image, cv::Size((float)container[0].cols / coef, (float)container[0].rows / coef));
     container.emplace_back(resized_image);
 
     // high up bright
     cv::Mat brigth_image;
-    container.back().convertTo(brigth_image, -1, 1.3, 1.3);
+    brightness_increase(container.back(), brigth_image, 1.3, 10);
+    // OpenCV impl
+    // container.back().convertTo(brigth_image, -1, 1.3, 10);
     container.emplace_back(brigth_image);
-    
-    morphology(container);
-    
+
+    // Morphology close ~ dilate and erode
+    cv::Mat close;
+    morphology_close(container.back(), close, cv::getStructuringElement(cv::MORPH_RECT, cv::Size(5, 5)), 1);
+    container.emplace_back(close);
+    // OpenCV impl
+    // morphology(container);
+
     grab_cut(container);
 
     cv::Mat gray;
@@ -121,7 +279,7 @@ int main()
     container.emplace_back(gray);
 
     cv::Mat canny;
-    cv::Canny(container.back(), canny, 0, 200);
+    cv::Canny(container.back(), canny, 50, 150);
     cv::dilate(canny, canny, cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)), cv::Point(-1, -1), 1);
     container.emplace_back(canny);
 
@@ -129,7 +287,7 @@ int main()
     cv::findContours(container.back(), contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
 
     std::vector<cv::Point> approx;
-    cv::approxPolyDP(contours[0], approx, 5.0, true); // epsilon = 5 пикселей
+    cv::approxPolyDP(contours[0], approx, 5.0, true);
 
     cv::Mat contour_points = container.back().clone();
     cv::cvtColor(contour_points, contour_points, cv::COLOR_GRAY2BGR);
@@ -150,6 +308,45 @@ int main()
 
     cv::imwrite("Outpur.png", container.back());
 
+    cv::Mat gray_mat;
+    cv::cvtColor(container.back(), gray_mat, cv::COLOR_BGR2GRAY);
+    container.emplace_back(gray_mat);
+
+    cv::Mat binary_mat;
+    cv::threshold(container.back(), binary_mat, 128, 255, cv::THRESH_BINARY | cv::THRESH_OTSU);
+    container.emplace_back(binary_mat);
+
+    container.emplace_back(createDocumentMask(container.back()));
+
+    // Create MSER detector
+    cv::Ptr<cv::MSER> mser = cv::MSER::create(1, 100, 2000, 0.5, 0.1);
+    std::vector<std::vector<cv::Point>> msers;
+    std::vector<cv::Rect> rects;
+    mser->detectRegions(container.back(), msers, rects);
+
+    cv::Mat mser_mat;
+    cv::cvtColor(container.back(), mser_mat, cv::COLOR_GRAY2BGR);
+
+    // Draw bounding rectangles
+    for (const auto& rect : rects) {
+        cv::rectangle(mser_mat, rect, cv::Scalar(255, 0, 0), 2);
+    }
+
+    float error = (float)std::abs((int)msers.size() - count_of_symbols_in_real) / count_of_symbols_in_real;
+    int count_of_lines = 0;
+    std::cout << "Number of symbols: " << msers.size() << std::endl;
+    std::cout << "Number of real symbols: " << count_of_symbols_in_real << std::endl;
+    std::cout << "Error: " << error << std::endl;
+    
+    container.emplace_back(mser_mat);
+
+    // draw lines
+    cv::Mat lines_mat;
+    draw_lines_of_text(container[9], lines_mat, rects, count_of_lines, 50);
+    container.emplace_back(lines_mat);
+
+    std::cout << "Count of lines: " << count_of_lines << std::endl;
+
     count_of_textures = container.size();
     create_textures(texutres, count_of_textures, container);
     update_textures(texutres, count_of_textures, container);
@@ -164,7 +361,7 @@ int main()
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        ImGui::SetNextWindowPos(ImVec2(0,0));
+        ImGui::SetNextWindowPos(ImVec2(0, 0));
         ImGui::SetNextWindowSize(ImVec2(current_width / 2, current_height));
         ImGui::Begin("Output_images", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
         ImGui::Image(texutres[current_show_index], ImVec2(current_width / 2, current_height - 40));
@@ -179,6 +376,10 @@ int main()
             if (current_show_index < 0)
                 current_show_index = count_of_textures - 1;
         }
+        ImGui::Text("Number of symbols: %ld", msers.size());
+        ImGui::Text("Number of real symbols: %ld", count_of_symbols_in_real);
+        ImGui::Text("Error: %lf",error);
+        ImGui::Text("Count of lines: %lf", count_of_lines);
         ImGui::End();
 
         ImGui::Render();
