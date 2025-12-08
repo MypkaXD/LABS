@@ -43,7 +43,7 @@ int main()
 
     std::string path = "C:\\dev\\Source\\LABS\\Computer_Vision\\Lesson_2\\data\\0-9.png";
 
-    std::string model_path = "C:\\dev\\Source\\LABS\\Computer_Vision\\Lesson_2\\data\\conv_net.onnx";
+    std::string model_path = "C:\\dev\\Source\\LABS\\Computer_Vision\\Lesson_2\\data\\conv.onnx";
 
     cv::dnn::Net net = cv::dnn::readNetFromONNX(model_path);
 
@@ -166,7 +166,7 @@ int main()
 
         if (is_drawing || is_clearing) {
             int x = (int)io.MousePos.x;
-            int y = (int)io.MousePos.y - 20;
+            int y = (int)io.MousePos.y - 40;
 
             int center = brush_size / 2;
             if (x <= m_width && y > 40 && y <= m_height) {
