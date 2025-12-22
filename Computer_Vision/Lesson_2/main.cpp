@@ -13,8 +13,8 @@
 #include <vector>
 #include <algorithm>
 
-int m_width = 800;
-int m_height = 800;
+int m_width = 1280;
+int m_height = 720;
 
 cv::Mat image;
 unsigned int texture;
@@ -43,7 +43,7 @@ int main()
 
     std::string path = "C:\\dev\\Source\\LABS\\Computer_Vision\\Lesson_2\\data\\0-9.png";
 
-    std::string model_path = "C:\\dev\\Source\\LABS\\Computer_Vision\\Lesson_2\\data\\conv.onnx";
+    std::string model_path = "C:\\dev\\Source\\LABS\\Computer_Vision\\Lesson_2\\data\\conv_net.onnx";
 
     cv::dnn::Net net = cv::dnn::readNetFromONNX(model_path);
 
@@ -91,14 +91,14 @@ int main()
 
     image = cv::imread(path, cv::IMREAD_GRAYSCALE);
     cv::cvtColor(image, image, cv::COLOR_GRAY2RGB);
-    cv::resize(image, image, cv::Size(800, 800));
+    cv::resize(image, image, cv::Size(m_width, m_height));
 
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow* window = glfwCreateWindow(800, 800, "Computer_Vision_2", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(m_width, m_height, "Computer_Vision_2", NULL, NULL);
     if (window == nullptr) {
         std::cout << "ERROR: Can't creat window!" << std::endl;
         glfwTerminate();
